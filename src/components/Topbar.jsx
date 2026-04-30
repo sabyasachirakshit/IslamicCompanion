@@ -96,7 +96,7 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
   const [copied,          setCopied]          = useState(false)
   const [walletOpen,      setWalletOpen]      = useState(false)
   const [walletResetStep, setWalletResetStep] = useState(0)
-  const [profilePic,      setProfilePic]      = useState(() => localStorage.getItem('profilePicture') || null)
+  const profilePic = localStorage.getItem('profilePicture') || null
   const [profileOpen,     setProfileOpen]     = useState(false)
   const confirmTimer = useRef(null)
   const shareRef     = useRef(null)
@@ -118,8 +118,7 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
         canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
         const b64 = canvas.toDataURL('image/jpeg', 0.75)
         localStorage.setItem('profilePicture', b64)
-        setProfilePic(b64)
-        setProfileOpen(false)
+        window.location.reload()
       }
       img.src = ev.target.result
     }
@@ -129,8 +128,7 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
 
   const handleRemoveProfile = () => {
     localStorage.removeItem('profilePicture')
-    setProfilePic(null)
-    setProfileOpen(false)
+    window.location.reload()
   }
 
   useEffect(() => {
