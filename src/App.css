@@ -1218,6 +1218,103 @@
   }
 }
 
+/* ===== Profile Picture ===== */
+.profile-wrap {
+  position: relative;
+}
+
+.profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(167,139,250,0.35);
+  background: rgba(167,139,250,0.10);
+  color: #A78BFA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+
+.profile-avatar:hover {
+  border-color: rgba(167,139,250,0.70);
+  box-shadow: 0 0 12px rgba(167,139,250,0.30);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 200px;
+  background: var(--surface-2, #1a1f2e);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: share-fade-in 0.15s ease;
+}
+
+.profile-preview {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.profile-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-dd-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: rgba(167,139,250,0.08);
+  border: 1px solid rgba(167,139,250,0.20);
+  border-radius: var(--radius-sm);
+  color: #A78BFA;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  transition: all var(--transition);
+}
+.profile-dd-btn:hover { background: rgba(167,139,250,0.16); }
+
+.profile-dd-remove {
+  background: rgba(248,113,113,0.07);
+  border-color: rgba(248,113,113,0.20);
+  color: #F87171;
+}
+.profile-dd-remove:hover { background: rgba(248,113,113,0.14); }
+
+.profile-dd-note {
+  font-size: 10px;
+  color: var(--text-dim);
+  text-align: center;
+  margin: 2px 0 0;
+}
+
 /* ===== Wallet Modal ===== */
 .wallet-badge-btn {
   background: transparent;

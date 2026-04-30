@@ -96,8 +96,51 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
   const [copied,          setCopied]          = useState(false)
   const [walletOpen,      setWalletOpen]      = useState(false)
   const [walletResetStep, setWalletResetStep] = useState(0)
+  const [profilePic,      setProfilePic]      = useState(() => localStorage.getItem('profilePicture') || null)
+  const [profileOpen,     setProfileOpen]     = useState(false)
   const confirmTimer = useRef(null)
   const shareRef     = useRef(null)
+  const profileRef   = useRef(null)
+  const fileInputRef = useRef(null)
+
+  const handleProfileUpload = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        const MAX = 240
+        const ratio = Math.min(MAX / img.width, MAX / img.height, 1)
+        canvas.width  = Math.round(img.width  * ratio)
+        canvas.height = Math.round(img.height * ratio)
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
+        const b64 = canvas.toDataURL('image/jpeg', 0.75)
+        localStorage.setItem('profilePicture', b64)
+        setProfilePic(b64)
+        setProfileOpen(false)
+      }
+      img.src = ev.target.result
+    }
+    reader.readAsDataURL(file)
+    e.target.value = ''
+  }
+
+  const handleRemoveProfile = () => {
+    localStorage.removeItem('profilePicture')
+    setProfilePic(null)
+    setProfileOpen(false)
+  }
+
+  useEffect(() => {
+    if (!profileOpen) return
+    const handler = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) setProfileOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [profileOpen])
 
   const WALLET_CONFIRM_TEXTS = [
     { label: 'Reset Wallet',                       cls: '' },
@@ -188,6 +231,37 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
       </div>
 
       <div className="topbar-right">
+        {/* Profile picture */}
+        <div className="profile-wrap" ref={profileRef}>
+          <button className="profile-avatar" onClick={() => setProfileOpen(s => !s)} title="Profile picture">
+            {profilePic
+              ? <img src={profilePic} alt="Profile" />
+              : <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            }
+          </button>
+          {profileOpen && (
+            <div className="profile-dropdown">
+              {profilePic && (
+                <div className="profile-preview">
+                  <img src={profilePic} alt="Current profile" />
+                </div>
+              )}
+              <button className="profile-dd-btn" onClick={() => fileInputRef.current.click()}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                {profilePic ? 'Change Photo' : 'Upload Photo'}
+              </button>
+              {profilePic && (
+                <button className="profile-dd-btn profile-dd-remove" onClick={handleRemoveProfile}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                  Remove Photo
+                </button>
+              )}
+              <p className="profile-dd-note">Saved on your device only</p>
+            </div>
+          )}
+          <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleProfileUpload} />
+        </div>
+
         <button
           className={`reset-btn${confirming ? ' reset-btn-confirm' : ''}`}
           onClick={handleResetClick}
