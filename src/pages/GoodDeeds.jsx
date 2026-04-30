@@ -55,9 +55,11 @@ function PrayerRow({ prayer, status, onMark }) {
             <button className="prayer-btn prayer-btn-ontime" onClick={() => onMark(prayer, 'onTime')}>
               <CheckIcon /> <span>On Time</span> <em>+₹{prayer.reward.onTime}</em>
             </button>
-            <button className="prayer-btn prayer-btn-late" onClick={() => onMark(prayer, 'late')}>
-              ⏰ <span>Late</span> <em>+₹{prayer.reward.late}</em>
-            </button>
+            {prayer.reward.late !== undefined && (
+              <button className="prayer-btn prayer-btn-late" onClick={() => onMark(prayer, 'late')}>
+                ⏰ <span>Late</span> <em>+₹{prayer.reward.late}</em>
+              </button>
+            )}
             <button className="prayer-btn prayer-btn-missed" onClick={() => onMark(prayer, 'missed')}>
               ✕ <span>Missed</span>{prayer.reward.missed ? <em>-₹{prayer.reward.missed}</em> : null}
             </button>

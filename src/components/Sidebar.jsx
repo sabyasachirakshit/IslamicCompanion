@@ -33,7 +33,7 @@ const ChevronRightIcon = () => (
 
 const NAV_ITEMS = [
   { id: 'dashboard',  label: 'Dashboard',   icon: <DashboardIcon /> },
-  { id: 'gooddeeds',  label: 'Good Deeds',  icon: <GoodDeedsIcon /> },
+  { id: 'gooddeeds',  label: 'Prayers',  icon: <GoodDeedsIcon /> },
 ]
 
 export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse, activePage, onNavigate }) {

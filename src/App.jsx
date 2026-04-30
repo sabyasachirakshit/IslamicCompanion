@@ -8,7 +8,7 @@ import './App.css'
 
 const PAGE_TITLES = {
   dashboard: 'Dashboard',
-  gooddeeds: 'Good Deeds',
+  gooddeeds: 'Prayers',
 }
 
 function App() {
