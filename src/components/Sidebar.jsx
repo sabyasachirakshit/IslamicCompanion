@@ -7,6 +7,12 @@ const DashboardIcon = () => (
   </svg>
 )
 
+const GoodDeedsIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+  </svg>
+)
+
 const CrescentIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -25,11 +31,12 @@ const ChevronRightIcon = () => (
   </svg>
 )
 
-export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse }) {
-  const navItems = [
-    { label: 'Dashboard', icon: <DashboardIcon />, active: true },
-  ]
+const NAV_ITEMS = [
+  { id: 'dashboard',  label: 'Dashboard',   icon: <DashboardIcon /> },
+  { id: 'gooddeeds',  label: 'Good Deeds',  icon: <GoodDeedsIcon /> },
+]
 
+export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse, activePage, onNavigate }) {
   return (
     <>
       {isOpen && <div className="sidebar-overlay" onClick={onClose} />}
@@ -53,12 +60,12 @@ export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse }
 
         <div className="nav-section-label">Main Menu</div>
         <nav className="sidebar-nav">
-          {navItems.map(item => (
+          {NAV_ITEMS.map(item => (
             <a
-              key={item.label}
+              key={item.id}
               href="#"
-              className={`sidebar-nav-item${item.active ? ' active' : ''}`}
-              onClick={e => e.preventDefault()}
+              className={`sidebar-nav-item${activePage === item.id ? ' active' : ''}`}
+              onClick={e => { e.preventDefault(); onNavigate(item.id); onClose() }}
               title={collapsed ? item.label : undefined}
             >
               <span className="nav-icon">{item.icon}</span>

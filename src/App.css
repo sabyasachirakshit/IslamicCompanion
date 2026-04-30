@@ -776,3 +776,403 @@
   cursor: not-allowed;
   box-shadow: none;
 }
+
+/* ===== Good Deeds Page ===== */
+.good-deeds {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 860px;
+}
+
+.gd-summary-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(13, 20, 35, 0.85);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 20px 32px;
+  box-shadow: var(--shadow-glow-green), 0 8px 32px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+}
+
+.gd-summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 4px;
+}
+
+.gd-summary-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.gd-summary-value.green { color: var(--green); text-shadow: 0 0 12px var(--green-glow); }
+.gd-summary-value.gold  { color: var(--gold);  text-shadow: 0 0 12px var(--gold-glow);  }
+
+.gd-summary-total {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.gd-summary-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--text-muted);
+}
+
+.gd-summary-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.gd-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gd-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gd-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+.gd-section-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.gd-section-dot.green { background: var(--green); box-shadow: 0 0 6px var(--green-glow); }
+.gd-section-dot.gold  { background: var(--gold);  box-shadow: 0 0 6px var(--gold-glow);  }
+
+.gd-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(0,229,160,0.08);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-sm);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.gd-add-btn:hover {
+  background: rgba(0,229,160,0.15);
+  box-shadow: 0 0 12px var(--green-glow-sm);
+}
+
+.gd-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deed-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition);
+}
+
+.deed-row:hover {
+  border-color: var(--border-bright);
+  box-shadow: 0 0 16px var(--green-glow-sm);
+}
+
+.deed-row.deed-done {
+  opacity: 0.55;
+  border-color: transparent;
+}
+
+.deed-row.deed-done:hover {
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.deed-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.deed-arabic-mini {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.deed-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.deed-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deed-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.deed-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.deed-reward-chip {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  background: rgba(255,215,0,0.10);
+  border: 1px solid rgba(255,215,0,0.20);
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.deed-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(239,68,68,0.25);
+  background: rgba(239,68,68,0.08);
+  border-radius: var(--radius-sm);
+  color: #EF4444;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.deed-remove-btn:hover {
+  background: rgba(239,68,68,0.18);
+  border-color: rgba(239,68,68,0.5);
+}
+
+.deed-mark-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  background: rgba(0,229,160,0.08);
+  border: 1px solid var(--border-bright);
+  color: var(--green);
+}
+
+.deed-mark-btn:hover:not(:disabled) {
+  background: rgba(0,229,160,0.18);
+  box-shadow: 0 0 12px var(--green-glow-sm);
+}
+
+.deed-mark-btn.deed-mark-done {
+  background: rgba(0,229,160,0.12);
+  border-color: var(--green);
+  color: var(--green);
+  cursor: default;
+}
+
+.deed-mark-btn:disabled {
+  cursor: default;
+}
+
+/* Add form */
+.gd-add-form {
+  background: rgba(13,20,35,0.8);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.gd-input {
+  width: 100%;
+  padding: 11px 14px;
+  background: rgba(0,229,160,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  box-sizing: border-box;
+}
+
+.gd-input::placeholder { color: var(--text-dim); }
+
+.gd-input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(0,229,160,0.12);
+}
+
+.gd-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.gd-input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: rgba(0,229,160,0.04);
+  flex-shrink: 0;
+  transition: border-color var(--transition);
+}
+
+.gd-input-group:focus-within {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(0,229,160,0.12);
+}
+
+.gd-input-prefix {
+  padding: 0 10px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 14px;
+  border-right: 1px solid var(--border);
+}
+
+.gd-input.gd-input-reward {
+  width: 90px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.gd-input.gd-input-reward:focus {
+  box-shadow: none;
+}
+
+.gd-save-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--green-dim), var(--green));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #050810;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: 0 0 10px var(--green-glow-sm);
+  white-space: nowrap;
+}
+
+.gd-save-btn:hover:not(:disabled) {
+  box-shadow: 0 0 16px var(--green-glow);
+}
+
+.gd-save-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.gd-cancel-btn {
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.gd-cancel-btn:hover {
+  border-color: var(--border-bright);
+  color: var(--text);
+}
+
+.gd-empty {
+  font-size: 13px;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+
+.gd-empty strong {
+  color: var(--green);
+}
+
+@media (max-width: 480px) {
+  .gd-summary-bar {
+    padding: 16px 16px;
+  }
+  .gd-summary-value {
+    font-size: 22px;
+  }
+  .deed-reward-chip {
+    display: none;
+  }
+  .gd-input-row {
+    flex-wrap: wrap;
+  }
+}

@@ -28,7 +28,11 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
       setWalletBalance(updated !== null ? parseFloat(updated) : 0)
     }
     window.addEventListener('storage', handleStorage)
-    return () => window.removeEventListener('storage', handleStorage)
+    window.addEventListener('walletUpdated', handleStorage)
+    return () => {
+      window.removeEventListener('storage', handleStorage)
+      window.removeEventListener('walletUpdated', handleStorage)
+    }
   }, [])
 
   const formatted = walletBalance.toLocaleString('en-US', {
