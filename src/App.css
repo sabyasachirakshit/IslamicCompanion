@@ -1660,6 +1660,50 @@
   .deed-btn span { display: none; }
 }
 
+/* ===== Bad Deeds overrides ===== */
+.bd-add-btn {
+  background: rgba(248,113,113,0.10);
+  border-color: rgba(248,113,113,0.30);
+  color: #F87171;
+}
+.bd-add-btn:hover {
+  background: rgba(248,113,113,0.18);
+  box-shadow: 0 0 10px rgba(248,113,113,0.2);
+}
+
+.bd-add-form {
+  border-color: rgba(248,113,113,0.25);
+}
+
+.bd-form-save {
+  background: rgba(248,113,113,0.12);
+  border-color: rgba(248,113,113,0.35);
+  color: #F87171;
+}
+.bd-form-save:hover:not(:disabled) {
+  background: rgba(248,113,113,0.22);
+}
+
+.bd-btn-avoided {
+  background: rgba(0,229,160,0.08);
+  border-color: rgba(0,229,160,0.30);
+  color: #00E5A0;
+}
+.bd-btn-avoided:hover { background: rgba(0,229,160,0.18); }
+
+.bd-btn-committed {
+  background: rgba(248,113,113,0.08);
+  border-color: rgba(248,113,113,0.30);
+  color: #F87171;
+}
+.bd-btn-committed:hover { background: rgba(248,113,113,0.18); }
+
+.bd-item-avoided   { border-color: rgba(0,229,160,0.25);  background: rgba(0,229,160,0.03); }
+.bd-item-committed { border-color: rgba(248,113,113,0.25); background: rgba(248,113,113,0.04); opacity: 0.75; }
+
+.bd-status-avoided   { background: rgba(0,229,160,0.10); border-color: rgba(0,229,160,0.30); color: #00E5A0; }
+.bd-status-committed { background: rgba(248,113,113,0.10); border-color: rgba(248,113,113,0.30); color: #F87171; }
+
 /* ===== Prayer Groups ===== */
 .prayer-groups-list {
   display: flex;

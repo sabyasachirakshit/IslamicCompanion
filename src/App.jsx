@@ -5,12 +5,14 @@ import NameModal from './components/NameModal'
 import Dashboard from './pages/Dashboard'
 import GoodDeeds from './pages/GoodDeeds'
 import Deeds from './pages/Deeds'
+import BadDeeds from './pages/BadDeeds'
 import './App.css'
 
 const PAGE_TITLES = {
   dashboard: 'Dashboard',
   gooddeeds: 'Prayers',
   deeds: 'Good Deeds',
+  baddeeds: 'Bad Deeds',
 }
 
 function App() {
@@ -40,6 +42,7 @@ function App() {
             {activePage === 'dashboard' && <Dashboard userName={userName} />}
             {activePage === 'gooddeeds' && <GoodDeeds />}
             {activePage === 'deeds' && <Deeds />}
+            {activePage === 'baddeeds' && <BadDeeds />}
           </main>
         </div>
       </div>
