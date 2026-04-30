@@ -4,11 +4,13 @@ import Topbar from './components/Topbar'
 import NameModal from './components/NameModal'
 import Dashboard from './pages/Dashboard'
 import GoodDeeds from './pages/GoodDeeds'
+import Deeds from './pages/Deeds'
 import './App.css'
 
 const PAGE_TITLES = {
   dashboard: 'Dashboard',
   gooddeeds: 'Prayers',
+  deeds: 'Good Deeds',
 }
 
 function App() {
@@ -37,6 +39,7 @@ function App() {
           <main className="app-content">
             {activePage === 'dashboard' && <Dashboard userName={userName} />}
             {activePage === 'gooddeeds' && <GoodDeeds />}
+            {activePage === 'deeds' && <Deeds />}
           </main>
         </div>
       </div>
