@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const WalletIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,11 +16,33 @@ const MenuIcon = () => (
   </svg>
 )
 
+const ResetIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="1 4 1 10 7 10"/>
+    <path d="M3.51 15a9 9 0 1 0 .49-3.55"/>
+  </svg>
+)
+
 export default function Topbar({ pageTitle, onMenuToggle }) {
   const [walletBalance, setWalletBalance] = useState(() => {
     const saved = localStorage.getItem('walletBalance')
     return saved !== null ? parseFloat(saved) : 0
   })
+  const [confirming, setConfirming] = useState(false)
+  const confirmTimer = useRef(null)
+
+  const handleResetClick = () => {
+    if (!confirming) {
+      setConfirming(true)
+      confirmTimer.current = setTimeout(() => setConfirming(false), 4000)
+    } else {
+      clearTimeout(confirmTimer.current)
+      localStorage.clear()
+      window.location.reload()
+    }
+  }
+
+  useEffect(() => () => clearTimeout(confirmTimer.current), [])
 
   useEffect(() => {
     const handleStorage = () => {
@@ -50,6 +72,15 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
       </div>
 
       <div className="topbar-right">
+        <button
+          className={`reset-btn${confirming ? ' reset-btn-confirm' : ''}`}
+          onClick={handleResetClick}
+          title="Reset all data"
+        >
+          <ResetIcon />
+          <span>{confirming ? 'Confirm Reset?' : 'Reset Data'}</span>
+        </button>
+
         <div className="wallet-badge">
           <div className="wallet-icon-wrap">
             <WalletIcon />
