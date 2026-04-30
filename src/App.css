@@ -1,6 +1,7 @@
 /* ===== CSS Variables – Dark Glow Theme ===== */
 :root {
   --sidebar-width: 256px;
+  --sidebar-mini: 66px;
   --topbar-height: 64px;
 
   --green:         #00E5A0;
@@ -67,6 +68,10 @@
   transition: margin-left var(--transition);
 }
 
+.app-main.main-collapsed {
+  margin-left: var(--sidebar-mini);
+}
+
 .app-content {
   flex: 1;
   padding: 28px;
@@ -85,8 +90,47 @@
   display: flex;
   flex-direction: column;
   z-index: 100;
-  transition: transform var(--transition);
+  transition: transform var(--transition), width var(--transition);
   overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: var(--sidebar-mini);
+}
+
+.sidebar.collapsed .sidebar-logo-text,
+.sidebar.collapsed .nav-section-label,
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .sidebar-footer-text,
+.sidebar.collapsed .sidebar-footer-sub {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-header {
+  justify-content: center;
+  padding: 22px 10px 18px;
+  gap: 0;
+}
+
+.sidebar.collapsed .sidebar-collapse-btn {
+  position: absolute;
+  right: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #060B14;
+  border-color: var(--border-bright);
+  color: var(--green);
+  z-index: 10;
+  box-shadow: 0 0 8px rgba(0,229,160,0.2);
+}
+
+.sidebar.collapsed .sidebar-nav-item {
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.sidebar.collapsed .sidebar-footer {
+  padding: 16px 10px;
 }
 
 .sidebar::before {
@@ -106,6 +150,7 @@
   padding: 22px 18px 18px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  position: relative;
 }
 
 .sidebar-logo-icon {
@@ -144,6 +189,28 @@
   color: var(--text-muted);
   letter-spacing: 1.2px;
   text-transform: uppercase;
+}
+
+.sidebar-collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--border);
+  background: rgba(0,229,160,0.06);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.sidebar-collapse-btn:hover {
+  background: rgba(0,229,160,0.14);
+  border-color: var(--border-bright);
+  color: var(--green);
 }
 
 .nav-section-label {
@@ -239,6 +306,13 @@
   background: rgba(0,0,0,0.7);
   z-index: 99;
   backdrop-filter: blur(4px);
+}
+
+/* collapse button hidden on mobile (sidebar is a drawer) */
+@media (max-width: 767px) {
+  .sidebar-collapse-btn {
+    display: none;
+  }
 }
 
 /* ===== Topbar ===== */
@@ -516,9 +590,22 @@
 }
 
 /* ===== Responsive ===== */
-@media (max-width: 768px) {
+
+/* Tablet: sidebar always visible, no overlay, collapse btn works */
+@media (max-width: 1024px) {
+  .topbar {
+    padding: 0 18px;
+  }
+  .app-content {
+    padding: 20px;
+  }
+}
+
+/* Mobile: sidebar becomes overlay drawer */
+@media (max-width: 767px) {
   .sidebar {
     transform: translateX(-100%);
+    width: var(--sidebar-width) !important;
   }
 
   .sidebar.sidebar-open {
@@ -529,7 +616,8 @@
     display: block;
   }
 
-  .app-main {
+  .app-main,
+  .app-main.main-collapsed {
     margin-left: 0;
   }
 
@@ -554,7 +642,7 @@
   }
 
   .dashboard-welcome {
-    padding: 24px 22px;
+    padding: 24px 18px;
   }
 
   .dashboard-welcome-deco {

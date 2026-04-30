@@ -8,14 +8,20 @@ import './App.css'
 function App() {
   const [activePage] = useState('dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
 
   return (
     <>
       {!userName && <NameModal onSave={setUserName} />}
       <div className="app-layout">
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <div className="app-main">
+        <Sidebar
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(c => !c)}
+        />
+        <div className={`app-main${sidebarCollapsed ? ' main-collapsed' : ''}`}>
           <Topbar pageTitle="Dashboard" onMenuToggle={() => setSidebarOpen(o => !o)} />
           <main className="app-content">
             {activePage === 'dashboard' && <Dashboard userName={userName} />}

@@ -13,7 +13,19 @@ const CrescentIcon = () => (
   </svg>
 )
 
-export default function Sidebar({ isOpen, onClose }) {
+const ChevronLeftIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="15 18 9 12 15 6"/>
+  </svg>
+)
+
+const ChevronRightIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="9 18 15 12 9 6"/>
+  </svg>
+)
+
+export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse }) {
   const navItems = [
     { label: 'Dashboard', icon: <DashboardIcon />, active: true },
   ]
@@ -21,7 +33,7 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <>
       {isOpen && <div className="sidebar-overlay" onClick={onClose} />}
-      <aside className={`sidebar${isOpen ? ' sidebar-open' : ''}`}>
+      <aside className={`sidebar${isOpen ? ' sidebar-open' : ''}${collapsed ? ' collapsed' : ''}`}>
         <div className="sidebar-header">
           <span className="sidebar-logo-icon">
             <CrescentIcon />
@@ -30,6 +42,13 @@ export default function Sidebar({ isOpen, onClose }) {
             <span className="logo-title">Islamic</span>
             <span className="logo-sub">Companion</span>
           </div>
+          <button
+            className="sidebar-collapse-btn"
+            onClick={onToggleCollapse}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </button>
         </div>
 
         <div className="nav-section-label">Main Menu</div>
@@ -40,6 +59,7 @@ export default function Sidebar({ isOpen, onClose }) {
               href="#"
               className={`sidebar-nav-item${item.active ? ' active' : ''}`}
               onClick={e => e.preventDefault()}
+              title={collapsed ? item.label : undefined}
             >
               <span className="nav-icon">{item.icon}</span>
               <span className="nav-label">{item.label}</span>
