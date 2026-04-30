@@ -91,11 +91,34 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
     const saved = localStorage.getItem('walletBalance')
     return saved !== null ? parseFloat(saved) : 0
   })
-  const [confirming, setConfirming]   = useState(false)
-  const [shareOpen,  setShareOpen]    = useState(false)
-  const [copied,     setCopied]       = useState(false)
+  const [confirming,      setConfirming]      = useState(false)
+  const [shareOpen,       setShareOpen]       = useState(false)
+  const [copied,          setCopied]          = useState(false)
+  const [walletOpen,      setWalletOpen]      = useState(false)
+  const [walletResetStep, setWalletResetStep] = useState(0)
   const confirmTimer = useRef(null)
   const shareRef     = useRef(null)
+
+  const WALLET_CONFIRM_TEXTS = [
+    { label: 'Reset Wallet',                       cls: '' },
+    { label: 'Are you sure?',                      cls: 'wm-warn-1' },
+    { label: 'Are you doubly sure?',               cls: 'wm-warn-2' },
+    { label: 'Changes cannot be reverted. Confirm!', cls: 'wm-warn-3' },
+  ]
+
+  const handleWalletReset = () => {
+    const next = walletResetStep + 1
+    if (next < WALLET_CONFIRM_TEXTS.length) {
+      setWalletResetStep(next)
+    } else {
+      localStorage.setItem('walletBalance', '0')
+      window.dispatchEvent(new CustomEvent('walletUpdated'))
+      setWalletResetStep(0)
+      setWalletOpen(false)
+    }
+  }
+
+  const closeWalletModal = () => { setWalletOpen(false); setWalletResetStep(0) }
 
   const appUrl  = window.location.origin
   const shareText = 'Track your prayers, good deeds & more with Islamic Companion — share as Sadaqah Jariyah!'
@@ -155,7 +178,8 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
   })
 
   return (
-    <header className="topbar">
+    <>
+      <header className="topbar">
       <div className="topbar-left">
         <button className="menu-toggle" onClick={onMenuToggle} aria-label="Toggle sidebar">
           <MenuIcon />
@@ -216,7 +240,7 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
           )}
         </div>
 
-        <div className="wallet-badge">
+        <button className="wallet-badge wallet-badge-btn" onClick={() => setWalletOpen(true)} title="View wallet">
           <div className="wallet-icon-wrap">
             <WalletIcon />
           </div>
@@ -224,8 +248,50 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
             <span className="wallet-label">Wallet Balance</span>
             <span className="wallet-amount">₹ {formatted}</span>
           </div>
+        </button>
+      </div>
+      </header>
+
+    {/* Wallet Modal — outside header so fixed positioning covers full screen */}
+    {walletOpen && (
+      <div className="wm-overlay" onClick={closeWalletModal}>
+          <div className="wm-modal" onClick={e => e.stopPropagation()}>
+            <div className="wm-header">
+              <div className="wm-icon"><WalletIcon /></div>
+              <div>
+                <p className="wm-title">Wallet Balance</p>
+                <p className="wm-amount">&#8377; {formatted}</p>
+              </div>
+              <button className="wm-close" onClick={closeWalletModal} aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+
+            <p className="wm-note">Your balance is earned by prayers, good deeds and avoiding bad deeds. Deducted on missed prayers, bad deeds committed, and reward redemptions.</p>
+
+            <div className="wm-reset-area">
+              {walletResetStep > 0 && (
+                <p className="wm-reset-warning">
+                  {walletResetStep === 1 && '⚠️ This will set your wallet to ₹0.'}
+                  {walletResetStep === 2 && '⚠️⚠️ Your entire balance will be wiped.'}
+                  {walletResetStep === 3 && '❌ This action is permanent and cannot be undone!'}
+                </p>
+              )}
+              <button
+                className={`wm-reset-btn ${WALLET_CONFIRM_TEXTS[walletResetStep].cls}`}
+                onClick={handleWalletReset}
+              >
+                {WALLET_CONFIRM_TEXTS[walletResetStep].label}
+              </button>
+              {walletResetStep > 0 && (
+                <button className="wm-cancel-btn" onClick={() => setWalletResetStep(0)}>Cancel</button>
+              )}
+            </div>
         </div>
       </div>
-    </header>
+    )}
+    </>
   )
 }
