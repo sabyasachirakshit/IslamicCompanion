@@ -1,4 +1,13 @@
+import { useState, useEffect } from 'react'
 import { ALL_PRAYERS, todayStatusKey } from '../data/prayers'
+
+function getTimeGreeting() {
+  const h = new Date().getHours()
+  if (h >= 5  && h < 12) return { text: 'Good Morning',   emoji: '🌅' }
+  if (h >= 12 && h < 17) return { text: 'Good Afternoon', emoji: '☀️' }
+  if (h >= 17 && h < 21) return { text: 'Good Evening',   emoji: '🌆' }
+  return                        { text: 'Good Night',     emoji: '🌙' }
+}
 
 const ArrowRightIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -126,11 +135,24 @@ function PmCell({ label, value, total, color, variant }) {
 
 export default function Dashboard({ userName, onNavigate }) {
   const pm = getPrayerMetrics()
+  const greeting = getTimeGreeting()
+  const [profilePic, setProfilePic] = useState(() => localStorage.getItem('profilePicture') || null)
+
+  useEffect(() => {
+    const sync = () => setProfilePic(localStorage.getItem('profilePicture') || null)
+    window.addEventListener('storage', sync)
+    return () => window.removeEventListener('storage', sync)
+  }, [])
+
   return (
     <div className="dashboard">
       <div className="dashboard-welcome">
+        {profilePic && (
+          <img src={profilePic} alt="Profile" className="welcome-profile-pic" />
+        )}
         <div className="dashboard-welcome-content">
           <p className="welcome-bismillah">بسم الله الرحمن الرحيم</p>
+          <p className="welcome-greeting">{greeting.emoji} {greeting.text}!</p>
           <h2>Assalamu Alaikum{userName ? `, ${userName}` : ''} 👋</h2>
           <p className="welcome-sub">Welcome to your Islamic Companion. Your spiritual journey starts here.</p>
         </div>

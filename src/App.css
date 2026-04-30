@@ -447,7 +447,7 @@
   padding: 32px 36px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 22px;
   overflow: hidden;
   position: relative;
   box-shadow: var(--shadow-glow-green), 0 8px 32px rgba(0,0,0,0.5);
@@ -463,18 +463,39 @@
   pointer-events: none;
 }
 
+.welcome-profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(0,229,160,0.40);
+  box-shadow: 0 0 20px rgba(0,229,160,0.22);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
 .dashboard-welcome-content {
   position: relative;
   z-index: 1;
+  flex: 1;
 }
 
 .welcome-bismillah {
   font-size: 18px;
   color: var(--gold);
   font-family: 'Segoe UI', system-ui, sans-serif;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   letter-spacing: 0.5px;
   text-shadow: 0 0 12px var(--gold-glow);
+}
+
+.welcome-greeting {
+  font-size: 13px;
+  font-weight: 700;
+  color: #00E5A0;
+  margin: 0 0 6px;
+  letter-spacing: 0.2px;
 }
 
 .dashboard-welcome h2 {
