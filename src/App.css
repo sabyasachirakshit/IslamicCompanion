@@ -1660,6 +1660,232 @@
   .deed-btn span { display: none; }
 }
 
+/* ===== Rewards Page ===== */
+.rw-balance-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, rgba(251,191,36,0.10) 0%, rgba(251,191,36,0.04) 100%);
+  border: 1px solid rgba(251,191,36,0.28);
+  border-radius: var(--radius-md);
+}
+
+.rw-balance-icon {
+  color: #FBBF24;
+  display: flex;
+  align-items: center;
+}
+
+.rw-balance-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.rw-balance-amount {
+  font-size: 20px;
+  font-weight: 800;
+  color: #FBBF24;
+  letter-spacing: -0.5px;
+}
+
+.rw-balance-neg {
+  color: #F87171;
+}
+
+/* Add button accent */
+.rw-add-btn {
+  background: rgba(251,191,36,0.10);
+  border-color: rgba(251,191,36,0.30);
+  color: #FBBF24;
+}
+.rw-add-btn:hover {
+  background: rgba(251,191,36,0.18);
+  box-shadow: 0 0 10px rgba(251,191,36,0.20);
+}
+
+.rw-add-form { border-color: rgba(251,191,36,0.25); }
+
+.rw-form-save {
+  background: rgba(251,191,36,0.12);
+  border-color: rgba(251,191,36,0.35);
+  color: #FBBF24;
+}
+.rw-form-save:hover:not(:disabled) { background: rgba(251,191,36,0.22); }
+
+/* Section dots */
+.rw-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.rw-dot.preset { background: #FBBF24; box-shadow: 0 0 6px rgba(251,191,36,0.5); }
+.rw-dot.custom { background: #A78BFA; box-shadow: 0 0 6px rgba(167,139,250,0.5); }
+
+/* Reward cards grid */
+.rw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.rw-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+}
+
+.rw-card:hover { border-color: rgba(251,191,36,0.30); }
+
+.rw-card-low {
+  opacity: 0.6;
+}
+
+.rw-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.rw-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.rw-delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color var(--transition);
+}
+.rw-delete-btn:hover { color: #F87171; }
+
+.rw-card-cost {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.rw-cost-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.rw-cost-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #FBBF24;
+  letter-spacing: -0.5px;
+}
+
+.rw-low-msg {
+  font-size: 11px;
+  color: #F87171;
+  margin: 0;
+}
+
+.rw-redeem-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: rgba(251,191,36,0.10);
+  border: 1px solid rgba(251,191,36,0.30);
+  border-radius: var(--radius-sm);
+  color: #FBBF24;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-top: auto;
+}
+.rw-redeem-btn:hover:not(.rw-redeem-disabled) { background: rgba(251,191,36,0.20); }
+
+.rw-redeem-confirm {
+  background: rgba(0,229,160,0.12);
+  border-color: rgba(0,229,160,0.35);
+  color: #00E5A0;
+  animation: rw-pulse 0.6s ease;
+}
+
+.rw-redeem-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@keyframes rw-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* History list */
+.rw-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.rw-history-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+}
+
+.rw-history-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+  min-width: 0;
+}
+
+.rw-history-date {
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.rw-history-cost {
+  font-size: 13px;
+  font-weight: 700;
+  color: #F87171;
+  white-space: nowrap;
+}
+
+@media (max-width: 500px) {
+  .rw-grid { grid-template-columns: 1fr 1fr; }
+}
+
 /* ===== Bad Deeds overrides ===== */
 .bd-add-btn {
   background: rgba(248,113,113,0.10);

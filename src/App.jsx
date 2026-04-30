@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import GoodDeeds from './pages/GoodDeeds'
 import Deeds from './pages/Deeds'
 import BadDeeds from './pages/BadDeeds'
+import Rewards from './pages/Rewards'
 import './App.css'
 
 const PAGE_TITLES = {
@@ -13,6 +14,7 @@ const PAGE_TITLES = {
   gooddeeds: 'Prayers',
   deeds: 'Good Deeds',
   baddeeds: 'Bad Deeds',
+  rewards: 'Rewards',
 }
 
 function App() {
@@ -43,6 +45,7 @@ function App() {
             {activePage === 'gooddeeds' && <GoodDeeds />}
             {activePage === 'deeds' && <Deeds />}
             {activePage === 'baddeeds' && <BadDeeds />}
+            {activePage === 'rewards' && <Rewards />}
           </main>
         </div>
       </div>
