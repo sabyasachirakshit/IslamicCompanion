@@ -1,5 +1,71 @@
 import { ALL_PRAYERS, todayStatusKey } from '../data/prayers'
 
+const ArrowRightIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+  </svg>
+)
+
+const QUICK_ACTIONS = [
+  {
+    id: 'gooddeeds',
+    label: 'Prayers',
+    desc: 'Track your 5 daily prayers — Fardh, Sunnah, Nafl & Tahajjud. Mark on time, late, or missed.',
+    color: '#A78BFA',
+    bg: 'rgba(167,139,250,0.10)',
+    border: 'rgba(167,139,250,0.25)',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'deeds',
+    label: 'Good Deeds',
+    desc: 'Add and complete daily or one-time good deeds. Earn wallet rewards for every deed done.',
+    color: '#00E5A0',
+    bg: 'rgba(0,229,160,0.08)',
+    border: 'rgba(0,229,160,0.22)',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="9 11 12 14 22 4"/>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'baddeeds',
+    label: 'Bad Deeds',
+    desc: 'Log bad habits and sins. Mark as avoided to earn rewards or committed to face a penalty.',
+    color: '#F87171',
+    bg: 'rgba(248,113,113,0.08)',
+    border: 'rgba(248,113,113,0.22)',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'rewards',
+    label: 'Rewards',
+    desc: 'Spend your earned balance on personal rewards. Browse presets or create your own treats.',
+    color: '#FBBF24',
+    bg: 'rgba(251,191,36,0.08)',
+    border: 'rgba(251,191,36,0.22)',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/>
+        <line x1="12" y1="22" x2="12" y2="7"/>
+        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+      </svg>
+    ),
+  },
+]
+
 const QuranIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
@@ -58,7 +124,7 @@ function PmCell({ label, value, total, color, variant }) {
   )
 }
 
-export default function Dashboard({ userName }) {
+export default function Dashboard({ userName, onNavigate }) {
   const pm = getPrayerMetrics()
   return (
     <div className="dashboard">
@@ -91,6 +157,23 @@ export default function Dashboard({ userName }) {
           <PmCell label="Fardh"      value={pm.fardh.missed}  total={pm.fardh.total}  color="#F87171" variant="missed" />
           <PmCell label="Sunnah"     value={pm.sunnah.missed} total={pm.sunnah.total} color="#FCA5A5" variant="missed" />
           <PmCell label="Nafl+Witr" value={pm.nafl.missed}   total={pm.nafl.total}   color="#FCA5A5" variant="missed" />
+        </div>
+      </div>
+
+      <div className="dashboard-quick-actions">
+        <h3 className="pm-title">Quick Actions</h3>
+        <div className="qa-grid">
+          {QUICK_ACTIONS.map(a => (
+            <button key={a.id} className="qa-card" onClick={() => onNavigate(a.id)}
+              style={{ '--qa-color': a.color, '--qa-bg': a.bg, '--qa-border': a.border }}>
+              <div className="qa-icon" style={{ color: a.color, background: a.bg }}>{a.icon}</div>
+              <div className="qa-body">
+                <span className="qa-label">{a.label}</span>
+                <span className="qa-desc">{a.desc}</span>
+              </div>
+              <span className="qa-arrow" style={{ color: a.color }}><ArrowRightIcon /></span>
+            </button>
+          ))}
         </div>
       </div>
 

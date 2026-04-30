@@ -41,7 +41,7 @@ function App() {
             onMenuToggle={() => setSidebarOpen(o => !o)}
           />
           <main className="app-content">
-            {activePage === 'dashboard' && <Dashboard userName={userName} />}
+            {activePage === 'dashboard' && <Dashboard userName={userName} onNavigate={setActivePage} />}
             {activePage === 'gooddeeds' && <GoodDeeds />}
             {activePage === 'deeds' && <Deeds />}
             {activePage === 'baddeeds' && <BadDeeds />}
