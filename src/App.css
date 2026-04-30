@@ -580,3 +580,111 @@
     font-size: 16px;
   }
 }
+
+/* ===== Name Modal ===== */
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-card {
+  background: #0D1423;
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 44px 40px 40px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: var(--shadow-glow-green), 0 24px 64px rgba(0,0,0,0.7);
+  animation: modal-in 0.35s var(--ease) both;
+}
+
+.modal-icon {
+  font-size: 52px;
+  color: var(--green);
+  text-shadow: 0 0 24px var(--green-glow);
+  margin-bottom: 16px;
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.modal-title {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff 0%, var(--green) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.modal-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(0, 229, 160, 0.05);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  box-sizing: border-box;
+}
+
+.modal-input::placeholder {
+  color: var(--text-dim);
+}
+
+.modal-input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(0,229,160,0.15);
+}
+
+.modal-btn {
+  padding: 13px;
+  background: linear-gradient(135deg, var(--green-dim), var(--green));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #050810;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity var(--transition), box-shadow var(--transition);
+  box-shadow: 0 0 16px var(--green-glow);
+}
+
+.modal-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  box-shadow: 0 0 24px var(--green-glow);
+}
+
+.modal-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}

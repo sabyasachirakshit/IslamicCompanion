@@ -32,16 +32,16 @@ const stats = [
   { icon: <ZakatIcon />, label: 'Zakat Due', value: '₹ 0.00', color: '#FFD700', bg: 'rgba(255,215,0,0.12)', glow: '0 0 14px rgba(255,215,0,0.25)' },
 ]
 
-export default function Dashboard() {
+export default function Dashboard({ userName }) {
   return (
     <div className="dashboard">
       <div className="dashboard-welcome">
         <div className="dashboard-welcome-content">
           <p className="welcome-bismillah">بسم الله الرحمن الرحيم</p>
-          <h2>Assalamu Alaikum 👋</h2>
+          <h2>Assalamu Alaikum{userName ? `, ${userName}` : ''} 👋</h2>
           <p className="welcome-sub">Welcome to your Islamic Companion. Your spiritual journey starts here.</p>
         </div>
-        <div className="dashboard-welcome-deco">☪</div>
+        {/* <div className="dashboard-welcome-deco">☪</div> */}
       </div>
 
       <div className="dashboard-cards">

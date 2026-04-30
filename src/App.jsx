@@ -1,29 +1,28 @@
 import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Topbar from './components/Topbar'
+import NameModal from './components/NameModal'
 import Dashboard from './pages/Dashboard'
 import './App.css'
-
-const pages = {
-  dashboard: { title: 'Dashboard', component: <Dashboard /> },
-}
 
 function App() {
   const [activePage] = useState('dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
-  const current = pages[activePage]
+  const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
 
   return (
-    <div className="app-layout">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="app-main">
-        <Topbar pageTitle={current.title} onMenuToggle={() => setSidebarOpen(o => !o)} />
-        <main className="app-content">
-          {current.component}
-        </main>
+    <>
+      {!userName && <NameModal onSave={setUserName} />}
+      <div className="app-layout">
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <div className="app-main">
+          <Topbar pageTitle="Dashboard" onMenuToggle={() => setSidebarOpen(o => !o)} />
+          <main className="app-content">
+            {activePage === 'dashboard' && <Dashboard userName={userName} />}
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
