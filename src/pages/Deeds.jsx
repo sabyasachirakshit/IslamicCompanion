@@ -297,7 +297,7 @@ export default function Deeds() {
 
       {dailyDeeds.length === 0 && onetimePending.length === 0 && !showForm && (
         <div className="deed-empty">
-          <p>No deeds yet. Click <strong>Add Deed</strong> to get started.</p>
+          <p>No deeds yet. Click <strong>Add Deed</strong> to get started.</p>Use Priority button to sort tasks based on priority order.
         </div>
       )}
 

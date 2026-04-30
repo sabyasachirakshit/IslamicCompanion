@@ -2476,6 +2476,40 @@
   .deed-btn span { display: none; }
 }
 
+/* Mobile: keep toolbar in one row — icon-only sort & add, search fills remaining space */
+@media (max-width: 767px) {
+  .deeds-toolbar {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .deeds-search-wrap {
+    min-width: 0;
+    flex: 1;
+  }
+
+  /* Sort button — icon only */
+  .deeds-sort-btn span {
+    display: none;
+  }
+  .deeds-sort-btn {
+    padding: 8px 10px;
+    flex-shrink: 0;
+  }
+
+  /* Add button — icon only */
+  .deeds-add-btn {
+    padding: 8px 10px;
+    flex-shrink: 0;
+    gap: 0;
+    font-size: 0;        /* hide "Add Deed" text */
+  }
+  .deeds-add-btn svg {
+    flex-shrink: 0;
+    font-size: 14px;    /* restore SVG natural size */
+  }
+}
+
 /* ===== Rewards Page ===== */
 .rw-balance-banner {
   display: flex;

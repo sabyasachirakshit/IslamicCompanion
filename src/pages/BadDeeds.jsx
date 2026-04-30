@@ -290,7 +290,7 @@ export default function BadDeeds() {
 
       {dailyDeeds.length === 0 && onetimePending.length === 0 && !showForm && (
         <div className="deed-empty">
-          <p>No bad deeds tracked yet. Click <strong>Add Bad Deed</strong> to start tracking.</p>
+          <p>No bad deeds tracked yet. Click <strong>Add Bad Deed</strong> to start tracking.</p> Use Priority button to sort tasks based on priority order.
         </div>
       )}
 
