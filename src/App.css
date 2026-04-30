@@ -1235,10 +1235,14 @@
   border-radius: var(--radius-md);
 }
 
-.about-crescent {
-  font-size: 36px;
-  line-height: 1;
+.about-profile-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
   flex-shrink: 0;
+  border: 2px solid rgba(167,139,250,0.40);
+  box-shadow: 0 0 16px rgba(167,139,250,0.25);
 }
 
 .about-creator-info {

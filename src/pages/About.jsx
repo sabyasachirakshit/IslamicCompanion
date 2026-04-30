@@ -1,12 +1,14 @@
+import profileImg from '../assets/image.png'
+
 export default function About() {
   return (
     <div className="about-page">
 
       {/* Creator card */}
       <div className="about-creator-card">
-        <div className="about-crescent">☪</div>
+        <img src={profileImg} alt="Sabyasachi Rakshit" className="about-profile-img" />
         <div className="about-creator-info">
-          <h2 className="about-creator-name">Sabyasachi Rakshit</h2>
+          <h2 className="about-creator-name">Sabyasachi Rakshit 🇮🇳</h2>
           <span className="about-creator-badge">Revert Muslim · Creator</span>
           <p className="about-creator-msg">
             This app is built with the intention of helping Muslims — and myself — stay consistent
