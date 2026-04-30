@@ -30,12 +30,13 @@ const ZakatIcon = () => (
 function getPrayerMetrics() {
   let status = {}
   try { status = JSON.parse(localStorage.getItem(todayStatusKey()) || '{}') } catch { /**/ }
-  const done   = (type) => ALL_PRAYERS.filter(p => p.type === type && status[p.id] && status[p.id] !== 'missed').length
-  const total  = (type) => ALL_PRAYERS.filter(p => p.type === type).length
+  const done   = (...types) => ALL_PRAYERS.filter(p => types.includes(p.type) && status[p.id] && status[p.id] !== 'missed').length
+  const missed = (...types) => ALL_PRAYERS.filter(p => types.includes(p.type) && status[p.id] === 'missed').length
+  const total  = (...types) => ALL_PRAYERS.filter(p => types.includes(p.type)).length
   return {
-    fardh:  { done: done('fardh'),  total: total('fardh')  },
-    sunnah: { done: done('sunnah'), total: total('sunnah') },
-    nafl:   { done: done('nafl') + done('wajib'), total: total('nafl') + total('wajib') },
+    fardh:  { done: done('fardh'),         missed: missed('fardh'),         total: total('fardh') },
+    sunnah: { done: done('sunnah'),        missed: missed('sunnah'),        total: total('sunnah') },
+    nafl:   { done: done('nafl','wajib'),  missed: missed('nafl','wajib'),  total: total('nafl','wajib') },
   }
 }
 
@@ -46,17 +47,13 @@ const stats = [
   { icon: <ZakatIcon />, label: 'Zakat Due', value: '₹ 0.00', color: '#FFD700', bg: 'rgba(255,215,0,0.12)', glow: '0 0 14px rgba(255,215,0,0.25)' },
 ]
 
-function PrayerMetricBar({ label, done, total, color }) {
-  const pct = total > 0 ? Math.round((done / total) * 100) : 0
+function PmCell({ label, value, total, color, variant }) {
+  const isDone = variant === 'done'
   return (
-    <div className="pm-bar-item">
-      <div className="pm-bar-header">
-        <span className="pm-bar-label" style={{ color }}>{label}</span>
-        <span className="pm-bar-count">{done}<span className="pm-bar-total">/{total}</span></span>
-      </div>
-      <div className="pm-bar-track">
-        <div className="pm-bar-fill" style={{ width: `${pct}%`, background: color, boxShadow: `0 0 8px ${color}60` }} />
-      </div>
+    <div className={`pm-cell pm-cell-${variant}`}>
+      <span className="pm-cell-value" style={{ color }}>{value}</span>
+      <span className="pm-cell-total">/{total}</span>
+      <span className="pm-cell-label">{isDone ? `${label} Done` : `${label} Missed`}</span>
     </div>
   )
 }
@@ -73,7 +70,7 @@ export default function Dashboard({ userName }) {
         </div>
       </div>
 
-      <div className="dashboard-cards">
+      {/* <div className="dashboard-cards">
         {stats.map(s => (
           <div className="stat-card" key={s.label}>
             <div className="stat-card-icon" style={{ background: s.bg, color: s.color, boxShadow: s.glow }}>
@@ -83,14 +80,17 @@ export default function Dashboard({ userName }) {
             <div className="stat-card-value">{s.value}</div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       <div className="dashboard-prayer-metrics">
         <h3 className="pm-title">Today's Prayer Overview</h3>
-        <div className="pm-bars">
-          <PrayerMetricBar label="Fardh" done={pm.fardh.done} total={pm.fardh.total} color="#00E5A0" />
-          <PrayerMetricBar label="Sunnah" done={pm.sunnah.done} total={pm.sunnah.total} color="#A78BFA" />
-          <PrayerMetricBar label="Nafl + Witr" done={pm.nafl.done} total={pm.nafl.total} color="#F472B6" />
+        <div className="pm-grid">
+          <PmCell label="Fardh"      value={pm.fardh.done}   total={pm.fardh.total}  color="#00E5A0" variant="done" />
+          <PmCell label="Sunnah"     value={pm.sunnah.done}  total={pm.sunnah.total} color="#A78BFA" variant="done" />
+          <PmCell label="Nafl+Witr" value={pm.nafl.done}    total={pm.nafl.total}   color="#F472B6" variant="done" />
+          <PmCell label="Fardh"      value={pm.fardh.missed}  total={pm.fardh.total}  color="#F87171" variant="missed" />
+          <PmCell label="Sunnah"     value={pm.sunnah.missed} total={pm.sunnah.total} color="#FCA5A5" variant="missed" />
+          <PmCell label="Nafl+Witr" value={pm.nafl.missed}   total={pm.nafl.total}   color="#FCA5A5" variant="missed" />
         </div>
       </div>
 
