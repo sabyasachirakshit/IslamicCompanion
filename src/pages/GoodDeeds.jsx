@@ -81,7 +81,7 @@ function PrayerGroup({ group, prayerStatus, onMark }) {
   const allMarked = marked === group.prayers.length
 
   return (
-    <div className={`prayer-group${allMarked ? ' prayer-group-complete' : ''}`}>
+    <div className={`prayer-group${allMarked ? ' prayer-group-complete' : ''}${group.id === 'tahajjud' ? ' prayer-group-legendary' : ''}`}>
       <button className="prayer-group-header" onClick={() => setExpanded(e => !e)}>
         <div className="prayer-group-icon" style={{ background: group.bg, color: group.color, boxShadow: group.glow }}>
           <span>{group.arabic}</span>

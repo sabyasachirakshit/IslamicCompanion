@@ -1242,6 +1242,18 @@
   border-color: rgba(0,229,160,0.3);
 }
 
+.prayer-group:has(.prayer-group-icon [data-legendary]) ,
+.prayer-group-legendary {
+  border-color: rgba(255,215,0,0.35);
+  box-shadow: 0 0 20px rgba(255,215,0,0.08);
+  background: linear-gradient(135deg, rgba(255,215,0,0.04) 0%, transparent 60%);
+}
+.prayer-group-legendary .prayer-group-name::after {
+  content: ' ★';
+  color: #FFD700;
+  font-size: 12px;
+}
+
 .prayer-group-header {
   width: 100%;
   display: flex;
