@@ -647,46 +647,146 @@
   }
 
   .topbar {
-    padding: 0 16px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .topbar-right {
+    gap: 6px;
   }
 
   .app-content {
-    padding: 16px;
+    padding: 14px;
   }
 
+  /* Wallet — hide label, compact */
   .wallet-label {
     display: none;
   }
-
   .wallet-badge {
-    padding: 10px 12px;
+    padding: 8px 10px;
+    gap: 8px;
   }
-
-  .dashboard-welcome {
-    padding: 24px 18px;
-  }
-
-  .dashboard-welcome-deco {
-    font-size: 64px;
-  }
-
-  .dashboard-welcome h2 {
-    font-size: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .wallet-amount {
-    font-size: 14px;
-  }
-
   .wallet-icon-wrap {
     width: 30px;
     height: 30px;
   }
+  .wallet-amount {
+    font-size: 14px;
+  }
+
+  /* Share — icon only */
+  .share-btn span {
+    display: none;
+  }
+  .share-btn {
+    padding: 7px 9px;
+  }
+
+  /* Profile avatar — slightly smaller */
+  .profile-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Dashboard welcome — stack when profile pic present */
+  .dashboard-welcome {
+    padding: 20px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .welcome-profile-pic {
+    width: 64px;
+    height: 64px;
+  }
+  .dashboard-welcome-deco {
+    font-size: 64px;
+  }
+  .dashboard-welcome h2 {
+    font-size: 20px;
+  }
+
+  /* Prayer metrics grid */
+  .pm-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Quick actions */
+  .qa-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0 10px;
+  }
+
+  .topbar-right {
+    gap: 4px;
+  }
 
   .page-title {
-    font-size: 16px;
+    font-size: 15px;
+  }
+
+  /* Hide reset text, icon only */
+  .reset-btn span {
+    display: none;
+  }
+  .reset-btn {
+    padding: 7px 9px;
+  }
+
+  /* Wallet even more compact */
+  .wallet-badge {
+    padding: 7px 9px;
+  }
+  .wallet-amount {
+    font-size: 13px;
+  }
+
+  /* Welcome card */
+  .welcome-bismillah {
+    font-size: 15px;
+  }
+  .dashboard-welcome h2 {
+    font-size: 18px;
+  }
+  .welcome-sub {
+    font-size: 12px;
+  }
+
+  /* Quick actions full width */
+  .qa-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Profile dropdown — keep on screen */
+  .profile-dropdown {
+    right: auto;
+    left: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Very small phones — hide wallet icon, show only amount */
+  .wallet-icon-wrap {
+    display: none;
+  }
+  .wallet-badge {
+    padding: 6px 8px;
+  }
+  .wallet-amount {
+    font-size: 12px;
+  }
+  .page-title {
+    font-size: 14px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
@@ -724,11 +824,6 @@
 @keyframes pulse-red {
   0%, 100% { box-shadow: 0 0 8px rgba(239,68,68,0.25); }
   50%       { box-shadow: 0 0 18px rgba(239,68,68,0.50); }
-}
-
-@media (max-width: 480px) {
-  .reset-btn span { display: none; }
-  .reset-btn { padding: 7px 9px; }
 }
 
 /* ===== Name Modal ===== */
