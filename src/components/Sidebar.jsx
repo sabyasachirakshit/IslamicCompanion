@@ -111,7 +111,7 @@ export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse, 
 
         <div className="sidebar-footer">
           <div className="sidebar-footer-text">بسم الله الرحمن الرحيم</div>
-          <div className="sidebar-footer-sub">In the name of Allah</div>
+          <div className="sidebar-footer-sub">In the name of Allah, The Most Compassionate, the Most Merciful</div>
         </div>
       </aside>
     </>
