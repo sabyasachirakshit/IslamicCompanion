@@ -343,8 +343,9 @@ export default function Dashboard({ userName, onNavigate }) {
           const nowSecs = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
           const toMins  = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m }
           const nowMins = now.getHours() * 60 + now.getMinutes()
-          const nextKey = PRAYERS_DISPLAY.find(p => toMins(prayerTimes[p.key]) > nowMins)?.key
-          const nextP   = PRAYERS_DISPLAY.find(p => p.key === nextKey)
+          const nextKey    = PRAYERS_DISPLAY.find(p => toMins(prayerTimes[p.key]) > nowMins)?.key
+          const nextP      = PRAYERS_DISPLAY.find(p => p.key === nextKey)
+          const currentKey = [...PRAYERS_DISPLAY].reverse().find(p => toMins(prayerTimes[p.key]) <= nowMins)?.key
           const diffSecs = nextP
             ? toSecs(prayerTimes[nextP.key]) - nowSecs
             : 86400 - nowSecs + toSecs(prayerTimes['Fajr'])
@@ -352,13 +353,19 @@ export default function Dashboard({ userName, onNavigate }) {
           const cdM = String(Math.floor((diffSecs % 3600) / 60)).padStart(2, '0')
           const cdS = String(diffSecs % 60).padStart(2, '0')
           const cdNextP = nextP ?? PRAYERS_DISPLAY[0]
-          const renderCell = (p, isNext) => (
-            <div key={p.key} className={`pt-cell${isNext ? ' pt-cell-next' : ''}`}
-              style={isNext ? { borderColor: `rgba(${p.rgba},0.50)`, background: `rgba(${p.rgba},0.08)`, boxShadow: `0 0 14px rgba(${p.rgba},0.15)` } : {}}>
+          const renderCell = (p, isNext, isCurrent) => (
+            <div key={p.key}
+              className={`pt-cell${isNext ? ' pt-cell-next' : ''}${isCurrent ? ' pt-cell-current' : ''}`}
+              style={
+                isNext    ? { borderColor: `rgba(${p.rgba},0.50)`, background: `rgba(${p.rgba},0.08)`, boxShadow: `0 0 14px rgba(${p.rgba},0.15)` } :
+                isCurrent ? { borderColor: `rgba(${p.rgba},0.70)`, background: `rgba(${p.rgba},0.14)`, boxShadow: `0 0 20px rgba(${p.rgba},0.28)` } :
+                {}
+              }>
               <span className="pt-emoji">{p.emoji}</span>
               <span className="pt-label">{p.label}</span>
               <span className="pt-time" style={{ color: p.color, textShadow: `0 0 8px rgba(${p.rgba},0.60)` }}>{prayerTimes[p.key]}</span>
-              {isNext && <span className="pt-next-badge" style={{ background: `rgba(${p.rgba},0.15)`, color: p.color, borderColor: `rgba(${p.rgba},0.35)` }}>Next</span>}
+              {isNext    && <span className="pt-next-badge" style={{ background: `rgba(${p.rgba},0.15)`, color: p.color, borderColor: `rgba(${p.rgba},0.35)` }}>Next</span>}
+              {isCurrent && <span className="pt-next-badge" style={{ background: `rgba(${p.rgba},0.20)`, color: p.color, borderColor: `rgba(${p.rgba},0.50)` }}>Now</span>}
             </div>
           )
           return (
@@ -374,7 +381,7 @@ export default function Dashboard({ userName, onNavigate }) {
                 </div>
               </div>
               <div className="pt-grid">
-                {PRAYERS_DISPLAY.map(p => renderCell(p, p.key === nextKey))}
+                {PRAYERS_DISPLAY.map(p => renderCell(p, p.key === nextKey, p.key === currentKey))}
               </div>
               <div className="pt-extra-label">Additional Prayers</div>
               <div className="pt-extra-grid">

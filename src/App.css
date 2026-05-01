@@ -4017,6 +4017,8 @@
   .pt-countdown-timer { font-size: 22px; }
 }
 
+.pt-cell-current { border-width: 2px; }
+
 .pt-extra-label {
   font-size: 10px;
   font-weight: 700;
