@@ -184,10 +184,33 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
   }, [appUrl, shareText])
 
   const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(appUrl).then(() => {
+    const text = appUrl
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      }).catch(() => {
+        // Fallback if clipboard API fails
+        const textArea = document.createElement('textarea')
+        textArea.value = text
+        document.body.appendChild(textArea)
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      })
+    } else {
+      // Fallback for older browsers or non-secure contexts
+      const textArea = document.createElement('textarea')
+      textArea.value = text
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    })
+    }
   }, [appUrl])
 
   useEffect(() => {
