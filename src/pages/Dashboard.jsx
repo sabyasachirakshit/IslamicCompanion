@@ -109,9 +109,10 @@ function getPrayerMetrics() {
   const missed = (...types) => ALL_PRAYERS.filter(p => types.includes(p.type) && status[p.id] === 'missed').length
   const total  = (...types) => ALL_PRAYERS.filter(p => types.includes(p.type)).length
   return {
-    fardh:  { done: done('fardh'),         missed: missed('fardh'),         total: total('fardh') },
-    sunnah: { done: done('sunnah'),        missed: missed('sunnah'),        total: total('sunnah') },
-    nafl:   { done: done('nafl','wajib'),  missed: missed('nafl','wajib'),  total: total('nafl','wajib') },
+    fardh:  { done: done('fardh'),   missed: missed('fardh'),   total: total('fardh') },
+    sunnah: { done: done('sunnah'),  missed: missed('sunnah'),  total: total('sunnah') },
+    nafl:   { done: done('nafl'),    missed: missed('nafl'),    total: total('nafl') },
+    witr:   { done: done('wajib'),   missed: missed('wajib'),   total: total('wajib') },
   }
 }
 
@@ -173,12 +174,14 @@ export default function Dashboard({ userName, onNavigate }) {
       <div className="dashboard-prayer-metrics">
         <h3 className="pm-title">Today's Prayer Overview</h3>
         <div className="pm-grid">
-          <PmCell label="Fardh"      value={pm.fardh.done}   total={pm.fardh.total}  color="#00E5A0" variant="done" />
-          <PmCell label="Sunnah"     value={pm.sunnah.done}  total={pm.sunnah.total} color="#A78BFA" variant="done" />
-          <PmCell label="Nafl+Witr" value={pm.nafl.done}    total={pm.nafl.total}   color="#F472B6" variant="done" />
-          <PmCell label="Fardh"      value={pm.fardh.missed}  total={pm.fardh.total}  color="#F87171" variant="missed" />
-          <PmCell label="Sunnah"     value={pm.sunnah.missed} total={pm.sunnah.total} color="#FCA5A5" variant="missed" />
-          <PmCell label="Nafl+Witr" value={pm.nafl.missed}   total={pm.nafl.total}   color="#FCA5A5" variant="missed" />
+          <PmCell label="Fardh"  value={pm.fardh.done}   total={pm.fardh.total}  color="#00E5A0" variant="done" />
+          <PmCell label="Sunnah" value={pm.sunnah.done}  total={pm.sunnah.total} color="#A78BFA" variant="done" />
+          <PmCell label="Nafl"   value={pm.nafl.done}    total={pm.nafl.total}   color="#F472B6" variant="done" />
+          <PmCell label="Witr"   value={pm.witr.done}    total={pm.witr.total}   color="#FBBF24" variant="done" />
+          <PmCell label="Fardh"  value={pm.fardh.missed}  total={pm.fardh.total}  color="#F87171" variant="missed" />
+          <PmCell label="Sunnah" value={pm.sunnah.missed} total={pm.sunnah.total} color="#FCA5A5" variant="missed" />
+          <PmCell label="Nafl"   value={pm.nafl.missed}   total={pm.nafl.total}   color="#FCA5A5" variant="missed" />
+          <PmCell label="Witr"   value={pm.witr.missed}   total={pm.witr.total}   color="#FCA5A5" variant="missed" />
         </div>
       </div>
 
