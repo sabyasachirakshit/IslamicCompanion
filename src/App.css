@@ -3663,6 +3663,19 @@
   margin: 0;
 }
 
+.motiv-section { display: flex; flex-direction: column; gap: 10px; }
+
+.motiv-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  margin: 0;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--border);
+}
+
 .motiv-hadith {
   border-left: 3px solid;
   padding: 10px 14px;

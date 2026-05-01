@@ -32,11 +32,26 @@ const MISSED_MOTIVATION = {
     emoji: '🌅', title: "Don't Miss Fajr Tomorrow",
     subtitle: 'The dawn prayer is witnessed by the angels.',
     color: '#A78BFA', rgba: '167,139,250',
-    hadiths: [
-      { text: "The two rak'ahs of the Fajr prayer are better than this world and everything in it.", source: 'Sahih Muslim 725' },
-      { text: "Whoever prays the Fajr prayer is under the protection of Allah.", source: 'Sahih Muslim 657' },
-      { text: "The most burdensome prayers for the hypocrites are Isha and Fajr. If they only knew what reward they carry, they would come even if crawling.", source: 'Bukhari & Muslim' },
-      { text: "Angels take turns among you, some at night and some by day. They all assemble at the Fajr and Asr prayers.", source: 'Bukhari 555' },
+    sections: [
+      {
+        label: '✨ Its Virtue & Importance',
+        hadiths: [
+          { text: "The two rak'ahs before Fajr are better than this world and all it contains.", source: 'Sahih Muslim 725' },
+          { text: "Whoever prays Fajr in congregation, then sits remembering Allah until the sun rises, then prays two rak'ahs — he will have a reward like that of a complete Hajj and Umrah.", source: 'Tirmidhi 586, Authenticated' },
+          { text: "Whoever prays the two cool prayers (Fajr and Asr) will enter Paradise.", source: 'Bukhari 574' },
+          { text: "Whoever prays the Fajr prayer is under the protection of Allah for that day.", source: 'Sahih Muslim 657' },
+          { text: "Angels take turns among you by night and by day, and they all assemble at the Fajr and Asr prayers.", source: 'Bukhari 555' },
+        ],
+      },
+      {
+        label: '⚠️ Consequence of Missing It',
+        hadiths: [
+          { text: "When one of you sleeps, Shaytan ties three knots at the back of his neck, sealing each with: 'You have a long night, so sleep.' But if he wakes up and remembers Allah, one knot is undone. If he makes wudu, another is undone. And if he prays, all knots are undone — and he begins his morning in good spirits. Otherwise, he wakes up sluggish and in a bad state.", source: 'Bukhari 1142, Muslim 776' },
+          { text: "Satan urinates in the ear of the one who sleeps through the morning prayer without waking up for it.", source: 'Bukhari 3270' },
+          { text: "The most burdensome prayers for the hypocrites are Isha and Fajr. If they only knew what they contain, they would attend even if they had to crawl.", source: 'Bukhari & Muslim' },
+          { text: "Whoever abandons the prayer has indeed lost everything. Whoever guards it has guarded his religion — and whoever loses his religion has lost everything.", source: 'Ahmad, Authenticated by Al-Albani' },
+        ],
+      },
     ],
   },
   dhuhr: {
@@ -111,13 +126,27 @@ function MotivationalModal({ data, onClose }) {
           <button className="motiv-close" onClick={onClose}>✕</button>
         </div>
         <div className="motiv-body">
-          <p className="motiv-intro">The Prophet ﷺ said:</p>
-          {hadiths.map((h, i) => (
-            <div key={i} className="motiv-hadith" style={{ borderLeftColor: `rgba(${rgba},0.50)` }}>
-              <p className="motiv-hadith-text">❝ {h.text} ❞</p>
-              <span className="motiv-hadith-source" style={{ color }}>— {h.source}</span>
+          {data.sections ? data.sections.map((sec, si) => (
+            <div key={si} className="motiv-section">
+              <p className="motiv-section-label">{sec.label}</p>
+              {sec.hadiths.map((h, i) => (
+                <div key={i} className="motiv-hadith" style={{ borderLeftColor: `rgba(${rgba},0.50)` }}>
+                  <p className="motiv-hadith-text">❝ {h.text} ❞</p>
+                  <span className="motiv-hadith-source" style={{ color }}>— {h.source}</span>
+                </div>
+              ))}
             </div>
-          ))}
+          )) : (
+            <>
+              <p className="motiv-intro">The Prophet ﷺ said:</p>
+              {hadiths.map((h, i) => (
+                <div key={i} className="motiv-hadith" style={{ borderLeftColor: `rgba(${rgba},0.50)` }}>
+                  <p className="motiv-hadith-text">❝ {h.text} ❞</p>
+                  <span className="motiv-hadith-source" style={{ color }}>— {h.source}</span>
+                </div>
+              ))}
+            </>
+          )}
         </div>
         <div className="motiv-footer">
           <button className="motiv-btn" style={{ background: `rgba(${rgba},0.14)`, color, borderColor: `rgba(${rgba},0.35)` }} onClick={onClose}>
