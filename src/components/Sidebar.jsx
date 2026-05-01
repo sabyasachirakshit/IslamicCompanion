@@ -31,6 +31,15 @@ const ChevronRightIcon = () => (
   </svg>
 )
 
+const DiaryIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7l-5-5z"/>
+    <polyline points="12 2 12 7 17 7"/>
+    <line x1="9" y1="15" x2="15" y2="15"/>
+    <line x1="9" y1="11" x2="15" y2="11"/>
+  </svg>
+)
+
 const AboutIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="10"/>
@@ -67,6 +76,7 @@ const NAV_ITEMS = [
   { id: 'gooddeeds',  label: 'Prayers',    icon: <GoodDeedsIcon /> },
   { id: 'deeds',      label: 'Good Deeds', icon: <DeedsIcon /> },
   { id: 'baddeeds',   label: 'Bad Deeds',  icon: <BadDeedsIcon /> },
+  { id: 'diary',      label: 'Diary',      icon: <DiaryIcon /> },
   { id: 'rewards',    label: 'Rewards',    icon: <RewardsIcon /> },
   { id: 'about',      label: 'About',      icon: <AboutIcon /> },
 ]

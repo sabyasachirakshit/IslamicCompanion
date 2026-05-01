@@ -8,6 +8,7 @@ import Deeds from './pages/Deeds'
 import BadDeeds from './pages/BadDeeds'
 import Rewards from './pages/Rewards'
 import About from './pages/About'
+import Diary from './pages/Diary'
 import './App.css'
 
 const PAGE_TITLES = {
@@ -15,6 +16,7 @@ const PAGE_TITLES = {
   gooddeeds: 'Prayers',
   deeds: 'Good Deeds',
   baddeeds: 'Bad Deeds',
+  diary: 'Diary',
   rewards: 'Rewards',
   about: 'About',
 }
@@ -47,6 +49,7 @@ function App() {
             {activePage === 'gooddeeds' && <GoodDeeds />}
             {activePage === 'deeds' && <Deeds />}
             {activePage === 'baddeeds' && <BadDeeds />}
+            {activePage === 'diary' && <Diary />}
             {activePage === 'rewards' && <Rewards />}
             {activePage === 'about' && <About />}
           </main>
