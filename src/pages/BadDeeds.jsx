@@ -61,20 +61,61 @@ const TrashIcon = () => (
     <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
   </svg>
 )
+const CloseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+)
+
+/* ── Bad Deed Detail Modal ── */
+function BadDeedModal({ deed, status, onClose }) {
+  const pm = PRIORITY_META[deed.priority]
+  const isMarked = !!status
+  const isOnetime = deed.type === 'onetime'
+  const created = new Date(deed.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+
+  return (
+    <div className="deed-modal-backdrop" onClick={onClose}>
+      <div className="deed-modal" onClick={e => e.stopPropagation()}>
+        <div className="deed-modal-header">
+          <span className="deed-priority-pill" style={{ color: pm.color, background: pm.bg, borderColor: pm.border }}>
+            {pm.label}
+          </span>
+          <button className="deed-modal-close" onClick={onClose}><CloseIcon /></button>
+        </div>
+        <h2 className="deed-modal-name">{deed.name}</h2>
+        <div className="deed-modal-meta">
+          <span className="deed-modal-chip">{isOnetime ? 'One-time' : 'Daily'}</span>
+          <span className="deed-modal-chip deed-modal-chip-reward">+₹{deed.reward} if avoided</span>
+          <span className="deed-modal-chip deed-modal-chip-penalty">-₹{deed.penalty} if committed</span>
+        </div>
+        <div className="deed-modal-footer">
+          <span className="deed-modal-created">Created {created}</span>
+          {isMarked && (
+            <span className={`deed-status-badge bd-status-${status}`} style={{ fontSize: 12 }}>
+              {status === 'avoided'   && <><CheckIcon /> Avoided · +₹{deed.reward}</>}
+              {status === 'committed' && <>✕ Committed · -₹{deed.penalty}</>}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 /* ── Bad Deed Row ── */
-function BadDeedRow({ deed, status, onMark, onDelete }) {
+function BadDeedRow({ deed, status, onMark, onDelete, onOpen }) {
   const pm = PRIORITY_META[deed.priority]
   const isMarked = !!status
 
   return (
     <div className={`deed-item bd-item${isMarked ? ` bd-item-${status}` : ''}`}>
-      <div className="deed-item-left">
+      <div className="deed-item-left" style={{ minWidth: 0, flex: 1 }}>
         <span className="deed-priority-pill" style={{ color: pm.color, background: pm.bg, borderColor: pm.border }}>
           {pm.label}
         </span>
-        <div className="deed-item-info">
-          <span className="deed-item-name">{deed.name}</span>
+        <div className="deed-item-info" style={{ minWidth: 0 }}>
+          <span className="deed-item-name deed-item-name-clickable" onClick={onOpen}>{deed.name}</span>
           <span className="deed-item-meta">
             {deed.type === 'daily' ? 'Daily' : 'One-time'} · +₹{deed.reward} if avoided / -₹{deed.penalty} if committed
           </span>
@@ -193,6 +234,7 @@ export default function BadDeeds() {
   const [sortOrder,     setSortOrder]     = useState('high-low')
   const [showForm,      setShowForm]      = useState(false)
   const [showAvoided,   setShowAvoided]   = useState(false)
+  const [selectedDeed,  setSelectedDeed]  = useState(null)
 
   const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('badDeeds', JSON.stringify(next)) }
 
@@ -270,7 +312,7 @@ export default function BadDeeds() {
           <h3 className="deed-section-title"><span className="deed-dot" style={{ background: '#F87171', boxShadow: '0 0 6px rgba(248,113,113,0.5)' }} />Daily Bad Deeds</h3>
           <div className="deed-list">
             {dailyDeeds.map(d => (
-              <BadDeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDeed} onDelete={deleteDeed} />
+              <BadDeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDeed} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: dailyStatus[d.id] })} />
             ))}
           </div>
         </div>
@@ -282,7 +324,7 @@ export default function BadDeeds() {
           <h3 className="deed-section-title"><span className="deed-dot" style={{ background: '#FBBF24', boxShadow: '0 0 6px rgba(251,191,36,0.5)' }} />One-time Bad Deeds</h3>
           <div className="deed-list">
             {onetimePending.map(d => (
-              <BadDeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDeed} onDelete={deleteDeed} />
+              <BadDeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDeed} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: dailyStatus[d.id] })} />
             ))}
           </div>
         </div>
@@ -306,11 +348,19 @@ export default function BadDeeds() {
           {showAvoided && (
             <div className="deed-list deed-list-completed">
               {onetimeAvoided.map(d => (
-                <BadDeedRow key={d.id} deed={d} status="avoided" onMark={() => {}} onDelete={deleteDeed} />
+                <BadDeedRow key={d.id} deed={d} status="avoided" onMark={() => {}} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: 'avoided' })} />
               ))}
             </div>
           )}
         </div>
+      )}
+
+      {selectedDeed && (
+        <BadDeedModal
+          deed={selectedDeed.deed}
+          status={selectedDeed.status}
+          onClose={() => setSelectedDeed(null)}
+        />
       )}
 
     </div>
