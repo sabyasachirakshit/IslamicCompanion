@@ -3897,6 +3897,117 @@
   margin-top: 2px;
 }
 
+/* ===== Prayer Timings Card ===== */
+.dashboard-prayer-times {
+  background: var(--surface);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  backdrop-filter: blur(12px);
+}
+
+.pt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.pt-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  text-align: center;
+  position: relative;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.pt-emoji { font-size: 18px; line-height: 1; }
+
+.pt-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pt-time {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.pt-next-badge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid;
+  margin-top: 2px;
+}
+
+.pt-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 12px 0 4px;
+}
+
+.pt-status-error { color: #F87171; }
+
+.pt-fetch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(0,229,160,0.35);
+  border-radius: var(--radius-sm);
+  background: rgba(0,229,160,0.10);
+  color: #00E5A0;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.pt-fetch-btn:hover { background: rgba(0,229,160,0.20); border-color: rgba(0,229,160,0.55); }
+
+.pt-retry-btn {
+  border-color: rgba(248,113,113,0.35);
+  background: rgba(248,113,113,0.10);
+  color: #F87171;
+}
+.pt-retry-btn:hover { background: rgba(248,113,113,0.20); border-color: rgba(248,113,113,0.55); }
+
+.pt-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0,229,160,0.20);
+  border-top-color: #00E5A0;
+  border-radius: 50%;
+  animation: pt-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes pt-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 480px) {
+  .pt-grid { grid-template-columns: repeat(2, 1fr); }
+  .pt-time { font-size: 15px; }
+}
+
 /* ===== Dashboard Deeds Overview ===== */
 .dashboard-deeds-overview {
   background: var(--surface);

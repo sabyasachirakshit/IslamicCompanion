@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ALL_PRAYERS, todayStatusKey } from '../data/prayers'
 
 function getTimeGreeting() {
@@ -30,6 +30,15 @@ const AYAHS = [
   { text: 'So be patient. Indeed, the promise of Allah is truth.', ref: 'Surah Ghafir (40:55)' },
   { text: 'My mercy encompasses all things.', ref: 'Surah Al-A\'raf (7:156)' },
   { text: 'Whoever does righteousness — it is for his own soul.', ref: 'Surah Fussilat (41:46)' },
+]
+
+const PRAYERS_DISPLAY = [
+  { key: 'Fajr',    label: 'Fajr',    color: '#A78BFA', rgba: '167,139,250', emoji: '🌙' },
+  { key: 'Sunrise', label: 'Sunrise', color: '#FB923C', rgba: '251,146,60',  emoji: '🌅' },
+  { key: 'Dhuhr',   label: 'Dhuhr',   color: '#FBBF24', rgba: '251,191,36',  emoji: '☀️' },
+  { key: 'Asr',     label: 'Asr',     color: '#60A5FA', rgba: '96,165,250',  emoji: '🌤' },
+  { key: 'Maghrib', label: 'Maghrib', color: '#F87171', rgba: '248,113,113', emoji: '🌆' },
+  { key: 'Isha',    label: 'Isha',    color: '#00E5A0', rgba: '0,229,160',   emoji: '🌃' },
 ]
 
 function getDailyAyah() {
@@ -197,11 +206,45 @@ export default function Dashboard({ userName, onNavigate }) {
   const dm = getDeedsMetrics()
   const greeting = getTimeGreeting()
   const [profilePic, setProfilePic] = useState(() => localStorage.getItem('profilePicture') || null)
+  const [prayerTimes,  setPrayerTimes]  = useState(() => {
+    try {
+      const c = JSON.parse(localStorage.getItem('prayerTimingsCache') || 'null')
+      if (c && c.date === new Date().toDateString()) return c.times
+    } catch { /**/ }
+    return null
+  })
+  const [timesLoading, setTimesLoading] = useState(false)
+  const [timesError,   setTimesError]   = useState(null)
 
   useEffect(() => {
     const sync = () => setProfilePic(localStorage.getItem('profilePicture') || null)
     window.addEventListener('storage', sync)
     return () => window.removeEventListener('storage', sync)
+  }, [])
+
+  const fetchPrayerTimes = useCallback(() => {
+    if (!navigator.geolocation) { setTimesError('Geolocation not supported'); setTimesLoading(false); return }
+    setTimesLoading(true)
+    setTimesError(null)
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const { latitude, longitude } = pos.coords
+          const res  = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=3`)
+          const data = await res.json()
+          if (data.code === 200) {
+            const t     = data.data.timings
+            const clean = (v) => v.split(' ')[0]
+            const times = { Fajr: clean(t.Fajr), Sunrise: clean(t.Sunrise), Dhuhr: clean(t.Dhuhr), Asr: clean(t.Asr), Maghrib: clean(t.Maghrib), Isha: clean(t.Isha) }
+            setPrayerTimes(times)
+            localStorage.setItem('prayerTimingsCache', JSON.stringify({ date: new Date().toDateString(), times }))
+          } else { setTimesError('Could not load prayer times') }
+        } catch { setTimesError('Network error — check your connection') }
+        setTimesLoading(false)
+      },
+      () => { setTimesError('Location access denied'); setTimesLoading(false) },
+      { timeout: 10000 }
+    )
   }, [])
 
   return (
@@ -242,6 +285,51 @@ export default function Dashboard({ userName, onNavigate }) {
           <PmCell label="Nafl"   value={pm.nafl.missed}   total={pm.nafl.total}   color="#FCA5A5" variant="missed" />
           <PmCell label="Witr"   value={pm.witr.missed}   total={pm.witr.total}   color="#FCA5A5" variant="missed" />
         </div>
+      </div>
+
+      <div className="dashboard-prayer-times">
+        <h3 className="pm-title">Today's Prayer Timings</h3>
+        {timesLoading && (
+          <div className="pt-status">
+            <span className="pt-spinner" />
+            <span>Fetching your prayer times…</span>
+          </div>
+        )}
+        {!prayerTimes && !timesLoading && !timesError && (
+          <div className="pt-status">
+            <button className="pt-fetch-btn" onClick={fetchPrayerTimes}>
+              📍 Get Prayer Times
+            </button>
+            <span>Tap to load today's times using your location.</span>
+          </div>
+        )}
+        {timesError && !timesLoading && (
+          <div className="pt-status pt-status-error">
+            ⚠️ {timesError}.
+            <button className="pt-fetch-btn pt-retry-btn" onClick={fetchPrayerTimes}>Retry</button>
+          </div>
+        )}
+        {prayerTimes && (() => {
+          const toMins = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m }
+          const nowMins = new Date().getHours() * 60 + new Date().getMinutes()
+          const nextKey = PRAYERS_DISPLAY.find(p => toMins(prayerTimes[p.key]) > nowMins)?.key
+          return (
+            <div className="pt-grid">
+              {PRAYERS_DISPLAY.map(p => {
+                const isNext = p.key === nextKey
+                return (
+                  <div key={p.key} className={`pt-cell${isNext ? ' pt-cell-next' : ''}`}
+                    style={isNext ? { borderColor: `rgba(${p.rgba},0.50)`, background: `rgba(${p.rgba},0.08)`, boxShadow: `0 0 14px rgba(${p.rgba},0.15)` } : {}}>
+                    <span className="pt-emoji">{p.emoji}</span>
+                    <span className="pt-label">{p.label}</span>
+                    <span className="pt-time" style={{ color: p.color, textShadow: `0 0 8px rgba(${p.rgba},0.60)` }}>{prayerTimes[p.key]}</span>
+                    {isNext && <span className="pt-next-badge" style={{ background: `rgba(${p.rgba},0.15)`, color: p.color, borderColor: `rgba(${p.rgba},0.35)` }}>Next</span>}
+                  </div>
+                )
+              })}
+            </div>
+          )
+        })()}
       </div>
 
       <div className="dashboard-deeds-overview">
