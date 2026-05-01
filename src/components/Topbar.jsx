@@ -270,7 +270,7 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
           </div>
           <div className="wallet-info">
             <span className="wallet-label">Wallet Balance</span>
-            <span className="wallet-amount">₹ {formatted}</span>
+            <span className={`wallet-amount${walletBalance < 0 ? ' wallet-negative' : ''}`}>₹ {formatted}</span>
           </div>
         </button>
 
@@ -390,7 +390,7 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
               <div className="wm-icon"><WalletIcon /></div>
               <div>
                 <p className="wm-title">Wallet Balance</p>
-                <p className="wm-amount">&#8377; {formatted}</p>
+                <p className={`wm-amount${walletBalance < 0 ? ' wm-negative' : ''}`}>&#8377; {formatted}</p>
               </div>
               <button className="wm-close" onClick={closeWalletModal} aria-label="Close">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

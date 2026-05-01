@@ -432,6 +432,10 @@
   text-shadow: 0 0 10px rgba(0,229,160,0.35);
 }
 
+.wallet-amount.wallet-negative {
+  color: #F87171;
+}
+
 /* ===== Dashboard ===== */
 .dashboard {
   display: flex;
@@ -1642,8 +1646,13 @@
   font-size: 26px;
   font-weight: 900;
   color: #00E5A0;
-  margin: 0;
+  text-shadow: 0 0 12px rgba(0,229,160,0.35);
   letter-spacing: -0.5px;
+  margin: 0 0 3px;
+}
+.wm-amount.wm-negative {
+  color: #F87171;
+  text-shadow: 0 0 12px rgba(248,113,113,0.35);
 }
 
 .wm-close {
