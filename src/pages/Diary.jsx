@@ -7,6 +7,7 @@ export default function Diary() {
   })
   const [isCreating, setIsCreating] = useState(false)
   const [editingNote, setEditingNote] = useState(null)
+  const [viewingNote, setViewingNote] = useState(null)
   const [titleInput, setTitleInput] = useState('')
   const [contentInput, setContentInput] = useState('')
   const titleRef = useRef(null)
@@ -73,6 +74,9 @@ export default function Diary() {
     setIsCreating(false)
     setEditingNote(null)
   }
+
+  const openNote = (note) => setViewingNote(note)
+  const closeNote = () => setViewingNote(null)
 
   const startEditing = (note) => {
     setEditingNote(note)
@@ -162,6 +166,35 @@ export default function Diary() {
         </div>
       )}
 
+      {/* Read-Only Note Modal */}
+      {viewingNote && (
+        <div className="diary-modal-overlay" onClick={closeNote}>
+          <div className="diary-modal" onClick={e => e.stopPropagation()}>
+            <div className="diary-modal-header">
+              <h2 className="diary-modal-title">{viewingNote.title}</h2>
+              <div className="diary-modal-meta">
+                <span className="diary-note-date">{formatDate(viewingNote.updatedAt)}</span>
+                <button className="diary-close-btn" onClick={closeNote} title="Close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className="diary-modal-body">
+              {viewingNote.content
+                ? viewingNote.content.split('\n').map((para, i) => <p key={i}>{para}</p>)
+                : <p className="diary-note-empty">No content</p>
+              }
+            </div>
+            <div className="diary-modal-footer">
+              <button className="diary-btn diary-cancel-btn" onClick={closeNote}>Close</button>
+              <button className="diary-btn diary-save-btn" onClick={() => { closeNote(); startEditing(viewingNote) }}>Edit</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Notes Grid */}
       <div className="diary-notes-grid">
         {notes.length === 0 ? (
@@ -184,6 +217,15 @@ export default function Diary() {
               <div className="diary-note-header">
                 <h3 className="diary-note-title">{note.title}</h3>
                 <div className="diary-note-actions">
+                  <button
+                    className="diary-note-action-btn"
+                    onClick={() => openNote(note)}
+                    title="Read note"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
                   <button 
                     className="diary-note-action-btn"
                     onClick={() => startEditing(note)}
