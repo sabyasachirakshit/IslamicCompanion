@@ -3954,6 +3954,30 @@
   margin-top: 2px;
 }
 
+.pt-extra-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+.pt-extra-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.pt-extra-cell { border-style: dashed; }
+
+.pt-extra-desc {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.2px;
+}
+
 .pt-status {
   display: flex;
   align-items: center;

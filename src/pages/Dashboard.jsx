@@ -32,6 +32,17 @@ const AYAHS = [
   { text: 'Whoever does righteousness — it is for his own soul.', ref: 'Surah Fussilat (41:46)' },
 ]
 
+const addMins = (timeStr, mins) => {
+  const [h, m] = timeStr.split(':').map(Number)
+  const total  = h * 60 + m + mins
+  return `${String(Math.floor(total / 60) % 24).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`
+}
+
+const EXTRA_PRAYERS = [
+  { key: 'Ishraq',   label: 'Ishraq',    color: '#FB923C', rgba: '251,146,60',  emoji: '🌄', desc: '15 min after Sunrise' },
+  { key: 'LateIsha', label: 'Late Isha', color: '#A78BFA', rgba: '167,139,250', emoji: '🌌', desc: '2½ hrs after Isha' },
+]
+
 const PRAYERS_DISPLAY = [
   { key: 'Fajr',    label: 'Fajr',    color: '#A78BFA', rgba: '167,139,250', emoji: '🌙' },
   { key: 'Sunrise', label: 'Sunrise', color: '#FB923C', rgba: '251,146,60',  emoji: '🌅' },
@@ -235,7 +246,8 @@ export default function Dashboard({ userName, onNavigate }) {
           if (data.code === 200) {
             const t     = data.data.timings
             const clean = (v) => v.split(' ')[0]
-            const times = { Fajr: clean(t.Fajr), Sunrise: clean(t.Sunrise), Dhuhr: clean(t.Dhuhr), Asr: clean(t.Asr), Maghrib: clean(t.Maghrib), Isha: clean(t.Isha) }
+            const sunrise = clean(t.Sunrise), isha = clean(t.Isha)
+            const times = { Fajr: clean(t.Fajr), Sunrise: sunrise, Dhuhr: clean(t.Dhuhr), Asr: clean(t.Asr), Maghrib: clean(t.Maghrib), Isha: isha, Ishraq: addMins(sunrise, 15), LateIsha: addMins(isha, 150) }
             setPrayerTimes(times)
             localStorage.setItem('prayerTimingsCache', JSON.stringify({ date: new Date().toDateString(), times }))
           } else { setTimesError('Could not load prayer times') }
@@ -313,21 +325,32 @@ export default function Dashboard({ userName, onNavigate }) {
           const toMins = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m }
           const nowMins = new Date().getHours() * 60 + new Date().getMinutes()
           const nextKey = PRAYERS_DISPLAY.find(p => toMins(prayerTimes[p.key]) > nowMins)?.key
+          const renderCell = (p, isNext) => (
+            <div key={p.key} className={`pt-cell${isNext ? ' pt-cell-next' : ''}`}
+              style={isNext ? { borderColor: `rgba(${p.rgba},0.50)`, background: `rgba(${p.rgba},0.08)`, boxShadow: `0 0 14px rgba(${p.rgba},0.15)` } : {}}>
+              <span className="pt-emoji">{p.emoji}</span>
+              <span className="pt-label">{p.label}</span>
+              <span className="pt-time" style={{ color: p.color, textShadow: `0 0 8px rgba(${p.rgba},0.60)` }}>{prayerTimes[p.key]}</span>
+              {isNext && <span className="pt-next-badge" style={{ background: `rgba(${p.rgba},0.15)`, color: p.color, borderColor: `rgba(${p.rgba},0.35)` }}>Next</span>}
+            </div>
+          )
           return (
-            <div className="pt-grid">
-              {PRAYERS_DISPLAY.map(p => {
-                const isNext = p.key === nextKey
-                return (
-                  <div key={p.key} className={`pt-cell${isNext ? ' pt-cell-next' : ''}`}
-                    style={isNext ? { borderColor: `rgba(${p.rgba},0.50)`, background: `rgba(${p.rgba},0.08)`, boxShadow: `0 0 14px rgba(${p.rgba},0.15)` } : {}}>
+            <>
+              <div className="pt-grid">
+                {PRAYERS_DISPLAY.map(p => renderCell(p, p.key === nextKey))}
+              </div>
+              <div className="pt-extra-label">Additional Prayers</div>
+              <div className="pt-extra-grid">
+                {EXTRA_PRAYERS.map(p => (
+                  <div key={p.key} className="pt-cell pt-extra-cell">
                     <span className="pt-emoji">{p.emoji}</span>
                     <span className="pt-label">{p.label}</span>
                     <span className="pt-time" style={{ color: p.color, textShadow: `0 0 8px rgba(${p.rgba},0.60)` }}>{prayerTimes[p.key]}</span>
-                    {isNext && <span className="pt-next-badge" style={{ background: `rgba(${p.rgba},0.15)`, color: p.color, borderColor: `rgba(${p.rgba},0.35)` }}>Next</span>}
+                    <span className="pt-extra-desc">{p.desc}</span>
                   </div>
-                )
-              })}
-            </div>
+                ))}
+              </div>
+            </>
           )
         })()}
       </div>
