@@ -1768,6 +1768,48 @@
   margin: 0;
 }
 
+.diary-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 320px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: border-color var(--transition);
+}
+.diary-search-wrap:focus-within {
+  border-color: var(--border-bright);
+  color: var(--text);
+}
+.diary-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  min-width: 0;
+}
+.diary-search-input::placeholder { color: var(--text-dim); }
+.diary-search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color var(--transition);
+}
+.diary-search-clear:hover { color: var(--text); }
+
 .diary-create-btn {
   display: flex;
   align-items: center;

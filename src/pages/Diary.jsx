@@ -8,6 +8,7 @@ export default function Diary() {
   const [isCreating, setIsCreating] = useState(false)
   const [editingNote, setEditingNote] = useState(null)
   const [viewingNote, setViewingNote] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [titleInput, setTitleInput] = useState('')
   const [contentInput, setContentInput] = useState('')
   const titleRef = useRef(null)
@@ -78,6 +79,11 @@ export default function Diary() {
   const openNote = (note) => setViewingNote(note)
   const closeNote = () => setViewingNote(null)
 
+  const filteredNotes = notes.filter(note => {
+    const q = searchQuery.toLowerCase()
+    return note.title.toLowerCase().includes(q) || note.content.toLowerCase().includes(q)
+  })
+
   const startEditing = (note) => {
     setEditingNote(note)
     setTitleInput(note.title)
@@ -103,6 +109,25 @@ export default function Diary() {
     <div className="diary-page">
       <div className="diary-header">
         <h1>Diary</h1>
+        <div className="diary-search-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Search notes..."
+            className="diary-search-input"
+          />
+          {searchQuery && (
+            <button className="diary-search-clear" onClick={() => setSearchQuery('')}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          )}
+        </div>
         <button 
           className="diary-create-btn"
           onClick={() => {
@@ -211,8 +236,18 @@ export default function Diary() {
             <h3>No notes yet</h3>
             <p>Create your first note to get started</p>
           </div>
+        ) : filteredNotes.length === 0 ? (
+          <div className="diary-empty-state">
+            <div className="diary-empty-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </div>
+            <h3>No results found</h3>
+            <p>No notes match &ldquo;{searchQuery}&rdquo;</p>
+          </div>
         ) : (
-          notes.map(note => (
+          filteredNotes.map(note => (
             <div key={note.id} className="diary-note-card">
               <div className="diary-note-header">
                 <h3 className="diary-note-title">{note.title}</h3>
