@@ -2488,12 +2488,10 @@
     flex: 1;
   }
 
-  /* Sort button — icon only */
-  .deeds-sort-btn span {
-    display: none;
-  }
+  /* Sort button — compact but keep text visible */
   .deeds-sort-btn {
     padding: 8px 10px;
+    font-size: 11px;
     flex-shrink: 0;
   }
 
