@@ -133,11 +133,14 @@ export default function GoodDeeds() {
   const totalPrayers = ALL_PRAYERS.length
   const markedPrayers = ALL_PRAYERS.filter(p => prayerStatus[p.id]).length
   const fardhDone = ALL_PRAYERS.filter(p => p.type === 'fardh' && prayerStatus[p.id] && prayerStatus[p.id] !== 'missed').length
-  const earnedPrayers = ALL_PRAYERS.reduce((s, p) => {
+  const earnedToday = ALL_PRAYERS.reduce((s, p) => {
     const st = prayerStatus[p.id]
-    return s + (st && st !== 'missed' ? p.reward[st] : 0)
+    return s + (st && st !== 'missed' ? (p.reward[st] ?? 0) : 0)
   }, 0)
-  const earnedToday = earnedPrayers
+  const lostToday = ALL_PRAYERS.reduce((s, p) => {
+    const st = prayerStatus[p.id]
+    return s + (st === 'missed' ? (p.reward.missed ?? 0) : 0)
+  }, 0)
 
   return (
     <div className="good-deeds">
@@ -155,6 +158,11 @@ export default function GoodDeeds() {
         <div className="gd-summary-item">
           <span className="gd-summary-value gold">₹{earnedToday.toFixed(2)}</span>
           <span className="gd-summary-label">Earned Today</span>
+        </div>
+        <div className="gd-summary-divider" />
+        <div className="gd-summary-item">
+          <span className="gd-summary-value" style={{ color: '#F87171' }}>-₹{lostToday.toFixed(2)}</span>
+          <span className="gd-summary-label">Lost Today</span>
         </div>
       </div>
 
