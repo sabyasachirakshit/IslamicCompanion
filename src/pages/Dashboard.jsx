@@ -41,6 +41,7 @@ const addMins = (timeStr, mins) => {
 const EXTRA_PRAYERS = [
   { key: 'Ishraq',   label: 'Ishraq',    color: '#FB923C', rgba: '251,146,60',  emoji: '🌄', desc: '15 min after Sunrise' },
   { key: 'LateIsha', label: 'Late Isha', color: '#A78BFA', rgba: '167,139,250', emoji: '🌌', desc: '2½ hrs after Isha' },
+  { key: 'Tahajjud', label: 'Tahajjud', color: '#818CF8', rgba: '129,140,248', emoji: '🌠', desc: 'Last third of the night', rangeEnd: 'Fajr' },
 ]
 
 const PRAYERS_DISPLAY = [
@@ -252,8 +253,10 @@ export default function Dashboard({ userName, onNavigate }) {
           if (data.code === 200) {
             const t     = data.data.timings
             const clean = (v) => v.split(' ')[0]
-            const sunrise = clean(t.Sunrise), isha = clean(t.Isha)
-            const times = { Fajr: clean(t.Fajr), Sunrise: sunrise, Dhuhr: clean(t.Dhuhr), Asr: clean(t.Asr), Maghrib: clean(t.Maghrib), Isha: isha, Ishraq: addMins(sunrise, 15), LateIsha: addMins(isha, 150) }
+            const sunrise = clean(t.Sunrise), isha = clean(t.Isha), fajr = clean(t.Fajr)
+            const toM = (s) => { const [h, m] = s.split(':').map(Number); return h * 60 + m }
+            const nightDur = (toM(fajr) <= toM(isha) ? toM(fajr) + 1440 : toM(fajr)) - toM(isha)
+            const times = { Fajr: fajr, Sunrise: sunrise, Dhuhr: clean(t.Dhuhr), Asr: clean(t.Asr), Maghrib: clean(t.Maghrib), Isha: isha, Ishraq: addMins(sunrise, 15), LateIsha: addMins(isha, 150), Tahajjud: addMins(isha, Math.floor(nightDur * 2 / 3)) }
             setPrayerTimes(times)
             localStorage.setItem('prayerTimingsCache', JSON.stringify({ date: new Date().toDateString(), times }))
           } else { setTimesError('Could not load prayer times') }
@@ -389,7 +392,9 @@ export default function Dashboard({ userName, onNavigate }) {
                   <div key={p.key} className="pt-cell pt-extra-cell">
                     <span className="pt-emoji">{p.emoji}</span>
                     <span className="pt-label">{p.label}</span>
-                    <span className="pt-time" style={{ color: p.color, textShadow: `0 0 8px rgba(${p.rgba},0.60)` }}>{prayerTimes[p.key]}</span>
+                    <span className="pt-time" style={{ color: p.color, textShadow: `0 0 8px rgba(${p.rgba},0.60)` }}>
+                      {prayerTimes[p.key]}{p.rangeEnd ? <span className="pt-range-sep"> – {prayerTimes[p.rangeEnd]}</span> : ''}
+                    </span>
                     <span className="pt-extra-desc">{p.desc}</span>
                   </div>
                 ))}

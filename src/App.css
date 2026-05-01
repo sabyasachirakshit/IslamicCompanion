@@ -4031,11 +4031,15 @@
 
 .pt-extra-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
 .pt-extra-cell { border-style: dashed; }
+
+.pt-range-sep {
+  font-weight: 700;
+}
 
 .pt-extra-desc {
   font-size: 9px;
@@ -4094,6 +4098,7 @@
 
 @media (max-width: 480px) {
   .pt-grid { grid-template-columns: repeat(2, 1fr); }
+  .pt-extra-grid { grid-template-columns: repeat(2, 1fr); }
   .pt-time { font-size: 15px; }
 }
 
