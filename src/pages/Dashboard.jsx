@@ -226,11 +226,17 @@ export default function Dashboard({ userName, onNavigate }) {
   })
   const [timesLoading, setTimesLoading] = useState(false)
   const [timesError,   setTimesError]   = useState(null)
+  const [now, setNow] = useState(new Date())
 
   useEffect(() => {
     const sync = () => setProfilePic(localStorage.getItem('profilePicture') || null)
     window.addEventListener('storage', sync)
     return () => window.removeEventListener('storage', sync)
+  }, [])
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(id)
   }, [])
 
   const fetchPrayerTimes = useCallback(() => {
@@ -322,9 +328,19 @@ export default function Dashboard({ userName, onNavigate }) {
           </div>
         )}
         {prayerTimes && (() => {
-          const toMins = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m }
-          const nowMins = new Date().getHours() * 60 + new Date().getMinutes()
+          const toSecs  = (t) => { const [h, m] = t.split(':').map(Number); return h * 3600 + m * 60 }
+          const nowSecs = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
+          const toMins  = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m }
+          const nowMins = now.getHours() * 60 + now.getMinutes()
           const nextKey = PRAYERS_DISPLAY.find(p => toMins(prayerTimes[p.key]) > nowMins)?.key
+          const nextP   = PRAYERS_DISPLAY.find(p => p.key === nextKey)
+          const diffSecs = nextP
+            ? toSecs(prayerTimes[nextP.key]) - nowSecs
+            : 86400 - nowSecs + toSecs(prayerTimes['Fajr'])
+          const cdH = String(Math.floor(diffSecs / 3600)).padStart(2, '0')
+          const cdM = String(Math.floor((diffSecs % 3600) / 60)).padStart(2, '0')
+          const cdS = String(diffSecs % 60).padStart(2, '0')
+          const cdNextP = nextP ?? PRAYERS_DISPLAY[0]
           const renderCell = (p, isNext) => (
             <div key={p.key} className={`pt-cell${isNext ? ' pt-cell-next' : ''}`}
               style={isNext ? { borderColor: `rgba(${p.rgba},0.50)`, background: `rgba(${p.rgba},0.08)`, boxShadow: `0 0 14px rgba(${p.rgba},0.15)` } : {}}>
@@ -336,6 +352,16 @@ export default function Dashboard({ userName, onNavigate }) {
           )
           return (
             <>
+              <div className="pt-countdown" style={{ borderColor: `rgba(${cdNextP.rgba},0.35)`, background: `rgba(${cdNextP.rgba},0.06)` }}>
+                <div className="pt-countdown-info">
+                  <span className="pt-countdown-emoji">{cdNextP.emoji}</span>
+                  <span className="pt-countdown-name" style={{ color: cdNextP.color }}>{cdNextP.label}</span>
+                  <span className="pt-countdown-label">{nextP ? 'is next' : 'tomorrow (Fajr)'}</span>
+                </div>
+                <div className="pt-countdown-timer" style={{ color: cdNextP.color, textShadow: `0 0 14px rgba(${cdNextP.rgba},0.55)` }}>
+                  {cdH}:{cdM}:{cdS}
+                </div>
+              </div>
               <div className="pt-grid">
                 {PRAYERS_DISPLAY.map(p => renderCell(p, p.key === nextKey))}
               </div>
