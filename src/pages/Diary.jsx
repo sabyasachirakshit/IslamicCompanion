@@ -9,6 +9,7 @@ export default function Diary() {
   const [editingNote, setEditingNote] = useState(null)
   const [viewingNote, setViewingNote] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [modalSearch, setModalSearch] = useState('')
   const [titleInput, setTitleInput] = useState('')
   const [contentInput, setContentInput] = useState('')
   const titleRef = useRef(null)
@@ -91,8 +92,20 @@ export default function Diary() {
     })
   }
 
-  const openNote = (note) => setViewingNote(note)
-  const closeNote = () => setViewingNote(null)
+  const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+  const highlightText = (text, query) => {
+    if (!query.trim() || !text) return text
+    const parts = text.split(new RegExp(`(${escapeRegex(query)})`, 'gi'))
+    return parts.map((part, i) =>
+      part.toLowerCase() === query.toLowerCase()
+        ? <mark key={i} className="diary-highlight">{part}</mark>
+        : part
+    )
+  }
+
+  const openNote = (note) => { setViewingNote(note); setModalSearch('') }
+  const closeNote = () => { setViewingNote(null); setModalSearch('') }
 
   const filteredNotes = notes.filter(note => {
     const q = searchQuery.toLowerCase()
@@ -209,11 +222,15 @@ export default function Diary() {
       )}
 
       {/* Read-Only Note Modal */}
-      {viewingNote && (
+      {viewingNote && (() => {
+        const matchCount = modalSearch.trim()
+          ? (viewingNote.content.match(new RegExp(escapeRegex(modalSearch), 'gi')) || []).length
+          : 0
+        return (
         <div className="diary-modal-overlay" onClick={closeNote}>
           <div className="diary-modal" onClick={e => e.stopPropagation()}>
             <div className="diary-modal-header">
-              <h2 className="diary-modal-title">{viewingNote.title}</h2>
+              <h2 className="diary-modal-title">{highlightText(viewingNote.title, modalSearch)}</h2>
               <div className="diary-modal-meta">
                 <span className="diary-note-date">{formatDate(viewingNote.updatedAt)}</span>
                 <button className="diary-close-btn" onClick={closeNote} title="Close">
@@ -223,9 +240,33 @@ export default function Diary() {
                 </button>
               </div>
             </div>
+            <div className="diary-modal-search-bar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                className="diary-modal-search-input"
+                type="text"
+                placeholder="Search in note…"
+                value={modalSearch}
+                onChange={e => setModalSearch(e.target.value)}
+              />
+              {modalSearch && (
+                <span className="diary-modal-match-count">
+                  {matchCount} {matchCount === 1 ? 'match' : 'matches'}
+                </span>
+              )}
+              {modalSearch && (
+                <button className="diary-search-clear" onClick={() => setModalSearch('')}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              )}
+            </div>
             <div className="diary-modal-body">
               {viewingNote.content
-                ? viewingNote.content.split('\n').map((para, i) => <p key={i}>{para}</p>)
+                ? viewingNote.content.split('\n').map((para, i) => <p key={i}>{highlightText(para, modalSearch)}</p>)
                 : <p className="diary-note-empty">No content</p>
               }
             </div>
@@ -235,7 +276,8 @@ export default function Diary() {
             </div>
           </div>
         </div>
-      )}
+        )
+      })()}
 
       {/* Notes Grid */}
       <div className="diary-notes-grid">

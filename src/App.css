@@ -2146,6 +2146,43 @@
   flex-shrink: 0;
 }
 
+.diary-modal-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  color: var(--text-dim);
+}
+
+.diary-modal-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: var(--text);
+  font-family: inherit;
+}
+.diary-modal-search-input::placeholder { color: var(--text-dim); }
+
+.diary-modal-match-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: #FBBF24;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba(251,191,36,0.55);
+}
+
+.diary-highlight {
+  background: rgba(251, 191, 36, 0.35);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 2px;
+  box-shadow: 0 0 6px rgba(251,191,36,0.40);
+}
+
 .diary-modal-body {
   flex: 1;
   overflow-y: auto;
