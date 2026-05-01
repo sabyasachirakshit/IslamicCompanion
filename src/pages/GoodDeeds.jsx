@@ -15,6 +15,68 @@ const debitWallet = (amount) => {
   window.dispatchEvent(new CustomEvent('walletUpdated'))
 }
 
+/* ── Motivational Hadiths ── */
+const MISSED_MOTIVATION = {
+  tahajjud: {
+    emoji: '🌙', title: "Don't Give Up on Tahajjud",
+    subtitle: 'The night prayer is a gift — tomorrow is a new chance.',
+    color: '#FFD700', rgba: '255,215,0',
+    hadiths: [
+      { text: "The best prayer after the obligatory prayers is the night prayer (Tahajjud).", source: 'Sahih Muslim 1163' },
+      { text: "Our Lord descends every night to the lowest heaven when the last third of the night remains, saying: 'Who is calling Me so I can answer? Who is asking of Me so I can give? Who is seeking My forgiveness so I can forgive?'", source: 'Bukhari & Muslim' },
+      { text: "Pray Tahajjud — it was the practice of the righteous before you. It brings you closer to Allah, expiates sins, prevents wrongdoing, and expels disease from the body.", source: 'Tirmidhi, Authenticated' },
+      { text: "In Paradise there are rooms whose interior can be seen from the outside. Allah prepared them for those who feed others, speak gently, fast regularly, and pray at night while people sleep.", source: 'Ahmad, Authenticated by Al-Albani' },
+    ],
+  },
+  fajr: {
+    emoji: '🌅', title: "Don't Miss Fajr Tomorrow",
+    subtitle: 'The dawn prayer is witnessed by the angels.',
+    color: '#A78BFA', rgba: '167,139,250',
+    hadiths: [
+      { text: "The two rak'ahs of the Fajr prayer are better than this world and everything in it.", source: 'Sahih Muslim 725' },
+      { text: "Whoever prays the Fajr prayer is under the protection of Allah.", source: 'Sahih Muslim 657' },
+      { text: "The most burdensome prayers for the hypocrites are Isha and Fajr. If they only knew what reward they carry, they would come even if crawling.", source: 'Bukhari & Muslim' },
+      { text: "Angels take turns among you, some at night and some by day. They all assemble at the Fajr and Asr prayers.", source: 'Bukhari 555' },
+    ],
+  },
+  dhuhr: {
+    emoji: '☀️', title: "Keep Up with Dhuhr",
+    subtitle: 'The midday prayer keeps your day blessed.',
+    color: '#FBBF24', rgba: '251,191,36',
+    hadiths: [
+      { text: "Whoever prays twelve rak'ahs of Sunnah daily, Allah will build for him a house in Paradise: four before Dhuhr and two after.", source: 'Tirmidhi, Authenticated' },
+      { text: "The gates of heaven are opened at midday. I love that a righteous deed be raised up for me at that time.", source: 'Tirmidhi 478' },
+    ],
+  },
+  asr: {
+    emoji: '🌤', title: "Don't Neglect Asr",
+    subtitle: 'The Asr prayer is the middle prayer — guard it.',
+    color: '#60A5FA', rgba: '96,165,250',
+    hadiths: [
+      { text: "Whoever misses the Asr prayer, it is as if he has lost his family and his wealth.", source: 'Bukhari 552' },
+      { text: "Guard strictly the five obligatory prayers, especially the middle prayer (Asr).", source: 'Quran 2:238' },
+    ],
+  },
+  maghrib: {
+    emoji: '🌆', title: "Don't Delay Maghrib",
+    subtitle: 'Sunset is a brief window — never miss it.',
+    color: '#F97316', rgba: '249,115,22',
+    hadiths: [
+      { text: "My community will remain in goodness as long as they do not delay Maghrib until the stars appear.", source: 'Ahmad, Abu Dawud' },
+      { text: "Two rak'ahs of Maghrib Sunnah — the Prophet ﷺ never left them, in travel or at home.", source: 'Bukhari 1182' },
+    ],
+  },
+  isha: {
+    emoji: '🌃', title: "Keep Up with Isha",
+    subtitle: 'Isha at night is a light on the Day of Judgment.',
+    color: '#00E5A0', rgba: '0,229,160',
+    hadiths: [
+      { text: "Whoever prays Isha in congregation, it is as if he prayed half the night. And whoever prays Fajr in congregation, it is as if he prayed the whole night.", source: 'Sahih Muslim 656' },
+      { text: "The most burdensome prayers for the hypocrites are Isha and Fajr — yet they carry the greatest reward.", source: 'Bukhari & Muslim' },
+    ],
+  },
+}
+
 /* ── Icons ── */
 const ChevronDown = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -32,8 +94,43 @@ const CheckIcon = () => (
   </svg>
 )
 
+/* ── Motivational Modal ── */
+function MotivationalModal({ data, onClose }) {
+  if (!data) return null
+  const { emoji, title, subtitle, color, rgba, hadiths } = data
+  return (
+    <div className="motiv-overlay" onClick={onClose}>
+      <div className="motiv-modal" onClick={e => e.stopPropagation()}
+        style={{ borderColor: `rgba(${rgba},0.35)`, boxShadow: `0 0 40px rgba(${rgba},0.18)` }}>
+        <div className="motiv-header" style={{ background: `rgba(${rgba},0.07)`, borderBottomColor: `rgba(${rgba},0.20)` }}>
+          <span className="motiv-emoji">{emoji}</span>
+          <div className="motiv-titles">
+            <h3 className="motiv-title" style={{ color }}>{title}</h3>
+            <p className="motiv-subtitle">{subtitle}</p>
+          </div>
+          <button className="motiv-close" onClick={onClose}>✕</button>
+        </div>
+        <div className="motiv-body">
+          <p className="motiv-intro">The Prophet ﷺ said:</p>
+          {hadiths.map((h, i) => (
+            <div key={i} className="motiv-hadith" style={{ borderLeftColor: `rgba(${rgba},0.50)` }}>
+              <p className="motiv-hadith-text">❝ {h.text} ❞</p>
+              <span className="motiv-hadith-source" style={{ color }}>— {h.source}</span>
+            </div>
+          ))}
+        </div>
+        <div className="motiv-footer">
+          <button className="motiv-btn" style={{ background: `rgba(${rgba},0.14)`, color, borderColor: `rgba(${rgba},0.35)` }} onClick={onClose}>
+            May Allah forgive me 🤲
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ── Prayer Row ── */
-function PrayerRow({ prayer, status, onMark }) {
+function PrayerRow({ prayer, status, groupId, onMark }) {
   const meta = TYPE_META[prayer.type]
   const isMarked = !!status
 
@@ -60,7 +157,7 @@ function PrayerRow({ prayer, status, onMark }) {
                 ⏰ <span>Late</span> <em>+₹{prayer.reward.late}</em>
               </button>
             )}
-            <button className="prayer-btn prayer-btn-missed" onClick={() => onMark(prayer, 'missed')}>
+            <button className="prayer-btn prayer-btn-missed" onClick={() => onMark(prayer, 'missed', groupId)}>
               ✕ <span>Missed</span>{prayer.reward.missed ? <em>-₹{prayer.reward.missed}</em> : null}
             </button>
           </div>
@@ -102,7 +199,7 @@ function PrayerGroup({ group, prayerStatus, onMark }) {
       {expanded && (
         <div className="prayer-group-rows">
           {group.prayers.map(p => (
-            <PrayerRow key={p.id} prayer={p} status={prayerStatus[p.id]} onMark={onMark} />
+            <PrayerRow key={p.id} prayer={p} status={prayerStatus[p.id]} groupId={group.id} onMark={onMark} />
           ))}
         </div>
       )}
@@ -116,11 +213,13 @@ export default function GoodDeeds() {
   const [prayerStatus, setPrayerStatus] = useState(() => {
     try { return JSON.parse(localStorage.getItem(todayStatusKey()) || '{}') } catch { return {} }
   })
+  const [motivModal, setMotivModal] = useState(null)
 
-  const markPrayer = (prayer, status) => {
+  const markPrayer = (prayer, status, groupId) => {
     if (prayerStatus[prayer.id]) return
     if (status === 'missed') {
       debitWallet(prayer.reward.missed ?? 0)
+      if (MISSED_MOTIVATION[groupId]) setMotivModal(MISSED_MOTIVATION[groupId])
     } else {
       creditWallet(prayer.reward[status] ?? 0)
     }
@@ -144,6 +243,7 @@ export default function GoodDeeds() {
 
   return (
     <div className="good-deeds">
+      <MotivationalModal data={motivModal} onClose={() => setMotivModal(null)} />
       <div className="gd-summary-bar">
         <div className="gd-summary-item">
           <span className="gd-summary-value">{markedPrayers}<span className="gd-summary-total">/{totalPrayers}</span></span>

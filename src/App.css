@@ -3586,6 +3586,124 @@
   border-color: rgba(0,229,160,0.3);
 }
 
+/* ===== Motivational Modal ===== */
+.motiv-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.motiv-modal {
+  background: var(--surface);
+  border: 1px solid;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 88vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.motiv-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid;
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.motiv-emoji { font-size: 32px; flex-shrink: 0; }
+
+.motiv-titles { flex: 1; min-width: 0; }
+
+.motiv-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 3px;
+}
+
+.motiv-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.motiv-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.motiv-close:hover { color: var(--text); }
+
+.motiv-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+
+.motiv-intro {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.motiv-hadith {
+  border-left: 3px solid;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.motiv-hadith-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0;
+  font-style: italic;
+}
+
+.motiv-hadith-source {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.motiv-footer {
+  padding: 14px 20px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.motiv-btn {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+.motiv-btn:hover { opacity: 0.85; }
+
 .prayer-group:has(.prayer-group-icon [data-legendary]) ,
 .prayer-group-legendary {
   border-color: rgba(255,215,0,0.35);
