@@ -45,6 +45,17 @@ const TrashIcon = () => (
     <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
   </svg>
 )
+const EditIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+  </svg>
+)
+const CloseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+)
 const GiftIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/>
@@ -66,8 +77,47 @@ const HistoryIcon = () => (
   </svg>
 )
 
+/* ── Edit Reward Modal ── */
+function EditRewardModal({ reward, onSave, onClose }) {
+  const [name, setName] = useState(reward.name)
+  const [cost, setCost] = useState(String(reward.cost))
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!name.trim()) return
+    onSave({ ...reward, name: name.trim(), cost: Math.max(1, parseFloat(cost) || 1) })
+  }
+
+  return (
+    <div className="deed-modal-backdrop" onClick={onClose}>
+      <div className="deed-modal" onClick={e => e.stopPropagation()}>
+        <div className="deed-modal-header">
+          <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)' }}>Edit Reward</span>
+          <button className="deed-modal-close" onClick={onClose}><CloseIcon /></button>
+        </div>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div className="deed-form-group">
+            <label className="deed-form-label">Name</label>
+            <input className="deed-form-input" type="text" value={name}
+              onChange={e => setName(e.target.value)} autoFocus maxLength={80} />
+          </div>
+          <div className="deed-form-group">
+            <label className="deed-form-label">Cost (₹)</label>
+            <input className="deed-form-input deed-form-number" type="number" min="1" max="100000"
+              value={cost} onChange={e => setCost(e.target.value)} />
+          </div>
+          <div className="deed-form-actions">
+            <button className="deed-form-save rw-form-save" type="submit" disabled={!name.trim()}>Save Changes</button>
+            <button className="deed-form-cancel" type="button" onClick={onClose}>Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
 /* ── Reward Card ── */
-function RewardCard({ reward, onRedeem, onDelete, canDelete }) {
+function RewardCard({ reward, onRedeem, onDelete, onEdit, canDelete }) {
   const [confirm, setConfirm] = useState(false)
   const balance = getWallet()
   const affordable = balance >= reward.cost
@@ -83,9 +133,14 @@ function RewardCard({ reward, onRedeem, onDelete, canDelete }) {
       <div className="rw-card-top">
         <span className="rw-card-name">{reward.name}</span>
         {canDelete && (
-          <button className="rw-delete-btn" onClick={() => onDelete(reward.id)} title="Remove">
-            <TrashIcon />
-          </button>
+          <div style={{ display: 'flex', gap: 4 }}>
+            <button className="rw-delete-btn" onClick={() => onEdit(reward)} title="Edit">
+              <EditIcon />
+            </button>
+            <button className="rw-delete-btn" onClick={() => onDelete(reward.id)} title="Remove">
+              <TrashIcon />
+            </button>
+          </div>
         )}
       </div>
       <div className="rw-card-cost">
@@ -143,9 +198,10 @@ export default function Rewards() {
     try { return JSON.parse(localStorage.getItem('rewardHistory') || '[]') } catch { return [] }
   })
   const [balance, setBalance] = useState(getWallet)
-  const [search,      setSearch]      = useState('')
-  const [showForm,    setShowForm]    = useState(false)
-  const [showHistory, setShowHistory] = useState(false)
+  const [search,       setSearch]      = useState('')
+  const [showForm,     setShowForm]    = useState(false)
+  const [showHistory,  setShowHistory] = useState(false)
+  const [editingReward, setEditingReward] = useState(null)
 
   useEffect(() => {
     const sync = () => setBalance(getWallet())
@@ -158,6 +214,7 @@ export default function Rewards() {
 
   const addReward    = (r) => { saveCustom([...customRewards, r]); setShowForm(false) }
   const deleteReward = (id) => saveCustom(customRewards.filter(r => r.id !== id))
+  const updateReward = (updated) => { saveCustom(customRewards.map(r => r.id === updated.id ? updated : r)); setEditingReward(null) }
 
   const redeemReward = (reward) => {
     debitWallet(reward.cost)
@@ -220,7 +277,7 @@ export default function Rewards() {
           <h3 className="deed-section-title"><span className="rw-dot custom" />My Rewards</h3>
           <div className="rw-grid">
             {customFiltered.map(r => (
-              <RewardCard key={r.id} reward={r} onRedeem={redeemReward} onDelete={deleteReward} canDelete={true} />
+              <RewardCard key={r.id} reward={r} onRedeem={redeemReward} onDelete={deleteReward} onEdit={setEditingReward} canDelete={true} />
             ))}
           </div>
         </div>
@@ -251,6 +308,14 @@ export default function Rewards() {
             </div>
           )}
         </div>
+      )}
+
+      {editingReward && (
+        <EditRewardModal
+          reward={editingReward}
+          onSave={updateReward}
+          onClose={() => setEditingReward(null)}
+        />
       )}
 
     </div>
