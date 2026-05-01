@@ -61,12 +61,20 @@ export default function About() {
             <span className="about-step-num" style={{ background: 'rgba(96,165,250,0.10)', color: '#60A5FA', borderColor: 'rgba(96,165,250,0.25)' }}>5</span>
             <div className="about-step-body">
               <strong>Dashboard</strong>
-              <p>The <em>Dashboard</em> shows your daily prayer overview — how many Fardh, Sunnah, and Nafl you completed or missed. Use the <em>Quick Actions</em> cards to jump to any section fast.</p>
+              <p>The <em>Dashboard</em> shows your <span className="about-tag green">Daily Prayer</span> overview — how many Fardh, Sunnah, and Nafl you completed or missed. It also shows a <span className="about-tag green">Today's Deeds Overview</span> — how many good deeds you did or missed, how many bad deeds you avoided or committed, and your one-time deed counts. Use the <em>Quick Actions</em> cards to jump to any section fast.</p>
             </div>
           </div>
 
           <div className="about-step">
-            <span className="about-step-num" style={{ background: 'rgba(244,114,182,0.10)', color: '#F472B6', borderColor: 'rgba(244,114,182,0.25)' }}>6</span>
+            <span className="about-step-num" style={{ background: 'rgba(251,146,60,0.10)', color: '#FB923C', borderColor: 'rgba(251,146,60,0.25)' }}>6</span>
+            <div className="about-step-body">
+              <strong>Diary</strong>
+              <p>Go to <em>Diary</em> and tap <span className="about-tag orange">New Note</span> to write a personal journal entry — give it a title and write freely. Use the <span className="about-tag purple">Daily Schedule</span> template to instantly fill your note with hourly time slots (00:00 → 23:00) for planning your day. Open any note to read it in full — the note viewer has a built-in <span className="about-tag blue">Search</span> bar that highlights matching words in yellow. You can also search notes from the main search bar by title, content, or date (e.g. <em>May 1, 2026</em>).</p>
+            </div>
+          </div>
+
+          <div className="about-step">
+            <span className="about-step-num" style={{ background: 'rgba(244,114,182,0.10)', color: '#F472B6', borderColor: 'rgba(244,114,182,0.25)' }}>7</span>
             <div className="about-step-body">
               <strong>Reset & Share</strong>
               <p>Use <span className="about-tag red">Reset Data</span> in the top bar to clear everything and start fresh. Use <span className="about-tag purple">Share</span> to send this app to family and friends — it is Sadaqah Jariyah!</p>

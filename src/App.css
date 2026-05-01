@@ -2433,6 +2433,7 @@
 .about-tag.orange { color: #FBBF24; background: rgba(251,191,36,0.10); border-color: rgba(251,191,36,0.25); }
 .about-tag.red    { color: #F87171; background: rgba(248,113,113,0.10); border-color: rgba(248,113,113,0.25); }
 .about-tag.purple { color: #A78BFA; background: rgba(167,139,250,0.10); border-color: rgba(167,139,250,0.25); }
+.about-tag.blue   { color: #60A5FA; background: rgba(96,165,250,0.10);  border-color: rgba(96,165,250,0.25); }
 
 .about-note {
   display: flex;
