@@ -3814,6 +3814,104 @@
   margin-top: 2px;
 }
 
+/* ===== Dashboard Deeds Overview ===== */
+.dashboard-deeds-overview {
+  background: var(--surface);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  backdrop-filter: blur(12px);
+}
+
+.dov-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dov-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dov-card-good {
+  background: rgba(0,229,160,0.04);
+  border-color: rgba(0,229,160,0.18);
+}
+
+.dov-card-bad {
+  background: rgba(248,113,113,0.04);
+  border-color: rgba(248,113,113,0.18);
+}
+
+.dov-card-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.dov-card-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.1px;
+}
+
+.dov-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.dov-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  text-align: center;
+}
+
+.dov-stat-bad {
+  background: rgba(239,68,68,0.04);
+  border-color: rgba(239,68,68,0.15);
+}
+
+.dov-stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.dov-stat-denom {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 500;
+  margin-top: -2px;
+}
+
+.dov-stat-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-top: 2px;
+}
+
+@media (max-width: 480px) {
+  .dov-grid { grid-template-columns: 1fr; }
+}
+
 /* Mobile: compact prayer rows */
 @media (max-width: 640px) {
   /* Row wraps so buttons sit below prayer info */

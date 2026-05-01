@@ -131,6 +131,35 @@ const ZakatIcon = () => (
   </svg>
 )
 
+function getDeedsMetrics() {
+  const d = new Date()
+  const tk = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+  let goodDeeds = [], badDeeds = [], gStatus = {}, bStatus = {}, onetimeDone = [], bdOnetimeDone = []
+  try { goodDeeds     = JSON.parse(localStorage.getItem('userDeeds')                   || '[]') } catch { /**/ }
+  try { badDeeds      = JSON.parse(localStorage.getItem('badDeeds')                    || '[]') } catch { /**/ }
+  try { gStatus       = JSON.parse(localStorage.getItem(`deedStatus_${tk}`)            || '{}') } catch { /**/ }
+  try { bStatus       = JSON.parse(localStorage.getItem(`badDeedStatus_${tk}`)         || '{}') } catch { /**/ }
+  try { onetimeDone   = JSON.parse(localStorage.getItem('onetimeDone')                 || '[]') } catch { /**/ }
+  try { bdOnetimeDone = JSON.parse(localStorage.getItem('bdOnetimeDone')               || '[]') } catch { /**/ }
+
+  const gDaily = goodDeeds.filter(d => d.type === 'daily')
+  const bDaily = badDeeds.filter(d => d.type === 'daily')
+  return {
+    good: {
+      done:    gDaily.filter(d => gStatus[d.id] === 'done').length,
+      missed:  gDaily.filter(d => gStatus[d.id] === 'missed').length,
+      total:   gDaily.length,
+      otDone:  onetimeDone.length,
+    },
+    bad: {
+      avoided:   bDaily.filter(d => bStatus[d.id] === 'avoided').length,
+      committed: bDaily.filter(d => bStatus[d.id] === 'committed').length,
+      total:     bDaily.length,
+      otAvoided: bdOnetimeDone.length,
+    },
+  }
+}
+
 function getPrayerMetrics() {
   let status = {}
   try { status = JSON.parse(localStorage.getItem(todayStatusKey()) || '{}') } catch { /**/ }
@@ -165,6 +194,7 @@ function PmCell({ label, value, total, color, variant }) {
 
 export default function Dashboard({ userName, onNavigate }) {
   const pm = getPrayerMetrics()
+  const dm = getDeedsMetrics()
   const greeting = getTimeGreeting()
   const [profilePic, setProfilePic] = useState(() => localStorage.getItem('profilePicture') || null)
 
@@ -211,6 +241,55 @@ export default function Dashboard({ userName, onNavigate }) {
           <PmCell label="Sunnah" value={pm.sunnah.missed} total={pm.sunnah.total} color="#FCA5A5" variant="missed" />
           <PmCell label="Nafl"   value={pm.nafl.missed}   total={pm.nafl.total}   color="#FCA5A5" variant="missed" />
           <PmCell label="Witr"   value={pm.witr.missed}   total={pm.witr.total}   color="#FCA5A5" variant="missed" />
+        </div>
+      </div>
+
+      <div className="dashboard-deeds-overview">
+        <h3 className="pm-title">Today's Deeds Overview</h3>
+        <div className="dov-grid">
+          <div className="dov-card dov-card-good">
+            <div className="dov-card-header">
+              <span className="dov-card-label">Good Deeds</span>
+            </div>
+            <div className="dov-stats">
+              <div className="dov-stat">
+                <span className="dov-stat-value" style={{ color: '#00E5A0' }}>{dm.good.done}</span>
+                <span className="dov-stat-denom">/{dm.good.total}</span>
+                <span className="dov-stat-label">Done Today</span>
+              </div>
+              <div className="dov-stat dov-stat-bad">
+                <span className="dov-stat-value" style={{ color: '#F87171' }}>{dm.good.missed}</span>
+                <span className="dov-stat-denom">/{dm.good.total}</span>
+                <span className="dov-stat-label">Missed</span>
+              </div>
+              <div className="dov-stat">
+                <span className="dov-stat-value" style={{ color: '#A78BFA' }}>{dm.good.otDone}</span>
+                <span className="dov-stat-label">One-time ✓</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="dov-card dov-card-bad">
+            <div className="dov-card-header">
+              <span className="dov-card-label">Bad Deeds</span>
+            </div>
+            <div className="dov-stats">
+              <div className="dov-stat">
+                <span className="dov-stat-value" style={{ color: '#00E5A0' }}>{dm.bad.avoided}</span>
+                <span className="dov-stat-denom">/{dm.bad.total}</span>
+                <span className="dov-stat-label">Avoided</span>
+              </div>
+              <div className="dov-stat dov-stat-bad">
+                <span className="dov-stat-value" style={{ color: '#F87171' }}>{dm.bad.committed}</span>
+                <span className="dov-stat-denom">/{dm.bad.total}</span>
+                <span className="dov-stat-label">Committed</span>
+              </div>
+              <div className="dov-stat">
+                <span className="dov-stat-value" style={{ color: '#A78BFA' }}>{dm.bad.otAvoided}</span>
+                <span className="dov-stat-label">One-time ✓</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
