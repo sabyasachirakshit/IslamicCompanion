@@ -9,6 +9,35 @@ function getTimeGreeting() {
   return                        { text: 'Good Night',     emoji: '🌙' }
 }
 
+const AYAHS = [
+  { text: 'Indeed, with hardship will be ease.', ref: 'Surah Ash-Sharh (94:6)' },
+  { text: 'And He found you lost and guided you.', ref: 'Surah Ad-Duha (93:7)' },
+  { text: 'So remember Me; I will remember you.', ref: 'Surah Al-Baqarah (2:152)' },
+  { text: 'Allah does not burden a soul beyond that it can bear.', ref: 'Surah Al-Baqarah (2:286)' },
+  { text: 'And your Lord says, Call upon Me; I will respond to you.', ref: 'Surah Ghafir (40:60)' },
+  { text: 'Verily, Allah is with the patient.', ref: 'Surah Al-Baqarah (2:153)' },
+  { text: 'And it is He who is the Forgiving, the Loving.', ref: 'Surah Al-Buruj (85:14)' },
+  { text: 'He knows what is in every heart.', ref: 'Surah Al-Mulk (67:13)' },
+  { text: 'Do not despair of the mercy of Allah.', ref: 'Surah Az-Zumar (39:53)' },
+  { text: 'And whoever relies upon Allah — then He is sufficient for him.', ref: 'Surah At-Talaq (65:3)' },
+  { text: 'Indeed, Allah is with those who fear Him and those who are doers of good.', ref: 'Surah An-Nahl (16:128)' },
+  { text: 'And We have certainly made the Quran easy for remembrance, so is there any who will remember?', ref: 'Surah Al-Qamar (54:17)' },
+  { text: 'Unquestionably, by the remembrance of Allah hearts are assured.', ref: 'Surah Ar-Ra\'d (13:28)' },
+  { text: 'And speak to people good words.', ref: 'Surah Al-Baqarah (2:83)' },
+  { text: 'Indeed, Allah will not change the condition of a people until they change what is in themselves.', ref: 'Surah Ar-Ra\'d (13:11)' },
+  { text: 'And He is with you wherever you are.', ref: 'Surah Al-Hadid (57:4)' },
+  { text: 'Allah is the ally of those who believe.', ref: 'Surah Al-Baqarah (2:257)' },
+  { text: 'So be patient. Indeed, the promise of Allah is truth.', ref: 'Surah Ghafir (40:55)' },
+  { text: 'My mercy encompasses all things.', ref: 'Surah Al-A\'raf (7:156)' },
+  { text: 'Whoever does righteousness — it is for his own soul.', ref: 'Surah Fussilat (41:46)' },
+]
+
+function getDailyAyah() {
+  const d = new Date()
+  const seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()
+  return AYAHS[seed % AYAHS.length]
+}
+
 const ArrowRightIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
@@ -204,10 +233,8 @@ export default function Dashboard({ userName, onNavigate }) {
 
       <div className="dashboard-quote-card">
         <div className="quote-icon">❝</div>
-        <p className="quote-text">
-          Indeed, with hardship will be ease.
-        </p>
-        <p className="quote-ref">— Surah Ash-Sharh (94:6)</p>
+        <p className="quote-text">{getDailyAyah().text}</p>
+        <p className="quote-ref">— {getDailyAyah().ref}</p>
       </div>
     </div>
   )
