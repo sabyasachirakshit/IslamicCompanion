@@ -689,16 +689,14 @@
     height: 32px;
   }
 
-  /* Dashboard welcome — stack when profile pic present */
+  /* Dashboard welcome — keep row layout, just tighter */
   .dashboard-welcome {
     padding: 20px 16px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
+    gap: 16px;
   }
   .welcome-profile-pic {
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
   }
   .dashboard-welcome-deco {
     font-size: 64px;
@@ -747,7 +745,17 @@
     font-size: 13px;
   }
 
-  /* Welcome card */
+  /* Welcome card — stack on small phones */
+  .dashboard-welcome {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 14px;
+  }
+  .welcome-profile-pic {
+    width: 52px;
+    height: 52px;
+  }
   .welcome-bismillah {
     font-size: 15px;
   }
