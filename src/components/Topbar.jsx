@@ -289,6 +289,9 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
                   <img src={profilePic} alt="Current profile" />
                 </div>
               )}
+              {!editingName && (
+                <p className="profile-dd-name"><i>{nameInput || 'No name set'}</i></p>
+              )}
               {/* Edit name */}
               {editingName ? (
                 <div className="profile-name-edit">
