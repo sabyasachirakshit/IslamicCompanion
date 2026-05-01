@@ -1912,7 +1912,7 @@
 /* Notes Grid */
 .diary-notes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -2041,35 +2041,23 @@
 }
 
 /* Mobile responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 520px) {
   .diary-page {
-    padding: 16px;
+    padding: 12px;
   }
   .diary-header {
     flex-direction: column;
     align-items: stretch;
+  }
+  .diary-header h1 {
+    font-size: 24px;
   }
   .diary-create-btn {
     justify-content: center;
   }
   .diary-notes-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .diary-note-card {
-    padding: 16px;
-  }
-  .diary-note-actions {
-    opacity: 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .diary-page {
-    padding: 12px;
-  }
-  .diary-header h1 {
-    font-size: 24px;
+    gap: 12px;
   }
   .diary-note-editor {
     padding: 16px;
@@ -2083,6 +2071,9 @@
   }
   .diary-note-content p {
     font-size: 13px;
+  }
+  .diary-note-actions {
+    opacity: 1;
   }
 }
 
