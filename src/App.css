@@ -1342,6 +1342,93 @@
   }
 }
 
+/* ===== Settings ===== */
+.settings-wrap {
+  position: relative;
+}
+
+.settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.settings-btn:hover {
+  border-color: var(--border-bright);
+  color: var(--text);
+  background: var(--surface-hover);
+}
+
+.settings-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 280px;
+  background: var(--surface-2, #1a1f2e);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: share-fade-in 0.15s ease;
+}
+
+.settings-dd-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 2px;
+  letter-spacing: -0.2px;
+}
+
+.settings-dd-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.settings-dd-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.settings-dd-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.settings-dd-danger .settings-dd-label {
+  color: #F87171;
+}
+
+/* Mobile: settings dropdown goes left to avoid off-screen */
+@media (max-width: 480px) {
+  .settings-dropdown {
+    width: calc(100vw - 24px);
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 /* ===== Profile Picture ===== */
 .profile-wrap {
   position: relative;
