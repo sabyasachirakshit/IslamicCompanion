@@ -8,7 +8,7 @@ const PRIORITY_META  = {
   low:    { label: 'Low',    color: '#60A5FA', bg: 'rgba(96,165,250,0.12)',   border: 'rgba(96,165,250,0.30)'  },
 }
 
-const todayKey      = () => new Date().toISOString().split('T')[0]
+const todayKey = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` }
 const deedStatusKey = () => `deedStatus_${todayKey()}`
 
 const creditWallet = (amount) => {

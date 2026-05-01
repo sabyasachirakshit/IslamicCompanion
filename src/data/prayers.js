@@ -55,11 +55,16 @@ export const PRAYER_GROUPS = [
 
 export const ALL_PRAYERS = PRAYER_GROUPS.flatMap(g => g.prayers)
 
-export const todayStatusKey = () =>
-  `prayerStatus_${new Date().toISOString().split('T')[0]}`
+const localDateStr = () => {
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
 
-export const todayCompletedKey = () =>
-  `completed_${new Date().toISOString().split('T')[0]}`
+export const todayStatusKey    = () => `prayerStatus_${localDateStr()}`
+export const todayCompletedKey = () => `completed_${localDateStr()}`
 
 export const TYPE_META = {
   fardh:  { label: 'Fardh',  color: '#00E5A0' },
