@@ -25,6 +25,12 @@ export default function Diary() {
     }
   }, [isCreating, editingNote])
 
+  const DAILY_SCHEDULE_TEMPLATE = Array.from({ length: 24 }, (_, i) =>
+    `${String(i).padStart(2, '0')}:00  `
+  ).join('\n')
+
+  const applyTemplate = () => setContentInput(DAILY_SCHEDULE_TEMPLATE)
+
   const generateId = () => Date.now().toString(36) + Math.random().toString(36).substr(2)
 
   const handleCreateNote = () => {
@@ -169,6 +175,16 @@ export default function Diary() {
               className="diary-title-input"
             />
             
+            <div className="diary-template-bar">
+              <span className="diary-template-label">Template:</span>
+              <button type="button" className="diary-template-btn" onClick={applyTemplate}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Daily Schedule
+              </button>
+            </div>
+
             <textarea
               value={contentInput}
               onChange={(e) => setContentInput(e.target.value)}

@@ -1926,6 +1926,40 @@
   color: var(--text-dim);
 }
 
+.diary-template-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.diary-template-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.diary-template-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(167,139,250,0.30);
+  border-radius: var(--radius-sm);
+  background: rgba(167,139,250,0.08);
+  color: #A78BFA;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s;
+}
+.diary-template-btn:hover {
+  background: rgba(167,139,250,0.18);
+  border-color: rgba(167,139,250,0.50);
+}
+
 .diary-editor-actions {
   display: flex;
   gap: 12px;
