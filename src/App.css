@@ -1439,6 +1439,45 @@
   margin: 2px 0 0;
 }
 
+.profile-name-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.profile-name-input {
+  width: 100%;
+  padding: 7px 10px;
+  background: rgba(167,139,250,0.07);
+  border: 1px solid rgba(167,139,250,0.30);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color var(--transition);
+}
+.profile-name-input:focus {
+  border-color: rgba(167,139,250,0.70);
+  box-shadow: 0 0 0 2px rgba(167,139,250,0.12);
+}
+.profile-name-input::placeholder { color: var(--text-dim); }
+
+.profile-dd-save {
+  background: rgba(0,229,160,0.10);
+  border-color: rgba(0,229,160,0.30);
+  color: #00E5A0;
+}
+.profile-dd-save:hover { background: rgba(0,229,160,0.20); }
+
+.profile-dd-cancel {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.10);
+  color: var(--text-muted);
+}
+.profile-dd-cancel:hover { background: rgba(255,255,255,0.08); }
+
 /* ===== Wallet Modal ===== */
 .wallet-badge-btn {
   background: transparent;

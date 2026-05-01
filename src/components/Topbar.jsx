@@ -97,11 +97,14 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
   const [walletOpen,      setWalletOpen]      = useState(false)
   const [walletResetStep, setWalletResetStep] = useState(0)
   const profilePic = localStorage.getItem('profilePicture') || null
-  const [profileOpen,     setProfileOpen]     = useState(false)
+  const [profileOpen,  setProfileOpen]  = useState(false)
+  const [editingName,  setEditingName]  = useState(false)
+  const [nameInput,    setNameInput]    = useState(() => localStorage.getItem('userName') || '')
   const confirmTimer = useRef(null)
   const shareRef     = useRef(null)
   const profileRef   = useRef(null)
   const fileInputRef = useRef(null)
+  const nameInputRef = useRef(null)
 
   const handleProfileUpload = (e) => {
     const file = e.target.files[0]
@@ -129,6 +132,14 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
   const handleRemoveProfile = () => {
     localStorage.removeItem('profilePicture')
     window.location.reload()
+  }
+
+  const handleSaveName = () => {
+    const trimmed = nameInput.trim()
+    if (trimmed) {
+      localStorage.setItem('userName', trimmed)
+      window.location.reload()
+    }
   }
 
   useEffect(() => {
@@ -229,37 +240,6 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
       </div>
 
       <div className="topbar-right">
-        {/* Profile picture */}
-        <div className="profile-wrap" ref={profileRef}>
-          <button className="profile-avatar" onClick={() => setProfileOpen(s => !s)} title="Profile picture">
-            {profilePic
-              ? <img src={profilePic} alt="Profile" />
-              : <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            }
-          </button>
-          {profileOpen && (
-            <div className="profile-dropdown">
-              {profilePic && (
-                <div className="profile-preview">
-                  <img src={profilePic} alt="Current profile" />
-                </div>
-              )}
-              <button className="profile-dd-btn" onClick={() => fileInputRef.current.click()}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                {profilePic ? 'Change Photo' : 'Upload Photo'}
-              </button>
-              {profilePic && (
-                <button className="profile-dd-btn profile-dd-remove" onClick={handleRemoveProfile}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-                  Remove Photo
-                </button>
-              )}
-              <p className="profile-dd-note">Saved on your device only</p>
-            </div>
-          )}
-          <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleProfileUpload} />
-        </div>
-
         <button
           className={`reset-btn${confirming ? ' reset-btn-confirm' : ''}`}
           onClick={handleResetClick}
@@ -321,6 +301,58 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
             <span className="wallet-amount">₹ {formatted}</span>
           </div>
         </button>
+
+        {/* Profile picture — extreme right */}
+        <div className="profile-wrap" ref={profileRef}>
+          <button className="profile-avatar" onClick={() => { setProfileOpen(s => !s); setEditingName(false) }} title="Profile">
+            {profilePic
+              ? <img src={profilePic} alt="Profile" />
+              : <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            }
+          </button>
+          {profileOpen && (
+            <div className="profile-dropdown">
+              {profilePic && (
+                <div className="profile-preview">
+                  <img src={profilePic} alt="Current profile" />
+                </div>
+              )}
+              {/* Edit name */}
+              {editingName ? (
+                <div className="profile-name-edit">
+                  <input
+                    ref={nameInputRef}
+                    className="profile-name-input"
+                    value={nameInput}
+                    onChange={e => setNameInput(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleSaveName()}
+                    placeholder="Your name"
+                    autoFocus
+                  />
+                  <button className="profile-dd-btn profile-dd-save" onClick={handleSaveName}>Save</button>
+                  <button className="profile-dd-btn profile-dd-cancel" onClick={() => setEditingName(false)}>Cancel</button>
+                </div>
+              ) : (
+                <button className="profile-dd-btn" onClick={() => { setEditingName(true); setTimeout(() => nameInputRef.current?.focus(), 50) }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Edit Name
+                </button>
+              )}
+              <button className="profile-dd-btn" onClick={() => fileInputRef.current.click()}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                {profilePic ? 'Change Photo' : 'Upload Photo'}
+              </button>
+              {profilePic && (
+                <button className="profile-dd-btn profile-dd-remove" onClick={handleRemoveProfile}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                  Remove Photo
+                </button>
+              )}
+              <p className="profile-dd-note">Saved on your device only</p>
+            </div>
+          )}
+          <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleProfileUpload} />
+        </div>
       </div>
       </header>
 
