@@ -76,12 +76,22 @@ export default function Diary() {
     setEditingNote(null)
   }
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: 'numeric'
+    })
+  }
+
   const openNote = (note) => setViewingNote(note)
   const closeNote = () => setViewingNote(null)
 
   const filteredNotes = notes.filter(note => {
     const q = searchQuery.toLowerCase()
-    return note.title.toLowerCase().includes(q) || note.content.toLowerCase().includes(q)
+    const dateStr = formatDate(note.updatedAt).toLowerCase()
+    return note.title.toLowerCase().includes(q) || note.content.toLowerCase().includes(q) || dateStr.includes(q)
   })
 
   const startEditing = (note) => {
@@ -89,15 +99,6 @@ export default function Diary() {
     setTitleInput(note.title)
     setContentInput(note.content)
     setIsCreating(false)
-  }
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
-    })
   }
 
   const getContentPreview = (content, maxLength = 120) => {
