@@ -1,14 +1,5 @@
 [
   {
-    "id": "d_1777709578192",
-    "name": "Tahajjud : Make dua for sakib and afridi in tahajjud until they reach their goals",
-    "type": "daily",
-    "reward": 50,
-    "penalty": 50,
-    "priority": "high",
-    "createdAt": 1777709578192
-  },
-  {
     "id": "d_1777709616268",
     "name": "Allahumma innī aʿūdhu bika minal-hammi wal-ḥazan. O Allah, I seek refuge in You from anxiety and grief.” 📚 Bukhari",
     "type": "daily",
