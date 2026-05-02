@@ -55,6 +55,12 @@ const CheckIcon = () => (
     <polyline points="20 6 9 17 4 12"/>
   </svg>
 )
+const EraseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+    <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+  </svg>
+)
 const TrashIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
@@ -237,6 +243,13 @@ export default function Deeds() {
 
   const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('userDeeds', JSON.stringify(next)) }
 
+  const eraseAll = () => {
+    if (!window.confirm('Erase ALL deeds? This cannot be undone.')) return
+    saveDeeds([])
+    setOnetimeDone([])
+    localStorage.removeItem('onetimeDone')
+  }
+
   const addDeed = (deed) => { saveDeeds([...deeds, deed]); setShowForm(false) }
 
   const deleteDeed = (id) => { saveDeeds(deeds.filter(d => d.id !== id)) }
@@ -296,6 +309,9 @@ export default function Deeds() {
         </button>
         <button className="deeds-add-btn" onClick={() => setShowForm(s => !s)}>
           <PlusIcon /> Add Deed
+        </button>
+        <button className="deeds-erase-btn" onClick={eraseAll} title="Erase all deeds">
+          <EraseIcon />
         </button>
       </div>
 
