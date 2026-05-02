@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import SampleBadDeeds from "../assets/sample-bad-deeds.json"
 
 /* ── Constants ── */
 const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 }
@@ -53,6 +54,11 @@ const DownloadIcon = () => (
 const UploadIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+  </svg>
+)
+const InitializeIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
   </svg>
 )
 const ChevronDown = () => (
@@ -287,6 +293,17 @@ export default function BadDeeds() {
     reader.readAsText(file)
   }
 
+  const initializeSampleDeeds = () => {
+    if (!window.confirm('Load recommended sample bad deeds? This will add them to your existing deeds.')) return
+    try {
+      const sample = SampleBadDeeds
+      if (!Array.isArray(sample)) throw new Error('Invalid sample format')
+      saveDeeds([...deeds, ...sample])
+    } catch {
+      alert('Failed to load sample bad deeds. Please ensure the file exists at /assets/sample-bad-deeds.json')
+    }
+  }
+
   const addDeed = (deed) => { saveDeeds([...deeds, deed]); setShowForm(false) }
 
   const deleteDeed = (id) => { saveDeeds(deeds.filter(d => d.id !== id)) }
@@ -357,6 +374,9 @@ export default function BadDeeds() {
           <UploadIcon />
           <input type="file" accept=".json" onChange={uploadDeeds} style={{ display: 'none' }} />
         </label>
+        <button className="deeds-init-btn" onClick={initializeSampleDeeds} title="Initialize recommended bad deeds">
+          <InitializeIcon />
+        </button>
       </div>
 
       {/* Summary */}
