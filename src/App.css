@@ -3121,6 +3121,9 @@
   border-radius: var(--radius-md);
   transition: all var(--transition);
   flex-wrap: wrap;
+  width: 100%;
+  /* max-width: 720px; */
+  box-sizing: border-box;
 }
 
 .deed-item:hover {
@@ -3352,8 +3355,12 @@
   color: var(--text-muted, #666);
 }
 
+@media (max-width: 1024px) {
+  .deed-item { max-width: 685px; }
+}
+
 @media (max-width: 600px) {
-  .deed-item { flex-direction: column; align-items: flex-start; }
+  .deed-item { flex-direction: column; align-items: flex-start; max-width: 100%; }
   .deed-item-right { width: 100%; }
   .deed-item-btns { width: 100%; }
   .deed-btn span { display: none; }
