@@ -3451,9 +3451,9 @@
   color: var(--text-muted, #666);
 }
 
-@media (min-width: 1025px) {
+/* @media (min-width: 1025px) {
   .deed-item { width: 14%; }
-}
+} */
 
 @media (max-width: 1024px) {
   .deed-item { max-width: 685px; }
