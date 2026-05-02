@@ -260,7 +260,7 @@ export default function Deeds() {
   const [sortOrder,     setSortOrder]     = useState('high-low')
   const [showForm,      setShowForm]      = useState(false)
   const [showCompleted, setShowCompleted] = useState(false)
-  const [showUnfinished, setShowUnfinished] = useState(false)
+  const [showUnfinished, setShowUnfinished] = useState(true)
   const [selectedDeed,  setSelectedDeed]  = useState(null)
 
   const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('userDeeds', JSON.stringify(next)) }

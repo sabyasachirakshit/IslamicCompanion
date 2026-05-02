@@ -255,7 +255,7 @@ export default function BadDeeds() {
   const [sortOrder,     setSortOrder]     = useState('high-low')
   const [showForm,      setShowForm]      = useState(false)
   const [showAvoided,   setShowAvoided]   = useState(false)
-  const [showUnfinished, setShowUnfinished] = useState(false)
+  const [showUnfinished, setShowUnfinished] = useState(true)
   const [selectedDeed,  setSelectedDeed]  = useState(null)
 
   const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('badDeeds', JSON.stringify(next)) }
