@@ -40,6 +40,11 @@ const SortIcon = () => (
     <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/>
   </svg>
 )
+const FilterIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+  </svg>
+)
 const ChevronDown = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="6 9 12 15 18 9"/>
@@ -239,6 +244,7 @@ export default function Deeds() {
   const [sortOrder,     setSortOrder]     = useState('high-low')
   const [showForm,      setShowForm]      = useState(false)
   const [showCompleted, setShowCompleted] = useState(false)
+  const [showUnfinished, setShowUnfinished] = useState(false)
   const [selectedDeed,  setSelectedDeed]  = useState(null)
 
   const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('userDeeds', JSON.stringify(next)) }
@@ -277,12 +283,19 @@ export default function Deeds() {
   }
 
   const sortedDeeds = useMemo(() => {
-    const filtered = deeds.filter(d => d.name.toLowerCase().includes(search.toLowerCase()))
+    let filtered = deeds.filter(d => d.name.toLowerCase().includes(search.toLowerCase()))
+    if (showUnfinished) {
+      filtered = filtered.filter(d => {
+        if (d.type === 'daily') return !dailyStatus[d.id]
+        if (d.type === 'onetime') return !onetimeDone.includes(d.id)
+        return true
+      })
+    }
     return [...filtered].sort((a, b) => {
       const diff = PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority]
       return sortOrder === 'high-low' ? diff : -diff
     })
-  }, [deeds, search, sortOrder])
+  }, [deeds, search, sortOrder, showUnfinished, dailyStatus, onetimeDone])
 
   const dailyDeeds    = sortedDeeds.filter(d => d.type === 'daily')
   const onetimePending = sortedDeeds.filter(d => d.type === 'onetime' && !onetimeDone.includes(d.id))
@@ -306,6 +319,10 @@ export default function Deeds() {
           title={sortOrder === 'high-low' ? 'Sorted: High → Low' : 'Sorted: Low → High'}>
           <SortIcon />
           <span>{sortOrder === 'high-low' ? 'High → Low' : 'Low → High'}</span>
+        </button>
+        <button className={`deeds-filter-btn${showUnfinished ? ' active' : ''}`} onClick={() => setShowUnfinished(s => !s)}
+          title={showUnfinished ? 'Showing: Unfinished only' : 'Filter: Unfinished only'}>
+          <FilterIcon />
         </button>
         <button className="deeds-add-btn" onClick={() => setShowForm(s => !s)}>
           <PlusIcon /> Add Deed
