@@ -307,13 +307,13 @@ export default function Deeds() {
   const initializeSampleDeeds = async () => {
     if (!window.confirm('Load recommended sample deeds? This will add them to your existing deeds.')) return
     try {
-      const res = await fetch('/src/assets/sample-good-deeds.json')
+      const res = await fetch('/assets/sample-good-deeds.json')
       if (!res.ok) throw new Error('Failed to load sample file')
       const sample = await res.json()
       if (!Array.isArray(sample)) throw new Error('Invalid sample format')
       saveDeeds([...deeds, ...sample])
     } catch {
-      alert('Failed to load sample deeds. Please ensure the file exists at /src/assets/sample-good-deeds.json')
+      alert('Failed to load sample deeds. Please ensure the file exists at /assets/sample-good-deeds.json')
     }
   }
 
