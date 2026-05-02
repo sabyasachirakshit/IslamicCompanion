@@ -45,6 +45,16 @@ const FilterIcon = () => (
     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
   </svg>
 )
+const DownloadIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+)
+const UploadIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+  </svg>
+)
 const ChevronDown = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="6 9 12 15 18 9"/>
@@ -256,6 +266,39 @@ export default function Deeds() {
     localStorage.removeItem('onetimeDone')
   }
 
+  const downloadUnfinished = () => {
+    const data = JSON.stringify(deeds, null, 2)
+    const blob = new Blob([data], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `all-deeds-${new Date().toISOString().slice(0,10)}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const uploadDeeds = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const imported = JSON.parse(reader.result)
+        if (!Array.isArray(imported)) throw new Error('Not an array')
+        const valid = imported.every(d => d.name && d.type && typeof d.reward === 'number' && typeof d.penalty === 'number' && d.priority)
+        if (!valid) throw new Error('Invalid deed format')
+        saveDeeds([...deeds, ...imported])
+        e.target.value = ''
+      } catch {
+        alert('Failed to import deeds. Ensure the file is a valid JSON array of deeds.')
+        e.target.value = ''
+      }
+    }
+    reader.readAsText(file)
+  }
+
   const addDeed = (deed) => { saveDeeds([...deeds, deed]); setShowForm(false) }
 
   const deleteDeed = (id) => { saveDeeds(deeds.filter(d => d.id !== id)) }
@@ -330,6 +373,13 @@ export default function Deeds() {
         <button className="deeds-erase-btn" onClick={eraseAll} title="Erase all deeds">
           <EraseIcon />
         </button>
+        <button className="deeds-download-btn" onClick={downloadUnfinished} title="Download unfinished deeds (JSON)">
+          <DownloadIcon />
+        </button>
+        <label className="deeds-upload-btn" title="Upload deeds from JSON">
+          <UploadIcon />
+          <input type="file" accept=".json" onChange={uploadDeeds} style={{ display: 'none' }} />
+        </label>
       </div>
 
       {/* Summary */}

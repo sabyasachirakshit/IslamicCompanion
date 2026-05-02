@@ -2947,6 +2947,42 @@
   color: #00E5A0;
 }
 
+.deeds-download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background: rgba(96,165,250,0.08);
+  border: 1px solid rgba(96,165,250,0.30);
+  border-radius: var(--radius-sm);
+  color: #60A5FA;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.deeds-download-btn:hover {
+  background: rgba(96,165,250,0.18);
+  box-shadow: 0 0 10px rgba(96,165,250,0.2);
+}
+
+.deeds-upload-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background: rgba(251,191,36,0.08);
+  border: 1px solid rgba(251,191,36,0.30);
+  border-radius: var(--radius-sm);
+  color: #FBBF24;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.deeds-upload-btn:hover {
+  background: rgba(251,191,36,0.18);
+  box-shadow: 0 0 10px rgba(251,191,36,0.2);
+}
+
 /* Summary chips */
 .deeds-summary {
   display: flex;
