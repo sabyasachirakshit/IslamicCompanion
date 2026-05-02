@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import SampleGoodDeeds from "../assets/sample-good-deeds.json"
 
 /* ── Constants ── */
 const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 }
@@ -307,9 +308,7 @@ export default function Deeds() {
   const initializeSampleDeeds = async () => {
     if (!window.confirm('Load recommended sample deeds? This will add them to your existing deeds.')) return
     try {
-      const res = await fetch('/assets/sample-good-deeds.json')
-      if (!res.ok) throw new Error('Failed to load sample file')
-      const sample = await res.json()
+      const sample = SampleGoodDeeds
       if (!Array.isArray(sample)) throw new Error('Invalid sample format')
       saveDeeds([...deeds, ...sample])
     } catch {

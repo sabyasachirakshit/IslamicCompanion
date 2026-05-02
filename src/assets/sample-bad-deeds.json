@@ -1,0 +1,83 @@
+[
+  {
+    "id": "bd_1777626061790",
+    "name": "Porn",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 200,
+    "priority": "high",
+    "createdAt": 1777626061790
+  },
+  {
+    "id": "bd_1777626085969",
+    "name": "Masturbation",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 500,
+    "priority": "high",
+    "createdAt": 1777626085969
+  },
+  {
+    "id": "bd_1777626118971",
+    "name": "MUSIC",
+    "type": "daily",
+    "reward": 20,
+    "penalty": 100,
+    "priority": "medium",
+    "createdAt": 1777626118971
+  },
+  {
+    "id": "bd_1777626144365",
+    "name": "Movies",
+    "type": "daily",
+    "reward": 20,
+    "penalty": 100,
+    "priority": "medium",
+    "createdAt": 1777626144365
+  },
+  {
+    "id": "bd_1777626197701",
+    "name": "Chatting with non mahram without official requirement, and in private",
+    "type": "daily",
+    "reward": 40,
+    "penalty": 400,
+    "priority": "medium",
+    "createdAt": 1777626197701
+  },
+  {
+    "id": "bd_1777626255701",
+    "name": "Lying",
+    "type": "daily",
+    "reward": 20,
+    "penalty": 100,
+    "priority": "medium",
+    "createdAt": 1777626255701
+  },
+  {
+    "id": "bd_1777626327144",
+    "name": "Backbiting",
+    "type": "daily",
+    "reward": 60,
+    "penalty": 6000,
+    "priority": "high",
+    "createdAt": 1777626327144
+  },
+  {
+    "id": "bd_1777627013592",
+    "name": "18+ roleplays",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 500,
+    "priority": "high",
+    "createdAt": 1777627013592
+  },
+  {
+    "id": "bd_1777627466005",
+    "name": "Not lowering gaze",
+    "type": "daily",
+    "reward": 60,
+    "penalty": 100,
+    "priority": "high",
+    "createdAt": 1777627466005
+  }
+]
