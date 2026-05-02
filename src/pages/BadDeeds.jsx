@@ -192,7 +192,7 @@ function AddBadDeedForm({ onSave, onCancel }) {
   return (
     <form className="deed-add-form bd-add-form" onSubmit={handleSubmit}>
       <input className="deed-form-input" type="text" placeholder="Bad deed name (e.g. Wasted time)"
-        value={name} onChange={e => setName(e.target.value)} autoFocus maxLength={80} />
+        value={name} onChange={e => setName(e.target.value)} autoFocus  />
 
       <div className="deed-form-row">
         <div className="deed-form-group">
