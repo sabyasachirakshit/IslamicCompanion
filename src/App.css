@@ -2983,6 +2983,24 @@
   box-shadow: 0 0 10px rgba(251,191,36,0.2);
 }
 
+.deeds-init-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background: rgba(167,139,250,0.08);
+  border: 1px solid rgba(167,139,250,0.30);
+  border-radius: var(--radius-sm);
+  color: #A78BFA;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.deeds-init-btn:hover {
+  background: rgba(167,139,250,0.18);
+  box-shadow: 0 0 10px rgba(167,139,250,0.2);
+}
+
 /* Summary chips */
 .deeds-summary {
   display: flex;

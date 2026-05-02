@@ -1,0 +1,920 @@
+[
+  {
+    "id": "d_1777709578192",
+    "name": "Tahajjud : Make dua for sakib and afridi in tahajjud until they reach their goals",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 50,
+    "priority": "high",
+    "createdAt": 1777709578192
+  },
+  {
+    "id": "d_1777709616268",
+    "name": "Allahumma innī aʿūdhu bika minal-hammi wal-ḥazan. O Allah, I seek refuge in You from anxiety and grief.” 📚 Bukhari",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777709616268
+  },
+  {
+    "id": "d_1777709662874",
+    "name": "Fajr : Thank Allah for all blessings and keeping my family safe from all harms and make dua with all good deed reference to keep me and my family safe from all kind of harm..all kind,..and keep safe from sudden loss of life, make dua for others too",
+    "type": "daily",
+    "reward": 20,
+    "penalty": 20,
+    "priority": "medium",
+    "createdAt": 1777709662874
+  },
+  {
+    "id": "d_1777709705893",
+    "name": "Allahumma innī aʿūdhu bika minal-faqr, wal-qillah, wadh-dhillah. O Allah, I seek refuge in You from poverty, scarcity, and humiliation.” 📚 Abu Dawood)",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777709705893
+  },
+  {
+    "id": "d_1777709808086",
+    "name": "Allahumma innī aʿūdhu bika min jahdil-balā’, wa darakish-shaqā’, wa sū’il-qaḍā’, wa shamātatil-aʿdā “O Allah, I seek refuge in You from severe calamity, overwhelming misery, evil decree, and the gloating of enemies\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777709808086
+  },
+  {
+    "id": "d_1777709844787",
+    "name": "Allahumma ʿāfinī fī badanī, Allahumma ʿāfinī fī samʿī, Allahumma ʿāfinī fī baṣarī. (“O Allah, grant me well-being in my body, my hearing, and my sight.”)",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777709844787
+  },
+  {
+    "id": "d_1777709871176",
+    "name": "Dua to erase all sins -  Allāhumma imḥu dhunūbī min ṣaḥīfatī, wa ṭahhir qalbī, wa ighfir lī maghfiratan kāmilah.  🕊️ Meaning: “O Allah, erase my sins from my record, purify my heart, and forgive me with a complete forgiveness.”",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777709871176
+  },
+  {
+    "id": "d_1777709906953",
+    "name": "Fajr: Radee-tu bil-lahi Rab-baaa, Wa bil-is-lami-deenaaa, Wa bi-muhammadin sal-lal-lahu alai-hi Wa-sal-lama Nabiy-yaaa wa Rasoola.",
+    "type": "daily",
+    "reward": 20,
+    "penalty": 20,
+    "priority": "high",
+    "createdAt": 1777709906953
+  },
+  {
+    "id": "d_1777709954515",
+    "name": "Tahajjud: Allahumma ihdi qulooba waalidayya wa ahlii ila al-Islaam, waj‘al fee quloobihim nooran wa leenan, waftah lahum abwaaba ar-rahmah wal-hidaayah.  Meaning: O Allah, guide the hearts of my parents and family to Islam, place light and softness in their hearts, and open for them the doors of Your mercy and guidance.",
+    "type": "daily",
+    "reward": 30,
+    "penalty": 30,
+    "priority": "high",
+    "createdAt": 1777709954515
+  },
+  {
+    "id": "d_1777709978031",
+    "name": "Allahumma ainni ala dhikrak wa shukrika wa husni ibadatik",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777709978031
+  },
+  {
+    "id": "d_1777710021359",
+    "name": "Allahumma innaka afuwwun tuhibbul afwa fa fu anni",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777710021359
+  },
+  {
+    "id": "d_1777710044716",
+    "name": "Allāhumma unsur ikhwananā fī Filasṭīn wa farraj ʿanhum.  Translation: “O Allah, help our brothers and sisters in Palestine and relieve their suffering.” 🤍🇵🇸",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777710044716
+  },
+  {
+    "id": "d_1777710082846",
+    "name": "Allāhumma yā Ḥayyū yā Qayyūm, ighfir lī warḥamnī, wa lā tuʿāqibnī ʿind khata’ī. Innī ḍaʿīf, wa uḥāwilu iṣlāḥa khaṭāyāya wa riḍāka. Fa-lā tuʿādh-dhibnī fī al-qabr wa-n-nār. Ighfir lī warḥamnī, wa lā taḥkum ʿalayya bi-shidda, wa tajāwaz ʿan dhunūbī wa taqṣīrī, wa adkhilnī Jannat al-Firdaws.",
+    "type": "daily",
+    "reward": 15,
+    "penalty": 15,
+    "priority": "medium",
+    "createdAt": 1777710082846
+  },
+  {
+    "id": "d_1777710105389",
+    "name": "“O Allah, I ask You for the joy of looking at Your Face and the longing to meet You.”",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777710105389
+  },
+  {
+    "id": "d_1777710130407",
+    "name": "Fajr : sayidul istighfar",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 50,
+    "priority": "high",
+    "createdAt": 1777710130407
+  },
+  {
+    "id": "d_1777710159346",
+    "name": "Rabbana ighfir lana dhunubana wa kaffir ‘anna sayyi’atina wa tawaffana ma‘a al-abrar. (Qur’an 3:193)  🌿 Meaning: “Our Lord, forgive us our sins, remove from us our misdeeds, and cause us to die with the righteous.”  .",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777710159346
+  },
+  {
+    "id": "d_1777710202117",
+    "name": "Fajr: read 3 quls",
+    "type": "daily",
+    "reward": 70,
+    "penalty": 70,
+    "priority": "high",
+    "createdAt": 1777710202117
+  },
+  {
+    "id": "d_1777710231558",
+    "name": "Hasbunallahu wa nimal wakil x7 (Allah is sufficient for me and what an excellent trustee he is)",
+    "type": "daily",
+    "reward": 25,
+    "penalty": 25,
+    "priority": "high",
+    "createdAt": 1777710231558
+  },
+  {
+    "id": "d_1777710276318",
+    "name": "Fajr: La illaha Illallah Al Adhim, Al Halim. La  illaha Illallahu Rabbul-'Arshil-'Adhim.  La illaha Illallahu Rabbus-Samawati, wa Rabbul-ardi, wa Rabbul-'Arshil-Kareem",
+    "type": "daily",
+    "reward": 20,
+    "penalty": 20,
+    "priority": "high",
+    "createdAt": 1777710276318
+  },
+  {
+    "id": "d_1777710337256",
+    "name": "Fajr: Tilawat Qur'an atleast 5 chapters (any)",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 50,
+    "priority": "high",
+    "createdAt": 1777710337256
+  },
+  {
+    "id": "d_1777710370941",
+    "name": "Fajr: 7x Allahumma Ajirni min an nar",
+    "type": "daily",
+    "reward": 25,
+    "penalty": 25,
+    "priority": "high",
+    "createdAt": 1777710370941
+  },
+  {
+    "id": "d_1777710392112",
+    "name": "Allāhumma rabbi al-ʿaẓīm, lā ilāha illā anta, lā ilāha ghayruk; anta al-khāliq, anta ar-rāziq, anta al-muhyī wa anta al-mumīt. ighfir lī wa raḥamnī wa lā tajʿal ḥayātī shadīdan bi-ayy shayʼ. Wa ajʿalnī afʿal kulla al-aʿmāl al-ṣāliḥah allatī tadʿū ilayka bi-r-raḥmah, wa allatī hiya ḍarūriyyah li-adkhūl Jannat al-Firdaws. Lā tamtāḥinnī bi-mabātil shadīdah, bal ajʿalnī aʿmal kathīran min al-aʿmāl al-ḥasanah allatī tarḍāk. Waghfir lī, wa lā takun ʿalayya shadīdah fa-innī lā astāṭīʿu an aṭūq ghaḍabaka wa sukhūṭaka. Allāhumma kun lī mutamassikan, wa aḥfaznī fī ṣirāṭ al-Islām, wa ajʿalnī amūtu ʿalā al-Islām ḥaqqan.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777710392112
+  },
+  {
+    "id": "d_1777710447699",
+    "name": "Fajr : 10 yunus dua",
+    "type": "daily",
+    "reward": 60,
+    "penalty": 60,
+    "priority": "high",
+    "createdAt": 1777710447699
+  },
+  {
+    "id": "d_1777710478536",
+    "name": "Fajr: \"HasbiyAllah La ilaha illa huw 'alayhi tawakkaltu  268  wa huwa Rabbul 'Arshil 'Adhim (Allah is sufficient for me. There is none worthy of worship but Majestic Throne. I rely on Him alone, He is the Lord of Majestic throne.) Recite it 7 times after fajr",
+    "type": "daily",
+    "reward": 30,
+    "penalty": 30,
+    "priority": "high",
+    "createdAt": 1777710478536
+  },
+  {
+    "id": "d_1777710521802",
+    "name": "100x la ilaha ill Allah",
+    "type": "daily",
+    "reward": 100,
+    "penalty": 100,
+    "priority": "high",
+    "createdAt": 1777710521802
+  },
+  {
+    "id": "d_1777710543831",
+    "name": "Exercise for 1 hr",
+    "type": "daily",
+    "reward": 200,
+    "penalty": 200,
+    "priority": "high",
+    "createdAt": 1777710543831
+  },
+  {
+    "id": "d_1777710579817",
+    "name": "Maghrib : yunus dua 10 times",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 50,
+    "priority": "high",
+    "createdAt": 1777710579817
+  },
+  {
+    "id": "d_1777712152080",
+    "name": "Donated to Islamic foundations",
+    "type": "onetime",
+    "reward": 500,
+    "penalty": 500,
+    "priority": "high",
+    "createdAt": 1777712152080
+  },
+  {
+    "id": "d_1777712203241",
+    "name": "Give food to stray cat",
+    "type": "onetime",
+    "reward": 200,
+    "penalty": 200,
+    "priority": "high",
+    "createdAt": 1777712203241
+  },
+  {
+    "id": "d_1777712298896",
+    "name": "Allāhumma anzil al-kibra min qalbī, wa aj‘alnī mutawāḍiʿan laṭīfan maʿa al-nās, wa a‘ṭinī al-quwwah, al-shajāʿah wa-l-ʿaql.  Translation: “O Allah, remove pride from my heart, make me humble and gentle with people, and grant me strength, courage, and wisdom.” 🌿  If you want, I can compile all your long duas into a super-short daily pack covering forgiveness, health, wealth, humility, death, and akhirah — all easy to recite in under 2 minutes. Do you want me to do that?",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777712298896
+  },
+  {
+    "id": "d_1777712366733",
+    "name": "Maghrib: read 3 quls",
+    "type": "daily",
+    "reward": 70,
+    "penalty": 70,
+    "priority": "high",
+    "createdAt": 1777712366733
+  },
+  {
+    "id": "d_1777712438029",
+    "name": "Maghrib : \"HasbiyAllah La ilaha illa huw 'alayhi tawakkaltu  268  wa huwa Rabbul 'Arshil 'Adhim (Allah is sufficient for me. There is none worthy of worship but Majestic Throne. I rely on Him alone, He is the Lord of Majestic throne.) Recite it 7 times",
+    "type": "daily",
+    "reward": 20,
+    "penalty": 20,
+    "priority": "high",
+    "createdAt": 1777712438029
+  },
+  {
+    "id": "d_1777712461102",
+    "name": "Allāhumma aqbal du‘ā’ī wa a‘ṭinī al-ḥikmah wa-l-fahm, wa aṣliḥ lī mā baqiya min ḥājatī fī dhunyā wa-ākhirah.  Translation: “O Allah, accept my supplication, grant me wisdom and understanding, and fix for me what remains of my needs in this world and the Hereafter.” 🌿",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "medium",
+    "createdAt": 1777712461102
+  },
+  {
+    "id": "d_1777712493177",
+    "name": "Maghrib : Hasbunallahu wa nimal wakil x7 (Allah is sufficient for me and what an excellent trustee he is)",
+    "type": "daily",
+    "reward": 30,
+    "penalty": 30,
+    "priority": "high",
+    "createdAt": 1777712493178
+  },
+  {
+    "id": "d_1777712519652",
+    "name": "Durood 50x",
+    "type": "daily",
+    "reward": 100,
+    "penalty": 100,
+    "priority": "high",
+    "createdAt": 1777712519652
+  },
+  {
+    "id": "d_1777712553993",
+    "name": "100x SBSA",
+    "type": "daily",
+    "reward": 100,
+    "penalty": 100,
+    "priority": "high",
+    "createdAt": 1777712553993
+  },
+  {
+    "id": "d_1777712568041",
+    "name": "30x surah ikhlas",
+    "type": "daily",
+    "reward": 100,
+    "penalty": 100,
+    "priority": "high",
+    "createdAt": 1777712568041
+  },
+  {
+    "id": "d_1777712588561",
+    "name": "Ya rabbe laqal hamdu kamayambaghee lijalali wajhika wa adheemi sultanika",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777712588561
+  },
+  {
+    "id": "d_1777712622703",
+    "name": "Maghrib: sayidul istighfar",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 50,
+    "priority": "high",
+    "createdAt": 1777712622703
+  },
+  {
+    "id": "d_1777712664258",
+    "name": "(After maghrib)7x Allahumma Ajirni min an nar",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 10,
+    "priority": "high",
+    "createdAt": 1777712664258
+  },
+  {
+    "id": "d_1777712689487",
+    "name": "Isha: read surah mulk",
+    "type": "daily",
+    "reward": 60,
+    "penalty": 60,
+    "priority": "high",
+    "createdAt": 1777712689487
+  },
+  {
+    "id": "d_1777712742971",
+    "name": "Last 2 verses of surah baqarah + surah kafiroon",
+    "type": "daily",
+    "reward": 120,
+    "penalty": 120,
+    "priority": "high",
+    "createdAt": 1777712742971
+  },
+  {
+    "id": "d_1777712764060",
+    "name": "Ayatul kursi",
+    "type": "daily",
+    "reward": 30,
+    "penalty": 30,
+    "priority": "high",
+    "createdAt": 1777712764060
+  },
+  {
+    "id": "d_1777712788583",
+    "name": "Read and understand Qur'an min 5 pages",
+    "type": "daily",
+    "reward": 80,
+    "penalty": 80,
+    "priority": "high",
+    "createdAt": 1777712788583
+  },
+  {
+    "id": "d_1777712820126",
+    "name": "Isha Radee-tu bil-lahi Rab-baaa, Wa bil-is-lami-deenaaa, Wa bi-muhammadin sal-lal-lahu alai-hi Wa-sal-lama Nabiy-yaaa wa Rasoola.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "high",
+    "createdAt": 1777712820126
+  },
+  {
+    "id": "d_1777712838611",
+    "name": "Alllahumma rabba hatihid tammatil was salaatil qayimati aati muhammadanil waseelata wal fadheelata wab aathu makaamam mahmoodanil wabaathu. Innaka la tukhlliful meead",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777712838611
+  },
+  {
+    "id": "d_1777712867130",
+    "name": "Read all thankful duaa",
+    "type": "daily",
+    "reward": 50,
+    "penalty": 50,
+    "priority": "medium",
+    "createdAt": 1777712867130
+  },
+  {
+    "id": "d_1777722019636",
+    "name": "Allāhumma aj‘alnī taḥta ẓillika yawma al-qiyāmah, wa arzuqnī māʾan rayyānan wa ṭaʿāman ṭayyiban yurīḥunī.  Translation: “O Allah, make me under Your shade on the Day of Resurrection, and provide me refreshing water and wholesome food that satisfies me.” 🌿  If you want, I can make all your long, daily life and akhirah duas into a compact, super-short pack so you can recite them in a minute or two every day. Do you want me to do that?",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722019636
+  },
+  {
+    "id": "d_1777722051815",
+    "name": "Allāhumma ashkuruka ʿalā ṣiḥḥatī wa manzili, wa innī āminu bi-khayrika wa raḥmatika, fa-aj‘al du‘ā’ī maqbūlan.  Translation: “O Allah, I thank You for my health and home, and I believe in Your goodness and mercy — make my supplication accepted.” 🌿  If you want, I can make a complete super-short pack of all your daily duas — health, wealth, forgiveness, akhirah, humility, gratitude — all in 1–2 minutes of recitation. Do you want me to do that?",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722051815
+  },
+  {
+    "id": "d_1777722071780",
+    "name": "Allāhumma akhudh rūḥī bil-laṭf, wa ajʿal qabri jannatan wa lā tuʿādhhibnī fīhi.  Translation: “O Allah, take my soul gently, make my grave a garden, and do not punish me in it.” 🌿  If you want, I can make all your essential duas (health, wealth, forgiveness, death, eyes, limbs) into one super-short daily pack you can recite in under a minute. Do you want me to do that?",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722071780
+  },
+  {
+    "id": "d_1777722089865",
+    "name": "Allāhumma lā taj‘alnī faqīran wa aḥfaz ʿamālī wa mālī, wa aj‘alnī akthara ʿibādatan laka, wa a‘ṭinī al-furṣah li-l-ṣadaqah.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722089865
+  },
+  {
+    "id": "d_1777722112496",
+    "name": "Allahumma ighfir li wa irhamni. La taj‘al hayati ‘asira, fa inni dha‘eef jiddan. Allahumma irhamni wa a‘ṭini khayra ad-dunya wal-akhirah. Allahumma yassir li umoori fid-dunya wa a‘inni ‘ala mushkilati wa ahdini. Allahumma irhamni wa arzuqni Jannat al-Firdaws fil-akhirah, a‘la darajah ma‘a al-mala’ikah al-muqarrabeen wal-rusul al-kiraam.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722112496
+  },
+  {
+    "id": "d_1777722137174",
+    "name": "Allāhumma iḥfaẓnī biṣ-ṣiḥḥah wa adim lī al-ʿāfiyah ḥattā uʿbuddaka kulla yawmin.  Translation: “O Allah, protect me with good health and keep me in well-being so I can worship You every day.” 🌿  If you want, I can make all your health-related duas into one compact daily version so you can recite them all in under 30 seconds.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722137174
+  },
+  {
+    "id": "d_1777722152165",
+    "name": "Allāhumma lā tamuttinī ḥattā tamsaḥa dhunūbī wa tamla’ kitābī bi-l-aʿmāl al-ḥasanah, wa adkhulinī Jannat al-Firdaws.  Translation: “O Allah, do not let me die until You erase my sins, fill my record with good deeds, and admit me into Jannat al-Firdaws.” 🌿  If you want, I can also make a one-line ultra-short version for daily repetition that covers forgiveness, good deeds, and Jannah all at once. Do you want me to do that?",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722152165
+  },
+  {
+    "id": "d_1777722175103",
+    "name": "Allāhumma ashkuruka ʿalā jasadī wa aʿḍā’ī, wa aḥfaz ṣiḥḥatī wa ṣiḥḥat ʿā’ilatī, wa aʿṭinī al-amān wa-l-salāmah, wa aḥfaznā min kull sharr.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722175103
+  },
+  {
+    "id": "d_1777722198478",
+    "name": "O Allah, keep my blood sugar, cholesterol levels, and blood pressure at healthy levels. O Allah, do not afflict me with any deadly disease that makes life unbearable for me. Forgive me, have mercy on me, and protect me with wellness and good health throughout my life. O Allah, do not make me a burden on my family or anyone else, and do not confine me to a wheelchair. Do not afflict me with any painful disease",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722198478
+  },
+  {
+    "id": "d_1777722257393",
+    "name": "Allāhumma irhamnī, waghfir lī, wa lā taj‘al ḥayātī aṣ‘ab. Yassir lī umūra hādhihi-d-dunyā, wa yassir lī-l-‘ubūra fī yawmi-l-ḥisāb. Allāhumma lā taqbiḍ rūḥī wa anā ‘alā dhanbin aw khaṭa’ aw ‘amalin yughḍibuka. Waqbiḍ rūḥī wa anā sājidun laka fīṣ-ṣalāh aw qāri’un lil-Qur’ān. Lā tu‘adhibnī bin-nār fa’innahā shadīdah. Irhamnī, wa‘fu ‘annī, wa aḥibbanī, wa-j‘alnī mina-l-mukhlaṣīn alladhīna yadkhulūna Jannat al-Firdaws.     Here's the translation:  \"O Allah, have mercy on me, forgive me, and do not make my life more difficult. Make easy for me the affairs of this world and the reckoning on the Day of Judgment. O Allah, do not take my soul while I am in a state of sin, error, or deed that angers You. Take my soul while I am prostrating to You in prayer or reciting the Quran. Do not punish me with the fire, for it is severe. Have mercy on me, pardon me, love me, and make me among the purified ones who enter Paradise al-Firdaws.\"  This dua reflects a heartfelt plea for:  1. *Mercy and forgiveness*: Seeking mercy and forgiveness from Allah. 2. *Ease in life and judgment*: Asking for ease in worldly affairs and on the Day of Judgment. 3. *Righteous end*: Seeking a good ending, with soul taken in a state of righteousness. 4. *Protection from punishment*: Asking for protection from the fire and punishment.  It's a sincere supplication, seeking Allah's mercy, forgiveness, and protection, and asking for a righteous ending and admission to Paradise.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722257393
+  },
+  {
+    "id": "d_1777722295721",
+    "name": "\"Allahumm-aghfir li khati'ati, wajahli, wa israfi fi amri, wa ma Anta a'lamu bihi minni. Allahumm-aghfir li jiddi wa hazli, wa khata'i wa 'amdi, wa kullu dhalika 'indi. Allahumm-aghfir li ma qaddamtu wa ma akhkhartu, wa ma asrartu, wa ma a'lantu, wa ma Anta a'lamu bihi minni. Antal-Muqaddimu, wa Antal-Mu'akhkhiru; wa Anta 'ala kulli shai'in Qadir (O Allah! Forgive my errors, ignorance and immoderation in my affairs. You are better aware of my faults than myself. O Allah! Forgive my faults which I committed in seriousness or in fun deliberately or inadvertently. O Allah! Grant me pardon for those sins which I committed in the past and I may commit in future, which I committed in privacy or in public and all those sins of which You are better aware than me. You Alone can send whomever You will to Jannah, and You Alone can send whomever You will to Hell-fire and You are Omnipotent).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722295721
+  },
+  {
+    "id": "d_1777722329160",
+    "name": "Allahumma ajilni min as-sabireen, wa ajilni min ash-shakireen.  Translation:  \"O Allah, make me among the patient, and make me among the grateful.\"  - Reward: Allah loves patience and gratitude. This dua reflects a desire to embody these noble qualities, which are beloved to Allah and bring rewards in this world and the Hereafter.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722329160
+  },
+  {
+    "id": "d_1777722350855",
+    "name": "'Allahumma inni zalamtu nafsi zulman kathiran, wa la yaghfirudh- dhunuba illa Anta, faghfir li maghfiratan min 'indika, warhamni, innaka Antal-Ghafur-ur-Rahim (O Allah! I have considerably wronged myself. There is none to forgive the sins but You. So grant me pardon and have mercy on me. You are the Most Forgiving, the Most Compassionate).\"'",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722350855
+  },
+  {
+    "id": "d_1777722369612",
+    "name": "'Allahumma inni as'aluka hubbaka, wa hubba man yuhibbuka, wal-'amalalladhi yuballighuni hubbaka. Allahumm-aj'al hubbaka ahabba ilayya min nafsi, wa ahli, wa minal-ma'il-baridi (O Allah! I ask You for Your Love, the love of those who love You, and deeds which will cause me to attain Your Love. O Allah! Make Your Love dearer to me than myself, my family and the cold water).\"'",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722369612
+  },
+  {
+    "id": "d_1777722382840",
+    "name": "\"Allahumma inni a'udhu bika minal-barasi, wal- jununi, wal-judhami, wa sayyi'il-asqami' (O Allah! I seek refuge in You from leucoderma, insanity, leprosy and evil diseases).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722382840
+  },
+  {
+    "id": "d_1777722396021",
+    "name": "Rabbana hab lana min azwajina wa dhurriyatina qurrata a'yunin wa ja'alna lil-muttaqeena imama",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722396021
+  },
+  {
+    "id": "d_1777722413061",
+    "name": "\"Allahumma inni a'udhu bika min fitnatin-nari, wa 'adhabin-nari, wa min sharril-ghina wal-faqri (O Allah! I seek refuge in You from the trials and the torment of the Fire and from the evils of wealth and poverty).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722413061
+  },
+  {
+    "id": "d_1777722443036",
+    "name": "Allahumma ajilni min ahl al-shukr, wa ajilni min ahl al-ziyada fi al-ni’am, wa waffiqni li'an aqul al-hamdu lillah, wa anta ahl al-hamd, wa la hawla wa la quwwata illa billah *Translation:*  _\"O Allah, make me among the people of gratitude, and make me among those who receive an increase in blessings. Grant me the ability to say 'Alhamdulillah' (Praise be to Allah), for You are the One deserving of all praise, and there is no power and no strength except through Allah.\"_   (Authentic Dua from Islamic supplications)  ---",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722443036
+  },
+  {
+    "id": "d_1777722457615",
+    "name": "Allahumm-akfini bihalalika 'an haramika, wa aghnini bifadlika 'amman siwaka (O Allah! Grant me enough of what You make lawful so that I may dispense with what You make unlawful, and enable me by Your Grace to dispense with all but You).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722457615
+  },
+  {
+    "id": "d_1777722471277",
+    "name": "\"Allahumma inni a'udhu bika min zawali ni'matika, wa tahawwuli 'afiyatika, wa fuja'ati niqmatika, wa jami'i sakhatika (O Allah! I seek refuge in You against the declining of Your Favours, passing of safety, the suddenness of Your punishment and all that which displeases You).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722471277
+  },
+  {
+    "id": "d_1777722498751",
+    "name": "Allahumma ighfir li warhamni wa a’ithni min jahannam. Translation:  \"O Allah, forgive me, have mercy on me, and protect me from the Hellfire.\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722498751
+  },
+  {
+    "id": "d_1777722511386",
+    "name": "Allahumma al-himni rushdi, wa a'idhni min sharri nafsi (O Allah! Inspire in me guidance and deliver me from the evils within myself).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722511386
+  },
+  {
+    "id": "d_1777722524747",
+    "name": "Allahumma tabattalna ilayka tawbatan nasuhan.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722524747
+  },
+  {
+    "id": "d_1777722541079",
+    "name": "\"Allahumma inni as'aluka mujibati rahmatika, wa 'aza'ima maghfiratika, was-salamata min kulli ithmin, wal-ghanimata min kulli birrin, wal-fawza bil- jannati, wannajata mina-nar (O Allah! I beg You for that which incites Your Mercy and the means of Your forgiveness, safety from every sin, the benefit from every good deed, success in attaining Jannah and deliverance from Fire).",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722541079
+  },
+  {
+    "id": "d_1777722553724",
+    "name": "\"Allahumma musarrifal-qulubi, sarrif qulubana 'ala ta'atika (O Allah! Controller of the hearts, direct our hearts to Your obedience).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722553724
+  },
+  {
+    "id": "d_1777722578346",
+    "name": "Allahumaghfirlee warhamni wahdini wa aafini wa ruzukni. O Allah, forgive me, have mercy on me, provide good health for me, and provide me riziq",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722578346
+  },
+  {
+    "id": "d_1777722590246",
+    "name": "Allahumma atina fi dunya hasanatan wa fi al-akhirati hasanatan wa qina ‘adhab an-nar.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722590246
+  },
+  {
+    "id": "d_1777722615046",
+    "name": "Allahumma ihdina fi man hadayt, wa ‘aafina fi man ‘aafayt, wa tawallana fi man tawallayt, wa barik lana fi ma a’tayt.Translation:  \"O Allah, guide us among those You have guided, grant us health among those You have granted health, protect us among those You have protected, and bless us in what You have given us.\"  - Reward: This dua reflects a deep desire for Allah’s guidance, health, protection, and blessings, which are things Allah loves to grant His servants.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722615046
+  },
+  {
+    "id": "d_1777722631662",
+    "name": "\"Allahumma inni audhu bika min sharri ma 'amiltu, wa min sharri ma lam a'mal (O Allah! I seek refuge in You from the evil of that which I have done and the evil of that which I have not done).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722631662
+  },
+  {
+    "id": "d_1777722685855",
+    "name": "Allahumma inna nas’aluka min khayri ma sa’ala minhu ‘abduka wa rasooluka Muhammad sallallahu alayhi wa sallam, wa na’oozu bika min sharri ma ista’adhaka minhu ‘abduka wa rasooluka Muhammad sallallahu alayhi wa sallam. Allahumma ajilna min ahl al-Jannah, wa najjina min al-Nar. Allahumma atina fi dunya hasanatan wa fi al-akhirati hasanatan wa qina ‘adhab al-Nar. Allahumma ghfir lana wa li-aba’ina wa li-ummatina wa liman lahu haqqun ‘alayna. Allahumma ajilna min ash-shakireen, wa waffiqna lima tuhibbu wa tarda, wa ajilna min ahl al-maghfirati wa ar-rahmah, birahmatika ya Arhamar-Rahimeen. ---  *Translation*:*\"O Allah, we ask You for the best of what Your servant and Messenger Muhammad (peace be upon him) asked You for, and we seek refuge in You from the worst of what Your servant and Messenger Muhammad (peace be upon him) sought refuge from. O Allah, make us among the people of Paradise, and save us from the Hellfire. O Allah, grant us good in this world and good in the Hereafter, and protect us from the punishment of the Fire. O Allah, forgive us, our parents, our mothers, and those who have rights over us. O Allah, make us among those who are grateful to You, guide us to what You love and are pleased with, and make us among the people of forgiveness and mercy, by Your mercy, O Most Merciful of the merciful.\"*  ---  This dua is comprehensive, covering everything from *goodness in both worlds*, *forgiveness*, and *protection from Hellfire* to *gratitude* and *guidance*. May Allah accept it and grant you His blessings. Ameen! 🌸  Let me know if you need any further assistance or have other questions! 😊",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722685855
+  },
+  {
+    "id": "d_1777722700151",
+    "name": "Allahumma inni a’udhu bika min sharri ma khalaqt wa min sharri faja’ihihi. O Allah, I seek refuge in You from the evil of what You have created and from the evil of its sudden calamities.\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722700151
+  },
+  {
+    "id": "d_1777722727824",
+    "name": "Ask forgiveness for major sins that you have committed in today. Read salat al tawbah 2 rakah minimum",
+    "type": "daily",
+    "reward": 100,
+    "penalty": 100,
+    "priority": "medium",
+    "createdAt": 1777722727824
+  },
+  {
+    "id": "d_1777722745111",
+    "name": "\"Allahumma inni as'alukal-huda, wat-tuqa, wal-'afafa, wal-ghina (O Allah! I beseech You for guidance, piety, chastity and contentment).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722745111
+  },
+  {
+    "id": "d_1777722794444",
+    "name": "Allahumma inni abduka wa ibn abduka wa ibn amatika, nasiyati biyadika, maadim fi hukmik, 'adl fi qada'ik, as'aluka bi kulli ismin huwa lak samaytahu bihi nafsak, aw anzaltahu fi kitābik, aw 'allamtahu ahadan min khalqik, awista'atharta bihi fi 'ilmil ghayb indak, an taj'ala al-Qur'an rabi'a qalbi, wa noora sadri, wa jala'a huzni, wa dhahaba hammi.  _  *Translation:*  _\"O Allah, I am Your servant, the son of Your servant, and the son of Your maidservant. My forelock is in Your Hand, and Your judgment upon me is forever executed, and Your decree upon me is just. I ask You by every name You have called Yourself, or revealed in Your Book, or taught to any of Your creatures, or have kept to Yourself in the knowledge of the unseen with You, that You make the Qur’an the spring of my heart, the light of my chest, the removal of my sorrow, and the release of my anxiety.\"_   (Sahih Muslim)  ---",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722794444
+  },
+  {
+    "id": "d_1777722808525",
+    "name": "\"Allahumma inni a'udhu bika minal- ju'i, fa-innahu bi'sad-daji'u; wa a'udhu bika minal-khiyanati, fa- innaha bi'satil-bitanah' [O Allah! I seek refuge in You from hunger; surely, it is the worst companion. And I seek refuge in You from treachery; surely, it is a bad inner trait].\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722808525
+  },
+  {
+    "id": "d_1777722822730",
+    "name": "'Ya muqallibal-qulubi, thabbit qalbi 'ala dinika (O Controller of the hearts make my heart steadfast in Your religion).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722822730
+  },
+  {
+    "id": "d_1777722845436",
+    "name": "Allahumma inni a'udhu bika min sharri sam'i, wa min sharri basari, wa min sharri lisani, wa min sharri qalbi, wa min sharri maniyyi (O Allah! I seek refuge in You from the evils of my hearing, the evils of my seeing, the evils of my tongue; the evils of my heart and the evils of passions).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722845436
+  },
+  {
+    "id": "d_1777722861413",
+    "name": "Allahumma inni as'aluka rahmataka allati wasi'at kulla shay'in wa maghfirataka allati taghfiroo biha dhunoobi wa tutahhiru biha qalbi.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722861413
+  },
+  {
+    "id": "d_1777722882063",
+    "name": "Allahumma ajilni hubbuka ahabba ilayya min nafsi wa mali wa ahli. \"O Allah, make Your love more beloved to me than myself, my wealth, and my family.\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722882063
+  },
+  {
+    "id": "d_1777722912162",
+    "name": "\"Allahumm-aslih li diniyalladhi huwa 'ismatu amri, wa aslih li dunyaya-llati fiha ma'ashi, wa aslih li akhirati-llati fiha ma'adi, waj'alil-hayata ziyadatan li fi kulli khair, waj'alil-mauta rahatan li min kulli sharrin (O Allah, make my religion easy for me by virtue of which my affairs are protected, set right for me my world where my life exists, make good for me my Hereafter which is my resort to which I have to return, and make my life prone to perform all types of good, and make death a comfort for me from every evil).\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722912162
+  },
+  {
+    "id": "d_1777722925142",
+    "name": "Allahumma ajilni min al-ladhina yastami’oonal qawla fayattabi’oonah ahsanah. \"O Allah, make me among those who listen to the words and follow the best of them.\"",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722925142
+  },
+  {
+    "id": "d_1777722938105",
+    "name": "Allahumma ajilni radhiyan bima qasamta li. \"O Allah, make me content with what You have decreed for me.",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722938105
+  },
+  {
+    "id": "d_1777722961680",
+    "name": "Allahumma inni aauddhu bika an yatakhabbanatish shaitanu indal maut This will help from shaytan on time of death and will be able to take the sahadah properly in sha Allah",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722961680
+  },
+  {
+    "id": "d_1777722974031",
+    "name": "Allahumaghfirlee dambi qullahu dikkahu wa jillahu wa awalahu wa akhirahu wa alaaniyatahu wa sirrahu ( minor major first last public private)",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777722974031
+  },
+  {
+    "id": "d_1777723001042",
+    "name": "Allahumma qinne aathabaka yawma tajmau ibadaaka li yawmil la rayba feeh. This will help to save from punishment on day of judgement",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "low",
+    "createdAt": 1777723001042
+  },
+  {
+    "id": "d_1777723018714",
+    "name": "Bismika Allahumma Amootu wa Ahyaa",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723018714
+  },
+  {
+    "id": "d_1777723032552",
+    "name": "Allahumagfir dambi wa tahir qalbi wa hasin farji..(O Allah, forgive my sins, clean my heart and guard my chastity )",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723032552
+  },
+  {
+    "id": "d_1777723053255",
+    "name": "Rabbana ighfir lana wa li ikhwanina alladhina sabaquna bil iman Good for repairing harm toward others Meaning: “Our Lord, forgive us and our brothers who preceded us in faith.” Qur'an 59:10",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723053255
+  },
+  {
+    "id": "d_1777723065692",
+    "name": "Allahumma Hasibni Hisaban Yaswera (make questioning easy for me)",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723065692
+  },
+  {
+    "id": "d_1777723090883",
+    "name": "Subhanaka Allahumma wa bihamdika, ashhadu an la ilaha illa anta, astaghfiruka wa atubu ilayk Dua That Expiates Mistakes of a Gathering   Meaning: “Glory be to You O Allah and praise be to You. I bear witness that there is no god except You. I seek Your forgiveness and repent to You.”",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723090883
+  },
+  {
+    "id": "d_1777723103080",
+    "name": "Rabbana taqabbal minna innaka anta as samiul aleem",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723103080
+  },
+  {
+    "id": "d_1777723115434",
+    "name": "Make dua for a dream of session talking to prophet  for 1 hr",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723115434
+  },
+  {
+    "id": "d_1777723128344",
+    "name": "Allahumma ajirni Mina an nar (Ban from hell)",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723128344
+  },
+  {
+    "id": "d_1777723140334",
+    "name": "Allahumma inni as aluka al firdaws al ala min al Jannah  x3 (Reward - I will get jannat Al firdaws if Allah wills)",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723140334
+  },
+  {
+    "id": "d_1777723155636",
+    "name": "Wa la tukhzina yawm al qiyama. Innaka la tukhliful meead. (hide sins)",
+    "type": "daily",
+    "reward": 10,
+    "penalty": 5,
+    "priority": "medium",
+    "createdAt": 1777723155636
+  }
+]

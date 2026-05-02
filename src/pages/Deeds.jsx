@@ -55,6 +55,11 @@ const UploadIcon = () => (
     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
   </svg>
 )
+const InitializeIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+  </svg>
+)
 const ChevronDown = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="6 9 12 15 18 9"/>
@@ -299,6 +304,19 @@ export default function Deeds() {
     reader.readAsText(file)
   }
 
+  const initializeSampleDeeds = async () => {
+    if (!window.confirm('Load recommended sample deeds? This will add them to your existing deeds.')) return
+    try {
+      const res = await fetch('/src/assets/sample-good-deeds.json')
+      if (!res.ok) throw new Error('Failed to load sample file')
+      const sample = await res.json()
+      if (!Array.isArray(sample)) throw new Error('Invalid sample format')
+      saveDeeds([...deeds, ...sample])
+    } catch {
+      alert('Failed to load sample deeds. Please ensure the file exists at /src/assets/sample-good-deeds.json')
+    }
+  }
+
   const addDeed = (deed) => { saveDeeds([...deeds, deed]); setShowForm(false) }
 
   const deleteDeed = (id) => { saveDeeds(deeds.filter(d => d.id !== id)) }
@@ -380,6 +398,9 @@ export default function Deeds() {
           <UploadIcon />
           <input type="file" accept=".json" onChange={uploadDeeds} style={{ display: 'none' }} />
         </label>
+        <button className="deeds-init-btn" onClick={initializeSampleDeeds} title="Initialize recommended deeds">
+          <InitializeIcon />
+        </button>
       </div>
 
       {/* Summary */}
