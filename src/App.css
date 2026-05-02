@@ -1766,6 +1766,105 @@
 }
 .wm-cancel-btn:hover { background: rgba(255,255,255,0.04); color: var(--text); }
 
+/* ===== PIN Screen ===== */
+.pin-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 24px;
+}
+
+.pin-card {
+  background: var(--surface);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px 32px;
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.3);
+}
+
+.pin-lock-icon { font-size: 40px; margin-bottom: 4px; }
+
+.pin-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  text-align: center;
+}
+
+.pin-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.pin-field-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  align-self: flex-start;
+  margin-top: 6px;
+}
+
+.pin-boxes {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.pin-box {
+  width: 52px;
+  height: 58px;
+  border: 1.5px solid var(--border-bright);
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  caret-color: transparent;
+}
+.pin-box:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,229,160,0.15);
+}
+
+.pin-error {
+  font-size: 12px;
+  color: #F87171;
+  margin: 4px 0 0;
+  text-align: center;
+}
+
+.pin-submit-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  background: rgba(0,229,160,0.14);
+  color: #00E5A0;
+  border: 1px solid rgba(0,229,160,0.35);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, opacity 0.15s;
+}
+.pin-submit-btn:hover { background: rgba(0,229,160,0.22); }
+
 /* ===== Diary Page ===== */
 .diary-page {
   padding: 24px;

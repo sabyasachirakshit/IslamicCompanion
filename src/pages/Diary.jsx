@@ -1,6 +1,104 @@
 import { useState, useEffect, useRef } from 'react'
 
+const PIN_KEY = 'diaryPin'
+
+function PinScreen({ mode, onUnlock }) {
+  const [digits, setDigits]   = useState(['', '', '', ''])
+  const [confirm, setConfirm] = useState(['', '', '', ''])
+  const [error, setError]     = useState('')
+  const pinEls     = useRef([])
+  const confirmEls = useRef([])
+
+  useEffect(() => { pinEls.current[0]?.focus() }, [])
+
+  const handleInput = (els, arr, setArr, i, val) => {
+    if (!/^\d$/.test(val) && val !== '') return
+    const next = [...arr]; next[i] = val; setArr(next)
+    if (val && i < 3) els.current[i + 1]?.focus()
+  }
+
+  const handleKeyDown = (els, arr, setArr, i, e) => {
+    if (e.key === 'Backspace' && !arr[i] && i > 0) {
+      const next = [...arr]; next[i - 1] = ''; setArr(next)
+      els.current[i - 1]?.focus()
+    }
+  }
+
+  const handleSubmit = () => {
+    const pinStr = digits.join('')
+    if (pinStr.length < 4) { setError('Please fill in all 4 digits.'); return }
+    if (mode === 'set') {
+      const cfStr = confirm.join('')
+      if (cfStr.length < 4) { setError('Please confirm all 4 digits.'); return }
+      if (pinStr !== cfStr) {
+        setError('PINs do not match. Try again.')
+        setDigits(['', '', '', '']); setConfirm(['', '', '', ''])
+        pinEls.current[0]?.focus(); return
+      }
+      localStorage.setItem(PIN_KEY, pinStr)
+      setTimeout(() => window.location.reload(), 0)
+    } else {
+      if (pinStr === localStorage.getItem(PIN_KEY)) {
+        onUnlock()
+      } else {
+        setError('Incorrect PIN. Try again.')
+        setDigits(['', '', '', ''])
+        pinEls.current[0]?.focus()
+      }
+    }
+  }
+
+  const renderBoxes = (arr, setArr, els) =>
+    arr.map((d, i) => (
+      <input
+        key={i}
+        ref={el => { els.current[i] = el }}
+        className="pin-box"
+        type="password"
+        inputMode="numeric"
+        maxLength={1}
+        value={d}
+        onChange={e => handleInput(els, arr, setArr, i, e.target.value)}
+        onKeyDown={e => handleKeyDown(els, arr, setArr, i, e)}
+        onFocus={e => e.target.select()}
+      />
+    ))
+
+  return (
+    <div className="pin-screen">
+      <div className="pin-card">
+        <div className="pin-lock-icon">{mode === 'set' ? '🔐' : '🔒'}</div>
+        <h2 className="pin-title">{mode === 'set' ? 'Protect Your Diary' : 'Diary is Locked'}</h2>
+        <p className="pin-subtitle">
+          {mode === 'set'
+            ? 'Set a 4-digit PIN to keep your diary private.'
+            : 'Enter your 4-digit PIN to continue.'}
+        </p>
+
+        <div className="pin-field-label">{mode === 'set' ? 'Choose PIN' : 'Enter PIN'}</div>
+        <div className="pin-boxes">{renderBoxes(digits, setDigits, pinEls)}</div>
+
+        {mode === 'set' && (
+          <>
+            <div className="pin-field-label">Confirm PIN</div>
+            <div className="pin-boxes">{renderBoxes(confirm, setConfirm, confirmEls)}</div>
+          </>
+        )}
+
+        {error && <p className="pin-error">{error}</p>}
+
+        <button className="pin-submit-btn" onClick={handleSubmit}>
+          {mode === 'set' ? 'Set PIN & Lock Diary' : 'Unlock'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function Diary() {
+  const [pinUnlocked, setPinUnlocked] = useState(false)
+  const pinMode = localStorage.getItem(PIN_KEY) ? 'enter' : 'set'
+
   const [notes, setNotes] = useState(() => {
     const saved = localStorage.getItem('diaryNotes')
     return saved ? JSON.parse(saved) : []
@@ -123,6 +221,10 @@ export default function Diary() {
   const getContentPreview = (content, maxLength = 120) => {
     if (content.length <= maxLength) return content
     return content.substring(0, maxLength) + '...'
+  }
+
+  if (!pinUnlocked) {
+    return <PinScreen mode={pinMode} onUnlock={() => setPinUnlocked(true)} />
   }
 
   return (
