@@ -3462,8 +3462,7 @@
 @media (max-width: 600px) {
   .deed-item { flex-direction: column; align-items: flex-start; max-width: 100%; }
   .deed-item-right { width: 100%; }
-  .deed-item-btns { width: 100%; }
-  .deed-btn span { display: none; }
+ 
 }
 
 /* Mobile: keep toolbar in one row — icon-only sort & add, search fills remaining space */
