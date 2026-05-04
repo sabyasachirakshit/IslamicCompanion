@@ -158,8 +158,57 @@ function MotivationalModal({ data, onClose }) {
   )
 }
 
+/* ── Dhikr Modal ── */
+function DhikrModal({ pending, onAnswer }) {
+  if (!pending) return null
+  return (
+    <div className="dhikr-overlay" onClick={() => onAnswer(false)}>
+      <div className="dhikr-modal" onClick={e => e.stopPropagation()}>
+        <div className="dhikr-header">
+          <span className="dhikr-icon">📿</span>
+          <div>
+            <h3 className="dhikr-title">Post-Prayer Dhikr</h3>
+            <p className="dhikr-sub">Did you recite the tasbih after <strong>{pending.prayer.name}</strong>?</p>
+          </div>
+        </div>
+        <div className="dhikr-body">
+          <div className="dhikr-row">
+            <div className="dhikr-item">
+              <span className="dhikr-count">33×</span>
+              <span className="dhikr-arabic">سُبْحَانَ اللَّهِ</span>
+              <span className="dhikr-latin">SubhanAllah</span>
+            </div>
+            <div className="dhikr-item">
+              <span className="dhikr-count">33×</span>
+              <span className="dhikr-arabic">الْحَمْدُ لِلَّهِ</span>
+              <span className="dhikr-latin">Alhamdulillah</span>
+            </div>
+            <div className="dhikr-item">
+              <span className="dhikr-count">34×</span>
+              <span className="dhikr-arabic">اللَّهُ أَكْبَرُ</span>
+              <span className="dhikr-latin">Allahu Akbar</span>
+            </div>
+          </div>
+          <div className="dhikr-hadith">
+            <p>❝ Whoever glorifies Allah 33 times, praises Him 33 times, and declares His greatness 34 times after every prayer — his sins will be forgiven even if they were like the foam of the sea. ❞</p>
+            <span className="dhikr-source">— Sahih Muslim 597</span>
+          </div>
+        </div>
+        <div className="dhikr-actions">
+          <button className="dhikr-btn dhikr-yes" onClick={() => onAnswer(true)}>
+            ✓ Yes, I did it <em>+₹50</em>
+          </button>
+          <button className="dhikr-btn dhikr-no" onClick={() => onAnswer(false)}>
+            ✕ No, I skipped <em>-₹50</em>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ── Prayer Row ── */
-function PrayerRow({ prayer, status, groupId, onMark }) {
+function PrayerRow({ prayer, status, groupId, onMark, onDhikrPrompt }) {
   const meta = TYPE_META[prayer.type]
   const isMarked = !!status
 
@@ -178,11 +227,13 @@ function PrayerRow({ prayer, status, groupId, onMark }) {
       <div className="prayer-row-right">
         {!isMarked ? (
           <div className="prayer-action-btns">
-            <button className="prayer-btn prayer-btn-ontime" onClick={() => onMark(prayer, 'onTime')}>
+            <button className="prayer-btn prayer-btn-ontime"
+              onClick={() => prayer.type === 'fardh' ? onDhikrPrompt(prayer, 'onTime', groupId) : onMark(prayer, 'onTime')}>
               <CheckIcon /> <span>On Time</span> <em>+₹{prayer.reward.onTime}</em>
             </button>
             {prayer.reward.late !== undefined && (
-              <button className="prayer-btn prayer-btn-late" onClick={() => onMark(prayer, 'late')}>
+              <button className="prayer-btn prayer-btn-late"
+                onClick={() => prayer.type === 'fardh' ? onDhikrPrompt(prayer, 'late', groupId) : onMark(prayer, 'late')}>
                 ⏰ <span>Late</span> <em>+₹{prayer.reward.late}</em>
               </button>
             )}
@@ -203,7 +254,7 @@ function PrayerRow({ prayer, status, groupId, onMark }) {
 }
 
 /* ── Prayer Group ── */
-function PrayerGroup({ group, prayerStatus, onMark }) {
+function PrayerGroup({ group, prayerStatus, onMark, onDhikrPrompt }) {
   const [expanded, setExpanded] = useState(true)
   const marked = group.prayers.filter(p => prayerStatus[p.id]).length
   const allMarked = marked === group.prayers.length
@@ -228,7 +279,7 @@ function PrayerGroup({ group, prayerStatus, onMark }) {
       {expanded && (
         <div className="prayer-group-rows">
           {group.prayers.map(p => (
-            <PrayerRow key={p.id} prayer={p} status={prayerStatus[p.id]} groupId={group.id} onMark={onMark} />
+            <PrayerRow key={p.id} prayer={p} status={prayerStatus[p.id]} groupId={group.id} onMark={onMark} onDhikrPrompt={onDhikrPrompt} />
           ))}
         </div>
       )}
@@ -242,7 +293,21 @@ export default function Prayers() {
   const [prayerStatus, setPrayerStatus] = useState(() => {
     try { return JSON.parse(localStorage.getItem(todayStatusKey()) || '{}') } catch { return {} }
   })
-  const [motivModal, setMotivModal] = useState(null)
+  const [motivModal, setMotivModal]   = useState(null)
+  const [dhikrPending, setDhikrPending] = useState(null)
+
+  const promptDhikr = (prayer, status, groupId) => {
+    setDhikrPending({ prayer, status, groupId })
+  }
+
+  const confirmDhikr = (didIt) => {
+    if (!dhikrPending) return
+    const { prayer, status, groupId } = dhikrPending
+    markPrayer(prayer, status, groupId)
+    if (didIt) creditWallet(50)
+    else debitWallet(50)
+    setDhikrPending(null)
+  }
 
   const markPrayer = (prayer, status, groupId) => {
     if (prayerStatus[prayer.id]) return
@@ -273,6 +338,7 @@ export default function Prayers() {
   return (
     <div className="good-deeds">
       <MotivationalModal data={motivModal} onClose={() => setMotivModal(null)} />
+      <DhikrModal pending={dhikrPending} onAnswer={confirmDhikr} />
       <div className="gd-summary-bar">
         <div className="gd-summary-item">
           <span className="gd-summary-value">{markedPrayers}<span className="gd-summary-total">/{totalPrayers}</span></span>
@@ -299,7 +365,7 @@ export default function Prayers() {
         <h3 className="gd-section-title"><span className="gd-section-dot green" />Daily Prayers</h3>
         <div className="prayer-groups-list">
           {PRAYER_GROUPS.map(g => (
-            <PrayerGroup key={g.id} group={g} prayerStatus={prayerStatus} onMark={markPrayer} />
+            <PrayerGroup key={g.id} group={g} prayerStatus={prayerStatus} onMark={markPrayer} onDhikrPrompt={promptDhikr} />
           ))}
         </div>
       </div>

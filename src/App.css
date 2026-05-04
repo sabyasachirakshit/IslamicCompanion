@@ -803,6 +803,181 @@
   }
 }
 
+/* ===== Dhikr Modal ===== */
+.dhikr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(4px);
+}
+
+.dhikr-modal {
+  background: var(--surface);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 0 40px rgba(167, 139, 250, 0.18);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dhikr-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 22px 16px;
+  background: rgba(167, 139, 250, 0.07);
+  border-bottom: 1px solid rgba(167, 139, 250, 0.18);
+}
+
+.dhikr-icon {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.dhikr-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #A78BFA;
+  margin: 0 0 3px;
+}
+
+.dhikr-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.dhikr-sub strong {
+  color: var(--text);
+}
+
+.dhikr-body {
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dhikr-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.dhikr-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  background: rgba(167, 139, 250, 0.07);
+  border: 1px solid rgba(167, 139, 250, 0.20);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.dhikr-count {
+  font-size: 13px;
+  font-weight: 800;
+  color: #A78BFA;
+}
+
+.dhikr-arabic {
+  font-size: 17px;
+  color: var(--text);
+  font-family: 'Amiri', 'Scheherazade New', serif;
+  direction: rtl;
+  line-height: 1.4;
+}
+
+.dhikr-latin {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.dhikr-hadith {
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid rgba(167, 139, 250, 0.50);
+  border-radius: 0 8px 8px 0;
+}
+
+.dhikr-hadith p {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin: 0 0 5px;
+  font-style: italic;
+}
+
+.dhikr-source {
+  font-size: 11px;
+  color: #A78BFA;
+  font-weight: 600;
+}
+
+.dhikr-actions {
+  display: flex;
+  gap: 10px;
+  padding: 14px 22px 20px;
+}
+
+.dhikr-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all var(--transition);
+}
+
+.dhikr-btn em {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.dhikr-yes {
+  background: rgba(0, 229, 160, 0.10);
+  border-color: rgba(0, 229, 160, 0.35);
+  color: #00E5A0;
+}
+.dhikr-yes:hover { background: rgba(0, 229, 160, 0.18); }
+
+.dhikr-no {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.28);
+  color: #F87171;
+}
+.dhikr-no:hover { background: rgba(239, 68, 68, 0.16); }
+
+@media (max-width: 480px) {
+  .dhikr-row { gap: 6px; }
+  .dhikr-item { padding: 10px 4px; }
+  .dhikr-arabic { font-size: 15px; }
+  .dhikr-actions { flex-direction: column; }
+}
+
 /* ===== Reset Button ===== */
 .reset-btn {
   display: flex;
