@@ -87,6 +87,11 @@ const CloseIcon = () => (
     <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
   </svg>
 )
+const EditIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+  </svg>
+)
 
 /* ── Bad Deed Detail Modal ── */
 function BadDeedModal({ deed, status, onClose }) {
@@ -125,7 +130,7 @@ function BadDeedModal({ deed, status, onClose }) {
 }
 
 /* ── Bad Deed Row ── */
-function BadDeedRow({ deed, status, onMark, onDelete, onOpen }) {
+function BadDeedRow({ deed, status, onMark, onDelete, onOpen, onEdit }) {
   const pm = PRIORITY_META[deed.priority]
   const isMarked = !!status
 
@@ -152,6 +157,9 @@ function BadDeedRow({ deed, status, onMark, onDelete, onOpen }) {
             <button className="deed-btn bd-btn-committed" onClick={() => onMark(deed, 'committed')}>
               ✕ <span>Committed</span> <em>-₹{deed.penalty}</em>
             </button>
+            <button className="deed-btn deed-btn-edit" onClick={() => onEdit(deed)} title="Edit">
+              <EditIcon />
+            </button>
             <button className="deed-btn deed-btn-delete" onClick={() => onDelete(deed.id)} title="Delete">
               <TrashIcon />
             </button>
@@ -162,6 +170,74 @@ function BadDeedRow({ deed, status, onMark, onDelete, onOpen }) {
             {status === 'committed' && <>✕ Committed · -₹{deed.penalty}</>}
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+/* ── Edit Form ── */
+function EditBadDeedForm({ deed, onSave, onCancel }) {
+  const [name,     setName]     = useState(deed.name)
+  const [type,     setType]     = useState(deed.type)
+  const [reward,   setReward]   = useState(String(deed.reward))
+  const [penalty,  setPenalty]  = useState(String(deed.penalty))
+  const [priority, setPriority] = useState(deed.priority)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!name.trim()) return
+    onSave({ ...deed, name: name.trim(), type, reward: Math.max(0, parseFloat(reward) || 0), penalty: Math.max(0, parseFloat(penalty) || 0), priority })
+  }
+
+  return (
+    <div className="deed-modal-backdrop" onClick={onCancel}>
+      <div className="deed-edit-modal" onClick={e => e.stopPropagation()}>
+        <div className="deed-edit-header">
+          <h3 className="deed-edit-title">Edit Bad Deed</h3>
+          <button className="deed-modal-close" type="button" onClick={onCancel}><CloseIcon /></button>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <input className="deed-form-input" type="text" placeholder="Bad deed name"
+            value={name} onChange={e => setName(e.target.value)} autoFocus />
+          <div className="deed-form-row">
+            <div className="deed-form-group">
+              <label className="deed-form-label">Type</label>
+              <div className="deed-type-toggle">
+                <button type="button" className={`deed-type-btn${type === 'daily'   ? ' active' : ''}`} onClick={() => setType('daily')}>Daily</button>
+                <button type="button" className={`deed-type-btn${type === 'onetime' ? ' active' : ''}`} onClick={() => setType('onetime')}>One-time</button>
+              </div>
+            </div>
+            <div className="deed-form-group">
+              <label className="deed-form-label">Priority</label>
+              <div className="deed-priority-toggle">
+                {['high','medium','low'].map(p => (
+                  <button key={p} type="button"
+                    className={`deed-prio-btn${priority === p ? ' active' : ''}`}
+                    style={priority === p ? { background: PRIORITY_META[p].bg, borderColor: PRIORITY_META[p].color, color: PRIORITY_META[p].color } : {}}
+                    onClick={() => setPriority(p)}>
+                    {PRIORITY_META[p].label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="deed-form-row">
+            <div className="deed-form-group">
+              <label className="deed-form-label">Reward if Avoided (₹)</label>
+              <input className="deed-form-input deed-form-number" type="number" min="0" max="10000"
+                value={reward} onChange={e => setReward(e.target.value)} />
+            </div>
+            <div className="deed-form-group">
+              <label className="deed-form-label">Penalty if Committed (₹)</label>
+              <input className="deed-form-input deed-form-number" type="number" min="0" max="10000"
+                value={penalty} onChange={e => setPenalty(e.target.value)} />
+            </div>
+          </div>
+          <div className="deed-form-actions">
+            <button className="deed-form-save bd-form-save" type="submit" disabled={!name.trim()}>Update Deed</button>
+            <button className="deed-form-cancel" type="button" onClick={onCancel}>Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
   )
@@ -257,6 +333,7 @@ export default function BadDeeds() {
   const [showAvoided,   setShowAvoided]   = useState(false)
   const [showUnfinished, setShowUnfinished] = useState(true)
   const [selectedDeed,  setSelectedDeed]  = useState(null)
+  const [editingDeed,   setEditingDeed]   = useState(null)
 
   const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('badDeeds', JSON.stringify(next)) }
 
@@ -305,6 +382,11 @@ export default function BadDeeds() {
   }
 
   const addDeed = (deed) => { saveDeeds([...deeds, deed]); setShowForm(false) }
+
+  const editDeed = (updated) => {
+    saveDeeds(deeds.map(d => d.id === updated.id ? updated : d))
+    setEditingDeed(null)
+  }
 
   const deleteDeed = (id) => { saveDeeds(deeds.filter(d => d.id !== id)) }
 
@@ -399,7 +481,7 @@ export default function BadDeeds() {
           <h3 className="deed-section-title"><span className="deed-dot" style={{ background: '#F87171', boxShadow: '0 0 6px rgba(248,113,113,0.5)' }} />Daily Bad Deeds</h3>
           <div className="deed-list">
             {dailyDeeds.map(d => (
-              <BadDeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDeed} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: dailyStatus[d.id] })} />
+              <BadDeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDeed} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: dailyStatus[d.id] })} onEdit={setEditingDeed} />
             ))}
           </div>
         </div>
@@ -411,7 +493,7 @@ export default function BadDeeds() {
           <h3 className="deed-section-title"><span className="deed-dot" style={{ background: '#FBBF24', boxShadow: '0 0 6px rgba(251,191,36,0.5)' }} />One-time Bad Deeds</h3>
           <div className="deed-list">
             {onetimePending.map(d => (
-              <BadDeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDeed} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: dailyStatus[d.id] })} />
+              <BadDeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDeed} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: dailyStatus[d.id] })} onEdit={setEditingDeed} />
             ))}
           </div>
         </div>
@@ -435,12 +517,14 @@ export default function BadDeeds() {
           {showAvoided && (
             <div className="deed-list deed-list-completed">
               {onetimeAvoided.map(d => (
-                <BadDeedRow key={d.id} deed={d} status="avoided" onMark={() => {}} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: 'avoided' })} />
+                <BadDeedRow key={d.id} deed={d} status="avoided" onMark={() => {}} onDelete={deleteDeed} onOpen={() => setSelectedDeed({ deed: d, status: 'avoided' })} onEdit={setEditingDeed} />
               ))}
             </div>
           )}
         </div>
       )}
+
+      {editingDeed && <EditBadDeedForm deed={editingDeed} onSave={editDeed} onCancel={() => setEditingDeed(null)} />}
 
       {selectedDeed && (
         <BadDeedModal
