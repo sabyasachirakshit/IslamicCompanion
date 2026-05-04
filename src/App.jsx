@@ -3,8 +3,8 @@ import Sidebar from './components/Sidebar'
 import Topbar from './components/Topbar'
 import NameModal from './components/NameModal'
 import Dashboard from './pages/Dashboard'
+import Prayers from './pages/Prayers'
 import GoodDeeds from './pages/GoodDeeds'
-import Deeds from './pages/Deeds'
 import BadDeeds from './pages/BadDeeds'
 import Rewards from './pages/Rewards'
 import About from './pages/About'
@@ -17,6 +17,7 @@ const PAGE_TITLES = {
   deeds: 'Good Deeds',
   baddeeds: 'Bad Deeds',
   diary: 'Diary',
+  sprint: 'Quran Sprint',
   rewards: 'Rewards',
   about: 'About',
 }
@@ -46,8 +47,8 @@ function App() {
           />
           <main className="app-content">
             {activePage === 'dashboard' && <Dashboard userName={userName} onNavigate={setActivePage} />}
-            {activePage === 'gooddeeds' && <GoodDeeds />}
-            {activePage === 'deeds' && <Deeds />}
+            {activePage === 'gooddeeds' && <Prayers />}
+            {activePage === 'deeds' && <GoodDeeds />}
             {activePage === 'baddeeds' && <BadDeeds />}
             {activePage === 'diary' && <Diary />}
             {activePage === 'rewards' && <Rewards />}

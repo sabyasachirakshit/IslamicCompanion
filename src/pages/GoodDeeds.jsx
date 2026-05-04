@@ -1,200 +1,170 @@
-import { useState } from 'react'
-import { PRAYER_GROUPS, ALL_PRAYERS, TYPE_META, todayStatusKey } from '../data/prayers'
+import { useState, useMemo } from 'react'
+import SampleGoodDeeds from "../assets/sample-good-deeds.json"
+
+/* ── Constants ── */
+const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 }
+const PRIORITY_META  = {
+  high:   { label: 'High',   color: '#F87171', bg: 'rgba(248,113,113,0.12)', border: 'rgba(248,113,113,0.30)' },
+  medium: { label: 'Medium', color: '#FBBF24', bg: 'rgba(251,191,36,0.12)',  border: 'rgba(251,191,36,0.30)'  },
+  low:    { label: 'Low',    color: '#60A5FA', bg: 'rgba(96,165,250,0.12)',   border: 'rgba(96,165,250,0.30)'  },
+}
+
+const todayKey = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` }
+const deedStatusKey = () => `deedStatus_${todayKey()}`
 
 const creditWallet = (amount) => {
   if (amount <= 0) return
-  const balance = parseFloat(localStorage.getItem('walletBalance') || '0')
-  localStorage.setItem('walletBalance', String(+(balance + amount).toFixed(2)))
+  const b = parseFloat(localStorage.getItem('walletBalance') || '0')
+  localStorage.setItem('walletBalance', String(+(b + amount).toFixed(2)))
   window.dispatchEvent(new CustomEvent('walletUpdated'))
 }
-
 const debitWallet = (amount) => {
   if (amount <= 0) return
-  const balance = parseFloat(localStorage.getItem('walletBalance') || '0')
-  localStorage.setItem('walletBalance', String(+(balance - amount).toFixed(2)))
+  const b = parseFloat(localStorage.getItem('walletBalance') || '0')
+  localStorage.setItem('walletBalance', String(+(b - amount).toFixed(2)))
   window.dispatchEvent(new CustomEvent('walletUpdated'))
-}
-
-/* ── Motivational Hadiths ── */
-const MISSED_MOTIVATION = {
-  tahajjud: {
-    emoji: '🌙', title: "Don't Give Up on Tahajjud",
-    subtitle: 'The night prayer is a gift — tomorrow is a new chance.',
-    color: '#FFD700', rgba: '255,215,0',
-    hadiths: [
-      { text: "The best prayer after the obligatory prayers is the night prayer (Tahajjud).", source: 'Sahih Muslim 1163' },
-      { text: "Our Lord descends every night to the lowest heaven when the last third of the night remains, saying: 'Who is calling Me so I can answer? Who is asking of Me so I can give? Who is seeking My forgiveness so I can forgive?'", source: 'Bukhari & Muslim' },
-      { text: "Pray Tahajjud — it was the practice of the righteous before you. It brings you closer to Allah, expiates sins, prevents wrongdoing, and expels disease from the body.", source: 'Tirmidhi, Authenticated' },
-      { text: "In Paradise there are rooms whose interior can be seen from the outside. Allah prepared them for those who feed others, speak gently, fast regularly, and pray at night while people sleep.", source: 'Ahmad, Authenticated by Al-Albani' },
-    ],
-  },
-  fajr: {
-    emoji: '🌅', title: "Don't Miss Fajr Tomorrow",
-    subtitle: 'The dawn prayer is witnessed by the angels.',
-    color: '#A78BFA', rgba: '167,139,250',
-    sections: [
-      {
-        label: '✨ Its Virtue & Importance',
-        hadiths: [
-          { text: "The two rak'ahs before Fajr are better than this world and all it contains.", source: 'Sahih Muslim 725' },
-          { text: "Whoever prays Fajr in congregation, then sits remembering Allah until the sun rises, then prays two rak'ahs — he will have a reward like that of a complete Hajj and Umrah.", source: 'Tirmidhi 586, Authenticated' },
-          { text: "Whoever prays the two cool prayers (Fajr and Asr) will enter Paradise.", source: 'Bukhari 574' },
-          { text: "Whoever prays the Fajr prayer is under the protection of Allah for that day.", source: 'Sahih Muslim 657' },
-          { text: "Angels take turns among you by night and by day, and they all assemble at the Fajr and Asr prayers.", source: 'Bukhari 555' },
-        ],
-      },
-      {
-        label: '⚠️ Consequence of Missing It',
-        hadiths: [
-          { text: "When one of you sleeps, Shaytan ties three knots at the back of his neck, sealing each with: 'You have a long night, so sleep.' But if he wakes up and remembers Allah, one knot is undone. If he makes wudu, another is undone. And if he prays, all knots are undone — and he begins his morning in good spirits. Otherwise, he wakes up sluggish and in a bad state.", source: 'Bukhari 1142, Muslim 776' },
-          { text: "Satan urinates in the ear of the one who sleeps through the morning prayer without waking up for it.", source: 'Bukhari 3270' },
-          { text: "The most burdensome prayers for the hypocrites are Isha and Fajr. If they only knew what they contain, they would attend even if they had to crawl.", source: 'Bukhari & Muslim' },
-          { text: "Whoever abandons the prayer has indeed lost everything. Whoever guards it has guarded his religion — and whoever loses his religion has lost everything.", source: 'Ahmad, Authenticated by Al-Albani' },
-        ],
-      },
-    ],
-  },
-  dhuhr: {
-    emoji: '☀️', title: "Keep Up with Dhuhr",
-    subtitle: 'The midday prayer keeps your day blessed.',
-    color: '#FBBF24', rgba: '251,191,36',
-    hadiths: [
-      { text: "Whoever prays twelve rak'ahs of Sunnah daily, Allah will build for him a house in Paradise: four before Dhuhr and two after.", source: 'Tirmidhi, Authenticated' },
-      { text: "The gates of heaven are opened at midday. I love that a righteous deed be raised up for me at that time.", source: 'Tirmidhi 478' },
-    ],
-  },
-  asr: {
-    emoji: '🌤', title: "Don't Neglect Asr",
-    subtitle: 'The Asr prayer is the middle prayer — guard it.',
-    color: '#60A5FA', rgba: '96,165,250',
-    hadiths: [
-      { text: "Whoever misses the Asr prayer, it is as if he has lost his family and his wealth.", source: 'Bukhari 552' },
-      { text: "Guard strictly the five obligatory prayers, especially the middle prayer (Asr).", source: 'Quran 2:238' },
-    ],
-  },
-  maghrib: {
-    emoji: '🌆', title: "Don't Delay Maghrib",
-    subtitle: 'Sunset is a brief window — never miss it.',
-    color: '#F97316', rgba: '249,115,22',
-    hadiths: [
-      { text: "My community will remain in goodness as long as they do not delay Maghrib until the stars appear.", source: 'Ahmad, Abu Dawud' },
-      { text: "Two rak'ahs of Maghrib Sunnah — the Prophet ﷺ never left them, in travel or at home.", source: 'Bukhari 1182' },
-    ],
-  },
-  isha: {
-    emoji: '🌃', title: "Keep Up with Isha",
-    subtitle: 'Isha at night is a light on the Day of Judgment.',
-    color: '#00E5A0', rgba: '0,229,160',
-    hadiths: [
-      { text: "Whoever prays Isha in congregation, it is as if he prayed half the night. And whoever prays Fajr in congregation, it is as if he prayed the whole night.", source: 'Sahih Muslim 656' },
-      { text: "The most burdensome prayers for the hypocrites are Isha and Fajr — yet they carry the greatest reward.", source: 'Bukhari & Muslim' },
-    ],
-  },
 }
 
 /* ── Icons ── */
-const ChevronDown = () => (
+const PlusIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+  </svg>
+)
+const SearchIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+)
+const SortIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/>
+  </svg>
+)
+const FilterIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+  </svg>
+)
+const DownloadIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+)
+const UploadIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+  </svg>
+)
+const InitializeIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+  </svg>
+)
+const ChevronDown = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="6 9 12 15 18 9"/>
   </svg>
 )
 const ChevronUp = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="18 15 12 9 6 15"/>
   </svg>
 )
 const CheckIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12"/>
   </svg>
 )
+const EraseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+    <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+  </svg>
+)
+const TrashIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+    <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+  </svg>
+)
+const CloseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+)
 
-/* ── Motivational Modal ── */
-function MotivationalModal({ data, onClose }) {
-  if (!data) return null
-  const { emoji, title, subtitle, color, rgba, hadiths } = data
+/* ── Deed Detail Modal ── */
+function DeedModal({ deed, status, isOnetime, onClose }) {
+  const pm = PRIORITY_META[deed.priority]
+  const isMarked = !!status
+  const created = new Date(deed.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+
   return (
-    <div className="motiv-overlay" onClick={onClose}>
-      <div className="motiv-modal" onClick={e => e.stopPropagation()}
-        style={{ borderColor: `rgba(${rgba},0.35)`, boxShadow: `0 0 40px rgba(${rgba},0.18)` }}>
-        <div className="motiv-header" style={{ background: `rgba(${rgba},0.07)`, borderBottomColor: `rgba(${rgba},0.20)` }}>
-          <span className="motiv-emoji">{emoji}</span>
-          <div className="motiv-titles">
-            <h3 className="motiv-title" style={{ color }}>{title}</h3>
-            <p className="motiv-subtitle">{subtitle}</p>
-          </div>
-          <button className="motiv-close" onClick={onClose}>✕</button>
+    <div className="deed-modal-backdrop" onClick={onClose}>
+      <div className="deed-modal" onClick={e => e.stopPropagation()}>
+        <div className="deed-modal-header">
+          <span className="deed-priority-pill" style={{ color: pm.color, background: pm.bg, borderColor: pm.border }}>
+            {pm.label}
+          </span>
+          <button className="deed-modal-close" onClick={onClose}><CloseIcon /></button>
         </div>
-        <div className="motiv-body">
-          {data.sections ? data.sections.map((sec, si) => (
-            <div key={si} className="motiv-section">
-              <p className="motiv-section-label">{sec.label}</p>
-              {sec.hadiths.map((h, i) => (
-                <div key={i} className="motiv-hadith" style={{ borderLeftColor: `rgba(${rgba},0.50)` }}>
-                  <p className="motiv-hadith-text">❝ {h.text} ❞</p>
-                  <span className="motiv-hadith-source" style={{ color }}>— {h.source}</span>
-                </div>
-              ))}
-            </div>
-          )) : (
-            <>
-              <p className="motiv-intro">The Prophet ﷺ said:</p>
-              {hadiths.map((h, i) => (
-                <div key={i} className="motiv-hadith" style={{ borderLeftColor: `rgba(${rgba},0.50)` }}>
-                  <p className="motiv-hadith-text">❝ {h.text} ❞</p>
-                  <span className="motiv-hadith-source" style={{ color }}>— {h.source}</span>
-                </div>
-              ))}
-            </>
+        <h2 className="deed-modal-name">{deed.name}</h2>
+        <div className="deed-modal-meta">
+          <span className="deed-modal-chip">{isOnetime ? 'One-time' : 'Daily'}</span>
+          <span className="deed-modal-chip deed-modal-chip-reward">+₹{deed.reward} reward</span>
+          <span className="deed-modal-chip deed-modal-chip-penalty">-₹{deed.penalty} penalty</span>
+        </div>
+        <div className="deed-modal-footer">
+          <span className="deed-modal-created">Created {created}</span>
+          {isMarked && (
+            <span className={`deed-status-badge deed-status-${status}`} style={{ fontSize: 12 }}>
+              {status === 'done'   && <><CheckIcon /> {isOnetime ? 'Completed' : 'Done'} · +₹{deed.reward}</>}
+              {status === 'missed' && <>✕ Missed · -₹{deed.penalty}</>}
+            </span>
           )}
-        </div>
-        <div className="motiv-footer">
-          <button className="motiv-btn" style={{ background: `rgba(${rgba},0.14)`, color, borderColor: `rgba(${rgba},0.35)` }} onClick={onClose}>
-            May Allah forgive me 🤲
-          </button>
         </div>
       </div>
     </div>
   )
 }
 
-/* ── Prayer Row ── */
-function PrayerRow({ prayer, status, groupId, onMark }) {
-  const meta = TYPE_META[prayer.type]
+/* ── Deed Row ── */
+function DeedRow({ deed, status, onMark, onDelete, isOnetime, onOpen }) {
+  const pm = PRIORITY_META[deed.priority]
   const isMarked = !!status
 
   return (
-    <div className={`prayer-row${isMarked ? ` prayer-${status}` : ''}`}>
-      <div className="prayer-row-left">
-        <span className="prayer-type-pill" style={{ color: meta.color, borderColor: `${meta.color}40`, background: `${meta.color}12` }}>
-          {meta.label}
+    <div className={`deed-item${isMarked ? ` deed-item-${status}` : ''}`}>
+      <div className="deed-item-left" style={{ minWidth: 0, flex: 1 }}>
+        <span className="deed-priority-pill" style={{ color: pm.color, background: pm.bg, borderColor: pm.border }}>
+          {pm.label}
         </span>
-        <div className="prayer-row-info">
-          <span className="prayer-row-name">{prayer.name}</span>
-          <span className="prayer-row-rakaat">{prayer.rakaat} rak'at</span>
+        <div className="deed-item-info" style={{ minWidth: 0 }}>
+          <span className="deed-item-name deed-item-name-clickable" onClick={onOpen}>{deed.name}</span>
+          <span className="deed-item-meta">
+            {isOnetime ? 'One-time' : 'Daily'} · +₹{deed.reward} / -₹{deed.penalty}
+          </span>
         </div>
       </div>
 
-      <div className="prayer-row-right">
+      <div className="deed-item-right">
         {!isMarked ? (
-          <div className="prayer-action-btns">
-            <button className="prayer-btn prayer-btn-ontime" onClick={() => onMark(prayer, 'onTime')}>
-              <CheckIcon /> <span>On Time</span> <em>+₹{prayer.reward.onTime}</em>
+          <div className="deed-item-btns">
+            <button className="deed-btn deed-btn-done" onClick={() => onMark(deed, 'done')}>
+              <CheckIcon /> <span>{isOnetime ? 'Complete' : 'Done'}</span> <em>+₹{deed.reward}</em>
             </button>
-            {prayer.reward.late !== undefined && (
-              <button className="prayer-btn prayer-btn-late" onClick={() => onMark(prayer, 'late')}>
-                ⏰ <span>Late</span> <em>+₹{prayer.reward.late}</em>
-              </button>
-            )}
-            <button className="prayer-btn prayer-btn-missed" onClick={() => onMark(prayer, 'missed', groupId)}>
-              ✕ <span>Missed</span>{prayer.reward.missed ? <em>-₹{prayer.reward.missed}</em> : null}
+            <button className="deed-btn deed-btn-missed" onClick={() => onMark(deed, 'missed')}>
+              ✕ <span>Missed</span> <em>-₹{deed.penalty}</em>
+            </button>
+            <button className="deed-btn deed-btn-delete" onClick={() => onDelete(deed.id)} title="Delete">
+              <TrashIcon />
             </button>
           </div>
         ) : (
-          <div className={`prayer-status-badge prayer-status-${status}`}>
-            {status === 'onTime' && <><CheckIcon /> On Time · +₹{prayer.reward.onTime}</>}
-            {status === 'late'   && <>⏰ Prayed Late · +₹{prayer.reward.late}</>}
-            {status === 'missed' && <>✕ Missed{prayer.reward.missed ? ` · -₹${prayer.reward.missed}` : ''}</>}
+          <div className={`deed-status-badge deed-status-${status}`}>
+            {status === 'done'   && <><CheckIcon /> {isOnetime ? 'Completed' : 'Done'} · +₹{deed.reward}</>}
+            {status === 'missed' && <>✕ Missed · -₹{deed.penalty}</>}
           </div>
         )}
       </div>
@@ -202,107 +172,306 @@ function PrayerRow({ prayer, status, groupId, onMark }) {
   )
 }
 
-/* ── Prayer Group ── */
-function PrayerGroup({ group, prayerStatus, onMark }) {
-  const [expanded, setExpanded] = useState(true)
-  const marked = group.prayers.filter(p => prayerStatus[p.id]).length
-  const allMarked = marked === group.prayers.length
+/* ── Add Form ── */
+function AddDeedForm({ onSave, onCancel }) {
+  const [name,     setName]     = useState('')
+  const [type,     setType]     = useState('daily')
+  const [reward,   setReward]   = useState('10')
+  const [penalty,  setPenalty]  = useState('5')
+  const [priority, setPriority] = useState('medium')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!name.trim()) return
+    onSave({
+      id:        `d_${Date.now()}`,
+      name:      name.trim(),
+      type,
+      reward:    Math.max(0, parseFloat(reward)  || 0),
+      penalty:   Math.max(0, parseFloat(penalty) || 0),
+      priority,
+      createdAt: Date.now(),
+    })
+  }
 
   return (
-    <div className={`prayer-group${allMarked ? ' prayer-group-complete' : ''}${group.id === 'tahajjud' ? ' prayer-group-legendary' : ''}`}>
-      <button className="prayer-group-header" onClick={() => setExpanded(e => !e)}>
-        <div className="prayer-group-icon" style={{ background: group.bg, color: group.color, boxShadow: group.glow }}>
-          <span>{group.arabic}</span>
+    <form className="deed-add-form" onSubmit={handleSubmit}>
+      <input className="deed-form-input" type="text" placeholder="Deed name (e.g. Read Quran)"
+        value={name} onChange={e => setName(e.target.value)} autoFocus />
+
+      <div className="deed-form-row">
+        <div className="deed-form-group">
+          <label className="deed-form-label">Type</label>
+          <div className="deed-type-toggle">
+            <button type="button" className={`deed-type-btn${type === 'daily'   ? ' active' : ''}`} onClick={() => setType('daily')}>Daily</button>
+            <button type="button" className={`deed-type-btn${type === 'onetime' ? ' active' : ''}`} onClick={() => setType('onetime')}>One-time</button>
+          </div>
         </div>
-        <div className="prayer-group-info">
-          <span className="prayer-group-name">{group.name}</span>
-          <span className="prayer-group-time">{group.time}</span>
+
+        <div className="deed-form-group">
+          <label className="deed-form-label">Priority</label>
+          <div className="deed-priority-toggle">
+            {['high','medium','low'].map(p => (
+              <button key={p} type="button"
+                className={`deed-prio-btn${priority === p ? ' active' : ''}`}
+                style={priority === p ? { background: PRIORITY_META[p].bg, borderColor: PRIORITY_META[p].color, color: PRIORITY_META[p].color } : {}}
+                onClick={() => setPriority(p)}>
+                {PRIORITY_META[p].label}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="prayer-group-meta">
-          <span className="prayer-group-progress" style={{ color: allMarked ? '#00E5A0' : undefined }}>
-            {marked}/{group.prayers.length}
-          </span>
-          <span className="prayer-group-chevron">{expanded ? <ChevronUp /> : <ChevronDown />}</span>
+      </div>
+
+      <div className="deed-form-row">
+        <div className="deed-form-group">
+          <label className="deed-form-label">Reward (₹)</label>
+          <input className="deed-form-input deed-form-number" type="number" min="0" max="10000"
+            value={reward} onChange={e => setReward(e.target.value)} placeholder="0" />
         </div>
-      </button>
-      {expanded && (
-        <div className="prayer-group-rows">
-          {group.prayers.map(p => (
-            <PrayerRow key={p.id} prayer={p} status={prayerStatus[p.id]} groupId={group.id} onMark={onMark} />
-          ))}
+        <div className="deed-form-group">
+          <label className="deed-form-label">Penalty (₹)</label>
+          <input className="deed-form-input deed-form-number" type="number" min="0" max="10000"
+            value={penalty} onChange={e => setPenalty(e.target.value)} placeholder="0" />
         </div>
-      )}
-    </div>
+      </div>
+
+      <div className="deed-form-actions">
+        <button className="deed-form-save" type="submit" disabled={!name.trim()}>Save Deed</button>
+        <button className="deed-form-cancel" type="button" onClick={onCancel}>Cancel</button>
+      </div>
+    </form>
   )
 }
 
-
 /* ── Main Page ── */
 export default function GoodDeeds() {
-  const [prayerStatus, setPrayerStatus] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(todayStatusKey()) || '{}') } catch { return {} }
+  const [deeds, setDeeds] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('userDeeds') || '[]') } catch { return [] }
   })
-  const [motivModal, setMotivModal] = useState(null)
+  const [dailyStatus, setDailyStatus] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(deedStatusKey()) || '{}') } catch { return {} }
+  })
+  const [onetimeDone, setOnetimeDone] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('onetimeDone') || '[]') } catch { return [] }
+  })
 
-  const markPrayer = (prayer, status, groupId) => {
-    if (prayerStatus[prayer.id]) return
-    if (status === 'missed') {
-      debitWallet(prayer.reward.missed ?? 0)
-      if (MISSED_MOTIVATION[groupId]) setMotivModal(MISSED_MOTIVATION[groupId])
-    } else {
-      creditWallet(prayer.reward[status] ?? 0)
-    }
-    const next = { ...prayerStatus, [prayer.id]: status }
-    setPrayerStatus(next)
-    localStorage.setItem(todayStatusKey(), JSON.stringify(next))
+  const [search,        setSearch]        = useState('')
+  const [sortOrder,     setSortOrder]     = useState('high-low')
+  const [showForm,      setShowForm]      = useState(false)
+  const [showCompleted, setShowCompleted] = useState(false)
+  const [showUnfinished, setShowUnfinished] = useState(true)
+  const [selectedDeed,  setSelectedDeed]  = useState(null)
+
+  const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('userDeeds', JSON.stringify(next)) }
+
+  const eraseAll = () => {
+    if (!window.confirm('Erase ALL deeds? This cannot be undone.')) return
+    saveDeeds([])
+    setOnetimeDone([])
+    localStorage.removeItem('onetimeDone')
   }
 
-  /* summary */
-  const totalPrayers = ALL_PRAYERS.length
-  const markedPrayers = ALL_PRAYERS.filter(p => prayerStatus[p.id]).length
-  const fardhDone = ALL_PRAYERS.filter(p => p.type === 'fardh' && prayerStatus[p.id] && prayerStatus[p.id] !== 'missed').length
-  const earnedToday = ALL_PRAYERS.reduce((s, p) => {
-    const st = prayerStatus[p.id]
-    return s + (st && st !== 'missed' ? (p.reward[st] ?? 0) : 0)
-  }, 0)
-  const lostToday = ALL_PRAYERS.reduce((s, p) => {
-    const st = prayerStatus[p.id]
-    return s + (st === 'missed' ? (p.reward.missed ?? 0) : 0)
-  }, 0)
+  const downloadUnfinished = () => {
+    const data = JSON.stringify(deeds, null, 2)
+    const blob = new Blob([data], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `all-deeds-${new Date().toISOString().slice(0,10)}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const uploadDeeds = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const imported = JSON.parse(reader.result)
+        if (!Array.isArray(imported)) throw new Error('Not an array')
+        const valid = imported.every(d => d.name && d.type && typeof d.reward === 'number' && typeof d.penalty === 'number' && d.priority)
+        if (!valid) throw new Error('Invalid deed format')
+        saveDeeds([...deeds, ...imported])
+        e.target.value = ''
+      } catch {
+        alert('Failed to import deeds. Ensure the file is a valid JSON array of deeds.')
+        e.target.value = ''
+      }
+    }
+    reader.readAsText(file)
+  }
+
+  const initializeSampleDeeds = async () => {
+    if (!window.confirm('Load recommended sample deeds? This will add them to your existing deeds.')) return
+    try {
+      const sample = SampleGoodDeeds
+      if (!Array.isArray(sample)) throw new Error('Invalid sample format')
+      saveDeeds([...deeds, ...sample])
+    } catch {
+      alert('Failed to load sample deeds. Please ensure the file exists at /assets/sample-good-deeds.json')
+    }
+  }
+
+  const addDeed = (deed) => { saveDeeds([...deeds, deed]); setShowForm(false) }
+
+  const deleteDeed = (id) => { saveDeeds(deeds.filter(d => d.id !== id)) }
+
+  const markDaily = (deed, status) => {
+    if (dailyStatus[deed.id]) return
+    status === 'done' ? creditWallet(deed.reward) : debitWallet(deed.penalty)
+    const next = { ...dailyStatus, [deed.id]: status }
+    setDailyStatus(next)
+    localStorage.setItem(deedStatusKey(), JSON.stringify(next))
+  }
+
+  const markOnetime = (deed, status) => {
+    if (onetimeDone.includes(deed.id)) return
+    status === 'done' ? creditWallet(deed.reward) : debitWallet(deed.penalty)
+    if (status === 'done') {
+      const next = [...onetimeDone, deed.id]
+      setOnetimeDone(next)
+      localStorage.setItem('onetimeDone', JSON.stringify(next))
+    } else {
+      const statusNext = { ...dailyStatus, [deed.id]: status }
+      setDailyStatus(statusNext)
+      localStorage.setItem(deedStatusKey(), JSON.stringify(statusNext))
+    }
+  }
+
+  const sortedDeeds = useMemo(() => {
+    let filtered = deeds.filter(d => d.name.toLowerCase().includes(search.toLowerCase()))
+    if (showUnfinished) {
+      filtered = filtered.filter(d => {
+        if (d.type === 'daily') return !dailyStatus[d.id]
+        if (d.type === 'onetime') return !onetimeDone.includes(d.id)
+        return true
+      })
+    }
+    return [...filtered].sort((a, b) => {
+      const diff = PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority]
+      return sortOrder === 'high-low' ? diff : -diff
+    })
+  }, [deeds, search, sortOrder, showUnfinished, dailyStatus, onetimeDone])
+
+  const dailyDeeds    = sortedDeeds.filter(d => d.type === 'daily')
+  const onetimePending = sortedDeeds.filter(d => d.type === 'onetime' && !onetimeDone.includes(d.id))
+  const onetimeCompleted = deeds.filter(d => d.type === 'onetime' && onetimeDone.includes(d.id))
+
+  const totalActive = dailyDeeds.length + onetimePending.length
+  const doneTodayCount = dailyDeeds.filter(d => dailyStatus[d.id] === 'done').length
+                       + onetimePending.filter(d => dailyStatus[d.id] === 'done').length
 
   return (
-    <div className="good-deeds">
-      <MotivationalModal data={motivModal} onClose={() => setMotivModal(null)} />
-      <div className="gd-summary-bar">
-        <div className="gd-summary-item">
-          <span className="gd-summary-value">{markedPrayers}<span className="gd-summary-total">/{totalPrayers}</span></span>
-          <span className="gd-summary-label">Prayers Marked</span>
+    <div className="deeds-page">
+
+      {/* Toolbar */}
+      <div className="deeds-toolbar">
+        <div className="deeds-search-wrap">
+          <span className="deeds-search-icon"><SearchIcon /></span>
+          <input className="deeds-search" type="text" placeholder="Search deeds…"
+            value={search} onChange={e => setSearch(e.target.value)} />
         </div>
-        <div className="gd-summary-divider" />
-        <div className="gd-summary-item">
-          <span className="gd-summary-value green">{fardhDone}<span className="gd-summary-total">/5</span></span>
-          <span className="gd-summary-label">Fardh Done</span>
-        </div>
-        <div className="gd-summary-divider" />
-        <div className="gd-summary-item">
-          <span className="gd-summary-value gold">₹{earnedToday.toFixed(2)}</span>
-          <span className="gd-summary-label">Earned Today</span>
-        </div>
-        <div className="gd-summary-divider" />
-        <div className="gd-summary-item">
-          <span className="gd-summary-value" style={{ color: '#F87171' }}>-₹{lostToday.toFixed(2)}</span>
-          <span className="gd-summary-label">Lost Today</span>
-        </div>
+        <button className="deeds-sort-btn" onClick={() => setSortOrder(s => s === 'high-low' ? 'low-high' : 'high-low')}
+          title={sortOrder === 'high-low' ? 'Sorted: High → Low' : 'Sorted: Low → High'}>
+          <SortIcon />
+          <span>{sortOrder === 'high-low' ? 'High → Low' : 'Low → High'}</span>
+        </button>
+        <button className={`deeds-filter-btn${showUnfinished ? ' active' : ''}`} onClick={() => setShowUnfinished(s => !s)}
+          title={showUnfinished ? 'Showing: Unfinished only' : 'Filter: Unfinished only'}>
+          <FilterIcon />
+        </button>
+        <button className="deeds-add-btn" onClick={() => setShowForm(s => !s)}>
+          <PlusIcon /> Add Deed
+        </button>
+        <button className="deeds-erase-btn" onClick={eraseAll} title="Erase all deeds">
+          <EraseIcon />
+        </button>
+        <button className="deeds-download-btn" onClick={downloadUnfinished} title="Download unfinished deeds (JSON)">
+          <DownloadIcon />
+        </button>
+        <label className="deeds-upload-btn" title="Upload deeds from JSON">
+          <UploadIcon />
+          <input type="file" accept=".json" onChange={uploadDeeds} style={{ display: 'none' }} />
+        </label>
+        <button className="deeds-init-btn" onClick={initializeSampleDeeds} title="Initialize recommended deeds">
+          <InitializeIcon />
+        </button>
       </div>
 
-      <div className="gd-section">
-        <h3 className="gd-section-title"><span className="gd-section-dot green" />Daily Prayers</h3>
-        <div className="prayer-groups-list">
-          {PRAYER_GROUPS.map(g => (
-            <PrayerGroup key={g.id} group={g} prayerStatus={prayerStatus} onMark={markPrayer} />
-          ))}
-        </div>
+      {/* Summary */}
+      <div className="deeds-summary">
+        <span className="deeds-summary-chip">
+          <span className="dsf-val">{doneTodayCount}</span>/<span className="dsf-total">{totalActive}</span> done today
+        </span>
+        <span className="deeds-summary-chip">
+          <span className="dsf-val">{onetimeCompleted.length}</span> completed
+        </span>
       </div>
+
+      {/* Add form */}
+      {showForm && <AddDeedForm onSave={addDeed} onCancel={() => setShowForm(false)} />}
+
+      {/* Daily repeatable deeds */}
+      {dailyDeeds.length > 0 && (
+        <div className="deed-section">
+          <h3 className="deed-section-title"><span className="deed-dot green" />Daily Deeds</h3>
+          <div className="deed-list">
+            {dailyDeeds.map(d => (
+              <DeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDaily} onDelete={deleteDeed} isOnetime={false} onOpen={() => setSelectedDeed({ deed: d, isOnetime: false, status: dailyStatus[d.id] })} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* One-time pending deeds */}
+      {onetimePending.length > 0 && (
+        <div className="deed-section">
+          <h3 className="deed-section-title"><span className="deed-dot gold" />One-time Deeds</h3>
+          <div className="deed-list">
+            {onetimePending.map(d => (
+              <DeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markOnetime} onDelete={deleteDeed} isOnetime={true} onOpen={() => setSelectedDeed({ deed: d, isOnetime: true, status: dailyStatus[d.id] })} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {dailyDeeds.length === 0 && onetimePending.length === 0 && !showForm && (
+        <div className="deed-empty">
+          <p>No deeds yet. Click <strong>Add Deed</strong> to get started.</p>Use Priority button to sort tasks based on priority order.
+        </div>
+      )}
+
+      {/* Completed one-time deeds – collapsible */}
+      {onetimeCompleted.length > 0 && (
+        <div className="deed-section deed-section-completed">
+          <button className="deed-section-toggle" onClick={() => setShowCompleted(s => !s)}>
+            <span className="deed-section-title" style={{ margin: 0 }}>
+              <span className="deed-dot muted" />Completed One-time ({onetimeCompleted.length})
+            </span>
+            <span>{showCompleted ? <ChevronUp /> : <ChevronDown />}</span>
+          </button>
+          {showCompleted && (
+            <div className="deed-list deed-list-completed">
+              {onetimeCompleted.map(d => (
+                <DeedRow key={d.id} deed={d} status="done" onMark={() => {}} onDelete={deleteDeed} isOnetime={true} onOpen={() => setSelectedDeed({ deed: d, isOnetime: true, status: 'done' })} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {selectedDeed && (
+        <DeedModal
+          deed={selectedDeed.deed}
+          status={selectedDeed.status}
+          isOnetime={selectedDeed.isOnetime}
+          onClose={() => setSelectedDeed(null)}
+        />
+      )}
 
     </div>
   )
