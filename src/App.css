@@ -3621,6 +3621,12 @@
   gap: 14px;
 }
 
+.deed-edit-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
 .deed-edit-header {
   display: flex;
   align-items: center;
