@@ -184,14 +184,19 @@ function DhikrModal({ pending, onAnswer }) {
               <span className="dhikr-latin">Alhamdulillah</span>
             </div>
             <div className="dhikr-item">
-              <span className="dhikr-count">34×</span>
+              <span className="dhikr-count">33×</span>
               <span className="dhikr-arabic">اللَّهُ أَكْبَرُ</span>
               <span className="dhikr-latin">Allahu Akbar</span>
             </div>
           </div>
+          <div className="dhikr-item dhikr-item-full">
+            <span className="dhikr-count">1×</span>
+            <span className="dhikr-arabic">لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</span>
+            <span className="dhikr-latin">Lā ilāha illallāh, waḥdahu lā sharīka lah, lahul mulku wa lahul ḥamd, wa huwa ʿalā kulli shayʾin qadīr</span>
+          </div>
           <div className="dhikr-hadith">
-            <p>❝ Whoever glorifies Allah 33 times, praises Him 33 times, and declares His greatness 34 times after every prayer — his sins will be forgiven even if they were like the foam of the sea. ❞</p>
-            <span className="dhikr-source">— Sahih Muslim 597</span>
+            <p>❝If anyone extols Allah after every prayer thirty-three times, and praises Allah thirty-three times, and declares His Greatness thirty-three times, ninety-nine times in all, and says to complete a hundred:" There is no god but Allah, having no partner with Him, to Him belongs sovereignty and to Him is praise due, and He is Potent over everything," his sins will be forgiven even If these are as abundant as the foam of the sea. ❞</p>
+            <span className="dhikr-source">— Sahih Muslim 597a </span>
           </div>
         </div>
         <div className="dhikr-actions">
