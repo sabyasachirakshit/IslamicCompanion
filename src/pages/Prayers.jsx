@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { PRAYER_GROUPS, ALL_PRAYERS, TYPE_META, todayStatusKey } from '../data/prayers'
 
+const _dk = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` }
+
 const creditWallet = (amount) => {
   if (amount <= 0) return
   const balance = parseFloat(localStorage.getItem('walletBalance') || '0')
   localStorage.setItem('walletBalance', String(+(balance + amount).toFixed(2)))
+  const k = `dailyEarned_${_dk()}`
+  localStorage.setItem(k, String(+(parseFloat(localStorage.getItem(k) || '0') + amount).toFixed(2)))
   window.dispatchEvent(new CustomEvent('walletUpdated'))
 }
 
@@ -12,6 +16,8 @@ const debitWallet = (amount) => {
   if (amount <= 0) return
   const balance = parseFloat(localStorage.getItem('walletBalance') || '0')
   localStorage.setItem('walletBalance', String(+(balance - amount).toFixed(2)))
+  const k = `dailyLost_${_dk()}`
+  localStorage.setItem(k, String(+(parseFloat(localStorage.getItem(k) || '0') + amount).toFixed(2)))
   window.dispatchEvent(new CustomEvent('walletUpdated'))
 }
 

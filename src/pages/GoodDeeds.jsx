@@ -16,12 +16,16 @@ const creditWallet = (amount) => {
   if (amount <= 0) return
   const b = parseFloat(localStorage.getItem('walletBalance') || '0')
   localStorage.setItem('walletBalance', String(+(b + amount).toFixed(2)))
+  const k = `dailyEarned_${todayKey()}`
+  localStorage.setItem(k, String(+(parseFloat(localStorage.getItem(k) || '0') + amount).toFixed(2)))
   window.dispatchEvent(new CustomEvent('walletUpdated'))
 }
 const debitWallet = (amount) => {
   if (amount <= 0) return
   const b = parseFloat(localStorage.getItem('walletBalance') || '0')
   localStorage.setItem('walletBalance', String(+(b - amount).toFixed(2)))
+  const k = `dailyLost_${todayKey()}`
+  localStorage.setItem(k, String(+(parseFloat(localStorage.getItem(k) || '0') + amount).toFixed(2)))
   window.dispatchEvent(new CustomEvent('walletUpdated'))
 }
 

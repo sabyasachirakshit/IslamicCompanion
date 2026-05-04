@@ -87,11 +87,15 @@ const SHARE_PLATFORMS = [
   },
 ]
 
+const _dk = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` }
+
 export default function Topbar({ pageTitle, onMenuToggle }) {
   const [walletBalance, setWalletBalance] = useState(() => {
     const saved = localStorage.getItem('walletBalance')
     return saved !== null ? parseFloat(saved) : 0
   })
+  const [todayEarned, setTodayEarned] = useState(() => parseFloat(localStorage.getItem(`dailyEarned_${_dk()}`) || '0'))
+  const [todayLost,   setTodayLost]   = useState(() => parseFloat(localStorage.getItem(`dailyLost_${_dk()}`)   || '0'))
   const [confirming,      setConfirming]      = useState(false)
   const [copied,          setCopied]          = useState(false)
   const [walletOpen,      setWalletOpen]      = useState(false)
@@ -239,6 +243,8 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
     const handleStorage = () => {
       const updated = localStorage.getItem('walletBalance')
       setWalletBalance(updated !== null ? parseFloat(updated) : 0)
+      setTodayEarned(parseFloat(localStorage.getItem(`dailyEarned_${_dk()}`) || '0'))
+      setTodayLost(parseFloat(localStorage.getItem(`dailyLost_${_dk()}`)     || '0'))
     }
     window.addEventListener('storage', handleStorage)
     window.addEventListener('walletUpdated', handleStorage)
@@ -403,6 +409,17 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
             </div>
 
             <p className="wm-note">Your balance is earned by prayers, good deeds and avoiding bad deeds. Deducted on missed prayers, bad deeds committed, and reward redemptions.</p>
+
+            <div className="wm-today-stats">
+              <div className="wm-today-item wm-today-earned">
+                <span className="wm-today-label">Earned Today</span>
+                <span className="wm-today-value">+&#8377;{todayEarned.toFixed(2)}</span>
+              </div>
+              <div className="wm-today-item wm-today-lost">
+                <span className="wm-today-label">Lost Today</span>
+                <span className="wm-today-value">-&#8377;{todayLost.toFixed(2)}</span>
+              </div>
+            </div>
 
             <div className="wm-reset-area">
               {walletResetStep > 0 && (

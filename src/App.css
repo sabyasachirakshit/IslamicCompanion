@@ -1892,6 +1892,54 @@
   border-radius: var(--radius-sm);
 }
 
+.wm-today-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.wm-today-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 12px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+}
+
+.wm-today-earned {
+  background: rgba(0, 229, 160, 0.07);
+  border-color: rgba(0, 229, 160, 0.22);
+}
+
+.wm-today-lost {
+  background: rgba(248, 113, 113, 0.07);
+  border-color: rgba(248, 113, 113, 0.22);
+}
+
+.wm-today-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+.wm-today-earned .wm-today-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #00E5A0;
+  letter-spacing: -0.3px;
+}
+
+.wm-today-lost .wm-today-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #F87171;
+  letter-spacing: -0.3px;
+}
+
 .wm-reset-area {
   display: flex;
   flex-direction: column;
