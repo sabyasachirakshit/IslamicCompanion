@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import SampleGoodDeeds from "../assets/sample-good-deeds.json"
 
 /* ── Constants ── */
@@ -104,7 +104,7 @@ const EditIcon = () => (
 )
 
 /* ── Deed Detail Modal ── */
-function DeedModal({ deed, status, isOnetime, onClose }) {
+function DeedModal({ deed, status, isOnetime, onClose, onMark, onNext, hasNext }) {
   const pm = PRIORITY_META[deed.priority]
   const isMarked = !!status
   const created = new Date(deed.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -124,6 +124,16 @@ function DeedModal({ deed, status, isOnetime, onClose }) {
           <span className="deed-modal-chip deed-modal-chip-reward">+₹{deed.reward} reward</span>
           <span className="deed-modal-chip deed-modal-chip-penalty">-₹{deed.penalty} penalty</span>
         </div>
+        {!isMarked && onMark && (
+          <div className="deed-modal-actions">
+            <button className="deed-btn deed-btn-done deed-modal-act-btn" onClick={() => onMark('done')}>
+              <CheckIcon /> <span>{isOnetime ? 'Complete' : 'Done'}</span> <em>+₹{deed.reward}</em>
+            </button>
+            <button className="deed-btn deed-btn-missed deed-modal-act-btn" onClick={() => onMark('missed')}>
+              ✕ <span>Missed</span> <em>-₹{deed.penalty}</em>
+            </button>
+          </div>
+        )}
         <div className="deed-modal-footer">
           <span className="deed-modal-created">Created {created}</span>
           {isMarked && (
@@ -133,6 +143,9 @@ function DeedModal({ deed, status, isOnetime, onClose }) {
             </span>
           )}
         </div>
+        {hasNext && (
+          <button className="deed-modal-next-btn" onClick={onNext}>Next Task →</button>
+        )}
       </div>
     </div>
   )
@@ -343,6 +356,7 @@ export default function GoodDeeds() {
   const [showUnfinished, setShowUnfinished] = useState(true)
   const [selectedDeed,  setSelectedDeed]  = useState(null)
   const [editingDeed,   setEditingDeed]   = useState(null)
+  const modalNavRef = useRef([])
 
   const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('userDeeds', JSON.stringify(next)) }
 
@@ -451,6 +465,37 @@ export default function GoodDeeds() {
   const doneTodayCount = dailyDeeds.filter(d => dailyStatus[d.id] === 'done').length
                        + onetimePending.filter(d => dailyStatus[d.id] === 'done').length
 
+  const openDeedModal = (deed, isOnetime, status) => {
+    const nav = [
+      ...dailyDeeds.map(d => ({ deed: d, isOnetime: false })),
+      ...onetimePending.map(d => ({ deed: d, isOnetime: true })),
+    ]
+    modalNavRef.current = nav
+    const idx = nav.findIndex(x => x.deed.id === deed.id)
+    setSelectedDeed({ deed, isOnetime, status, navIndex: idx, navTotal: nav.length })
+  }
+
+  const handleModalMark = (markStatus) => {
+    const { deed, isOnetime } = selectedDeed
+    isOnetime ? markOnetime(deed, markStatus) : markDaily(deed, markStatus)
+    setSelectedDeed(prev => ({ ...prev, status: markStatus }))
+  }
+
+  const handleModalNext = () => {
+    const next = modalNavRef.current[selectedDeed.navIndex + 1]
+    if (next) {
+      setSelectedDeed({
+        deed: next.deed,
+        isOnetime: next.isOnetime,
+        status: dailyStatus[next.deed.id],
+        navIndex: selectedDeed.navIndex + 1,
+        navTotal: selectedDeed.navTotal,
+      })
+    } else {
+      setSelectedDeed(null)
+    }
+  }
+
   return (
     <div className="deeds-page">
 
@@ -507,7 +552,7 @@ export default function GoodDeeds() {
           <h3 className="deed-section-title"><span className="deed-dot green" />Daily Deeds</h3>
           <div className="deed-list">
             {dailyDeeds.map(d => (
-              <DeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDaily} onDelete={deleteDeed} isOnetime={false} onOpen={() => setSelectedDeed({ deed: d, isOnetime: false, status: dailyStatus[d.id] })} onEdit={setEditingDeed} />
+              <DeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markDaily} onDelete={deleteDeed} isOnetime={false} onOpen={() => openDeedModal(d, false, dailyStatus[d.id])} onEdit={setEditingDeed} />
             ))}
           </div>
         </div>
@@ -519,7 +564,7 @@ export default function GoodDeeds() {
           <h3 className="deed-section-title"><span className="deed-dot gold" />One-time Deeds</h3>
           <div className="deed-list">
             {onetimePending.map(d => (
-              <DeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markOnetime} onDelete={deleteDeed} isOnetime={true} onOpen={() => setSelectedDeed({ deed: d, isOnetime: true, status: dailyStatus[d.id] })} onEdit={setEditingDeed} />
+              <DeedRow key={d.id} deed={d} status={dailyStatus[d.id]} onMark={markOnetime} onDelete={deleteDeed} isOnetime={true} onOpen={() => openDeedModal(d, true, dailyStatus[d.id])} onEdit={setEditingDeed} />
             ))}
           </div>
         </div>
@@ -543,7 +588,7 @@ export default function GoodDeeds() {
           {showCompleted && (
             <div className="deed-list deed-list-completed">
               {onetimeCompleted.map(d => (
-                <DeedRow key={d.id} deed={d} status="done" onMark={() => {}} onDelete={deleteDeed} isOnetime={true} onOpen={() => setSelectedDeed({ deed: d, isOnetime: true, status: 'done' })} onEdit={setEditingDeed} />
+                <DeedRow key={d.id} deed={d} status="done" onMark={() => {}} onDelete={deleteDeed} isOnetime={true} onOpen={() => setSelectedDeed({ deed: d, isOnetime: true, status: 'done', navIndex: -1 })} onEdit={setEditingDeed} />
               ))}
             </div>
           )}
@@ -558,6 +603,9 @@ export default function GoodDeeds() {
           status={selectedDeed.status}
           isOnetime={selectedDeed.isOnetime}
           onClose={() => setSelectedDeed(null)}
+          onMark={selectedDeed.navIndex >= 0 ? handleModalMark : undefined}
+          onNext={handleModalNext}
+          hasNext={selectedDeed.navIndex >= 0 && selectedDeed.navIndex < selectedDeed.navTotal - 1}
         />
       )}
 
