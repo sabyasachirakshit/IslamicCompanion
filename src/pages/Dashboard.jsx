@@ -217,6 +217,7 @@ export default function Dashboard({ userName, onNavigate }) {
   const pm = getPrayerMetrics()
   const dm = getDeedsMetrics()
   const greeting = getTimeGreeting()
+  const dailyAyah = getDailyAyah()
   const [profilePic, setProfilePic] = useState(() => localStorage.getItem('profilePicture') || null)
   const [prayerTimes,  setPrayerTimes]  = useState(() => {
     try {
@@ -285,6 +286,10 @@ export default function Dashboard({ userName, onNavigate }) {
           <p className="welcome-greeting">{greeting.emoji} {greeting.text}!</p>
           <h2>Assalamu Alaikum{userName ? `, ${userName}` : ''} 👋</h2>
           <p className="welcome-sub">Welcome to your Islamic Companion. Your spiritual journey starts here.</p>
+          <div className="welcome-ayah">
+            <p className="welcome-ayah-text">{dailyAyah.text}</p>
+            <p className="welcome-ayah-ref">— {dailyAyah.ref}</p>
+          </div>
         </div>
       </div>
 
@@ -470,11 +475,6 @@ export default function Dashboard({ userName, onNavigate }) {
         </div>
       </div>
 
-      <div className="dashboard-quote-card">
-        <div className="quote-icon">❝</div>
-        <p className="quote-text">{getDailyAyah().text}</p>
-        <p className="quote-ref">— {getDailyAyah().ref}</p>
-      </div>
     </div>
   )
 }

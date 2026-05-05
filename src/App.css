@@ -520,6 +520,30 @@
   max-width: 420px;
 }
 
+.welcome-ayah {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-left: 3px solid rgba(0, 229, 160, 0.45);
+  background: rgba(0, 229, 160, 0.05);
+  border-radius: 0 8px 8px 0;
+  max-width: 480px;
+}
+
+.welcome-ayah-text {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-dim, #ccc);
+  line-height: 1.6;
+  margin: 0 0 4px;
+}
+
+.welcome-ayah-ref {
+  font-size: 11px;
+  color: #00E5A0;
+  font-weight: 600;
+  margin: 0;
+}
+
 .dashboard-welcome-deco {
   font-size: 96px;
   color: rgba(0, 229, 160, 0.08);
