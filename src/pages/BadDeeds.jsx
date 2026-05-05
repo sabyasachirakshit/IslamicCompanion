@@ -10,7 +10,8 @@ const PRIORITY_META  = {
 }
 
 const todayKey = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` }
-const badDeedStatusKey  = () => `badDeedStatus_${todayKey()}`
+const badDeedStatusKey = () => `badDeedStatus_${todayKey()}`
+const repentKey        = () => `repentedDeeds_${todayKey()}`
 
 const creditWallet = (amount) => {
   if (amount <= 0) return
@@ -338,6 +339,15 @@ export default function BadDeeds() {
   const [showUnfinished, setShowUnfinished] = useState(true)
   const [selectedDeed,  setSelectedDeed]  = useState(null)
   const [editingDeed,   setEditingDeed]   = useState(null)
+  const [repentedDeeds, setRepentedDeeds] = useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem(repentKey()) || '[]')) } catch { return new Set() }
+  })
+
+  const repentDeed = (id) => {
+    const next = new Set([...repentedDeeds, id])
+    setRepentedDeeds(next)
+    localStorage.setItem(repentKey(), JSON.stringify([...next]))
+  }
 
   const saveDeeds = (next) => { setDeeds(next); localStorage.setItem('badDeeds', JSON.stringify(next)) }
 
@@ -426,6 +436,7 @@ export default function BadDeeds() {
   const dailyDeeds      = sortedDeeds.filter(d => d.type === 'daily')
   const onetimePending  = sortedDeeds.filter(d => d.type === 'onetime' && !onetimeDone.includes(d.id))
   const onetimeAvoided  = deeds.filter(d => d.type === 'onetime' && onetimeDone.includes(d.id))
+  const committedDeedsList = deeds.filter(d => dailyStatus[d.id] === 'committed')
 
   const avoideToday  = [...dailyDeeds, ...onetimePending].filter(d => dailyStatus[d.id] === 'avoided').length
   const committed    = [...dailyDeeds, ...onetimePending].filter(d => dailyStatus[d.id] === 'committed').length
@@ -478,6 +489,30 @@ export default function BadDeeds() {
 
       {/* Add form */}
       {showForm && <AddBadDeedForm onSave={addDeed} onCancel={() => setShowForm(false)} />}
+
+      {/* Repent section */}
+      {committedDeedsList.length > 0 && (
+        <div className="repent-section">
+          <div className="repent-header">
+            <span className="repent-icon">🤲</span>
+            <div>
+              <h3 className="repent-title">Repent to Allah</h3>
+              <p className="repent-subtitle">For the deeds you've committed today — seek His forgiveness</p>
+            </div>
+          </div>
+          <div className="repent-list">
+            {committedDeedsList.map(d => (
+              <div key={d.id} className={`repent-item${repentedDeeds.has(d.id) ? ' repent-item-done' : ''}`}>
+                <span className="repent-deed-name">{d.name}</span>
+                {repentedDeeds.has(d.id)
+                  ? <span className="repent-done-badge">✓ Repented</span>
+                  : <button className="repent-btn" onClick={() => repentDeed(d.id)}>Repent</button>
+                }
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Daily bad deeds */}
       {dailyDeeds.length > 0 && (

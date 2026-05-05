@@ -3402,6 +3402,102 @@
   color: var(--text);
 }
 
+/* ── Repent Section ── */
+.repent-section {
+  border: 1px solid rgba(248, 113, 113, 0.30);
+  border-radius: 14px;
+  background: rgba(248, 113, 113, 0.06);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.repent-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.repent-icon {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.repent-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #F87171;
+  margin: 0 0 2px;
+}
+
+.repent-subtitle {
+  font-size: 11px;
+  color: var(--text-muted, #888);
+  margin: 0;
+}
+
+.repent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.repent-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.18);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.repent-deed-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text, #fff);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repent-btn {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  background: rgba(0, 229, 160, 0.10);
+  border: 1px solid rgba(0, 229, 160, 0.30);
+  border-radius: 6px;
+  color: #00E5A0;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.repent-btn:hover {
+  background: rgba(0, 229, 160, 0.20);
+  border-color: rgba(0, 229, 160, 0.50);
+}
+
+.repent-item-done {
+  opacity: 0.55;
+}
+
+.repent-done-badge {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  background: rgba(0, 229, 160, 0.08);
+  border: 1px solid rgba(0, 229, 160, 0.20);
+  border-radius: 6px;
+  color: #00E5A0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 /* Deed Sections */
 .deed-section {
   display: flex;
