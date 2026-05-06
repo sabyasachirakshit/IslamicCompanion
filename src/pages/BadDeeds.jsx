@@ -438,9 +438,12 @@ export default function BadDeeds() {
   const onetimeAvoided  = deeds.filter(d => d.type === 'onetime' && onetimeDone.includes(d.id))
   const committedDeedsList = deeds.filter(d => dailyStatus[d.id] === 'committed')
 
-  const avoideToday  = [...dailyDeeds, ...onetimePending].filter(d => dailyStatus[d.id] === 'avoided').length
-  const committed    = [...dailyDeeds, ...onetimePending].filter(d => dailyStatus[d.id] === 'committed').length
-  const totalActive  = dailyDeeds.length + onetimePending.length
+  const allDailyDeeds    = deeds.filter(d => d.type === 'daily')
+  const allOnetimePending = deeds.filter(d => d.type === 'onetime' && !onetimeDone.includes(d.id))
+
+  const avoideToday  = [...allDailyDeeds, ...allOnetimePending].filter(d => dailyStatus[d.id] === 'avoided').length
+  const committed    = [...allDailyDeeds, ...allOnetimePending].filter(d => dailyStatus[d.id] === 'committed').length
+  const totalActive  = allDailyDeeds.length + allOnetimePending.length
 
   return (
     <div className="deeds-page">

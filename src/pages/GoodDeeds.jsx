@@ -461,9 +461,14 @@ export default function GoodDeeds() {
   const onetimePending = sortedDeeds.filter(d => d.type === 'onetime' && !onetimeDone.includes(d.id))
   const onetimeCompleted = deeds.filter(d => d.type === 'onetime' && onetimeDone.includes(d.id))
 
-  const totalActive = dailyDeeds.length + onetimePending.length
-  const doneTodayCount = dailyDeeds.filter(d => dailyStatus[d.id] === 'done').length
-                       + onetimePending.filter(d => dailyStatus[d.id] === 'done').length
+  const allDailyDeeds      = deeds.filter(d => d.type === 'daily')
+  const allOnetimePending   = deeds.filter(d => d.type === 'onetime' && !onetimeDone.includes(d.id))
+
+  const totalActive = allDailyDeeds.length + allOnetimePending.length
+  const doneTodayCount = allDailyDeeds.filter(d => dailyStatus[d.id] === 'done').length
+                       + allOnetimePending.filter(d => dailyStatus[d.id] === 'done').length
+  const missedTodayCount = allDailyDeeds.filter(d => dailyStatus[d.id] === 'missed').length
+                         + allOnetimePending.filter(d => dailyStatus[d.id] === 'missed').length
 
   const openDeedModal = (deed, isOnetime, status) => {
     const nav = [
@@ -537,6 +542,9 @@ export default function GoodDeeds() {
       <div className="deeds-summary">
         <span className="deeds-summary-chip">
           <span className="dsf-val">{doneTodayCount}</span>/<span className="dsf-total">{totalActive}</span> done today
+        </span>
+        <span className="deeds-summary-chip">
+          <span className="dsf-val" style={{ color: '#F87171' }}>{missedTodayCount}</span> missed today
         </span>
         <span className="deeds-summary-chip">
           <span className="dsf-val">{onetimeCompleted.length}</span> completed
