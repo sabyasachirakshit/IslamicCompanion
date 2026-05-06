@@ -272,19 +272,24 @@ export default function Dashboard({ userName, onNavigate }) {
         ))}
       </div> */}
 
-      <div className="dashboard-prayer-metrics">
-        <h3 className="pm-title">Today's Prayer Overview</h3>
-        <div className="pm-grid">
-          <PmCell label="Fardh"  value={pm.fardh.done}   total={pm.fardh.total}  color="#00E5A0" variant="done" />
-          <PmCell label="Sunnah" value={pm.sunnah.done}  total={pm.sunnah.total} color="#A78BFA" variant="done" />
-          <PmCell label="Nafl"   value={pm.nafl.done}    total={pm.nafl.total}   color="#F472B6" variant="done" />
-          <PmCell label="Witr"   value={pm.witr.done}    total={pm.witr.total}   color="#FBBF24" variant="done" />
-          <PmCell label="Fardh"  value={pm.fardh.missed}  total={pm.fardh.total}  color="#F87171" variant="missed" />
-          <PmCell label="Sunnah" value={pm.sunnah.missed} total={pm.sunnah.total} color="#FCA5A5" variant="missed" />
-          <PmCell label="Nafl"   value={pm.nafl.missed}   total={pm.nafl.total}   color="#FCA5A5" variant="missed" />
-          <PmCell label="Witr"   value={pm.witr.missed}   total={pm.witr.total}   color="#FCA5A5" variant="missed" />
+      <div className="dashboard-quick-actions">
+        {/* <h3 className="pm-title">Quick Actions</h3> */}
+        <div className="qa-grid">
+          {QUICK_ACTIONS.map(a => (
+            <button key={a.id} className="qa-card" onClick={() => onNavigate(a.id)}
+              style={{ '--qa-color': a.color, '--qa-bg': a.bg, '--qa-border': a.border }}>
+              <div className="qa-icon" style={{ color: a.color, background: a.bg }}>{a.icon}</div>
+              <div className="qa-body">
+                <span className="qa-label">{a.label}</span>
+                <span className="qa-desc">{a.desc}</span>
+              </div>
+              <span className="qa-arrow" style={{ color: a.color }}><ArrowRightIcon /></span>
+            </button>
+          ))}
         </div>
       </div>
+
+      
 
       <div className="dashboard-prayer-times">
         <div className="pt-title-row">
@@ -376,6 +381,20 @@ export default function Dashboard({ userName, onNavigate }) {
         })()}
       </div>
 
+      <div className="dashboard-prayer-metrics">
+        <h3 className="pm-title">Today's Prayer Overview</h3>
+        <div className="pm-grid">
+          <PmCell label="Fardh"  value={pm.fardh.done}   total={pm.fardh.total}  color="#00E5A0" variant="done" />
+          <PmCell label="Sunnah" value={pm.sunnah.done}  total={pm.sunnah.total} color="#A78BFA" variant="done" />
+          <PmCell label="Nafl"   value={pm.nafl.done}    total={pm.nafl.total}   color="#F472B6" variant="done" />
+          <PmCell label="Witr"   value={pm.witr.done}    total={pm.witr.total}   color="#FBBF24" variant="done" />
+          <PmCell label="Fardh"  value={pm.fardh.missed}  total={pm.fardh.total}  color="#F87171" variant="missed" />
+          <PmCell label="Sunnah" value={pm.sunnah.missed} total={pm.sunnah.total} color="#FCA5A5" variant="missed" />
+          <PmCell label="Nafl"   value={pm.nafl.missed}   total={pm.nafl.total}   color="#FCA5A5" variant="missed" />
+          <PmCell label="Witr"   value={pm.witr.missed}   total={pm.witr.total}   color="#FCA5A5" variant="missed" />
+        </div>
+      </div>
+
       <div className="dashboard-deeds-overview">
         <h3 className="pm-title">Today's Deeds Overview</h3>
         <div className="dov-grid">
@@ -425,22 +444,7 @@ export default function Dashboard({ userName, onNavigate }) {
         </div>
       </div>
 
-      <div className="dashboard-quick-actions">
-        <h3 className="pm-title">Quick Actions</h3>
-        <div className="qa-grid">
-          {QUICK_ACTIONS.map(a => (
-            <button key={a.id} className="qa-card" onClick={() => onNavigate(a.id)}
-              style={{ '--qa-color': a.color, '--qa-bg': a.bg, '--qa-border': a.border }}>
-              <div className="qa-icon" style={{ color: a.color, background: a.bg }}>{a.icon}</div>
-              <div className="qa-body">
-                <span className="qa-label">{a.label}</span>
-                <span className="qa-desc">{a.desc}</span>
-              </div>
-              <span className="qa-arrow" style={{ color: a.color }}><ArrowRightIcon /></span>
-            </button>
-          ))}
-        </div>
-      </div>
+      
 
     </div>
   )
