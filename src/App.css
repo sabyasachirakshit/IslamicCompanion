@@ -1758,6 +1758,12 @@
 }
 .profile-dd-remove:hover { background: rgba(248,113,113,0.14); }
 
+.profile-dd-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 4px 0;
+}
+
 .profile-dd-note {
   font-size: 10px;
   color: var(--text-dim);

@@ -108,8 +108,44 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
   const confirmTimer = useRef(null)
   const profileRef   = useRef(null)
   const settingsRef  = useRef(null)
-  const fileInputRef = useRef(null)
-  const nameInputRef = useRef(null)
+  const fileInputRef     = useRef(null)
+  const dataFileInputRef  = useRef(null)
+  const nameInputRef      = useRef(null)
+
+  const handleDownloadData = () => {
+    const allData = {}
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)
+      allData[key] = localStorage.getItem(key)
+    }
+    const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' })
+    const url  = URL.createObjectURL(blob)
+    const a    = document.createElement('a')
+    a.href     = url
+    a.download = `islamic-companion-backup-${new Date().toISOString().slice(0, 10)}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const handleRestoreData = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result)
+        if (typeof data !== 'object' || Array.isArray(data)) throw new Error('Invalid format')
+        Object.entries(data).forEach(([key, value]) => localStorage.setItem(key, value))
+        window.location.reload()
+      } catch {
+        alert('Failed to restore data. Ensure the file is a valid Islamic Companion backup.')
+      }
+      e.target.value = ''
+    }
+    reader.readAsText(file)
+  }
 
   const handleProfileUpload = (e) => {
     const file = e.target.files[0]
@@ -329,10 +365,20 @@ export default function Topbar({ pageTitle, onMenuToggle }) {
                   Remove Photo
                 </button>
               )}
+              <div className="profile-dd-divider" />
+              <button className="profile-dd-btn" onClick={handleDownloadData}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Download Data
+              </button>
+              <button className="profile-dd-btn" onClick={() => dataFileInputRef.current.click()}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Restore Data
+              </button>
               <p className="profile-dd-note">Saved on your device only</p>
             </div>
           )}
-          <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleProfileUpload} />
+          <input ref={fileInputRef}    type="file" accept="image/*"        style={{ display: 'none' }} onChange={handleProfileUpload} />
+          <input ref={dataFileInputRef} type="file" accept=".json,text/json" style={{ display: 'none' }} onChange={handleRestoreData} />
         </div>
 
         {/* Settings — extreme right */}
