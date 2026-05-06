@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 const DashboardIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="3" y="3" width="7" height="7" rx="1"/>
@@ -64,6 +66,30 @@ const BadDeedsIcon = () => (
   </svg>
 )
 
+const ExerciseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+    <line x1="6" y1="1" x2="6" y2="4"/>
+    <line x1="10" y1="1" x2="10" y2="4"/>
+    <line x1="14" y1="1" x2="14" y2="4"/>
+  </svg>
+)
+
+const AdditionalIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="12" y1="8" x2="12" y2="16"/>
+    <line x1="8" y1="12" x2="16" y2="12"/>
+  </svg>
+)
+
+const ChevronDownIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+)
+
 const DeedsIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="9 11 12 14 22 4"/>
@@ -81,7 +107,13 @@ const NAV_ITEMS = [
   { id: 'about',      label: 'About',      icon: <AboutIcon /> },
 ]
 
+const ADDITIONAL_ITEMS = [
+  { id: 'exercise', label: 'Exercise', icon: <ExerciseIcon /> },
+]
+
 export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse, activePage, onNavigate }) {
+  const [additionalOpen, setAdditionalOpen] = useState(false)
+
   return (
     <>
       {isOpen && <div className="sidebar-overlay" onClick={onClose} />}
@@ -103,6 +135,7 @@ export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse, 
           </button>
         </div>
 
+        <div className="sidebar-nav-wrapper">
         <div className="nav-section-label">Main Menu</div>
         <nav className="sidebar-nav">
           {NAV_ITEMS.map(item => (
@@ -118,6 +151,37 @@ export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse, 
             </a>
           ))}
         </nav>
+
+        <div className="nav-section-label">Additional</div>
+        <nav className="sidebar-nav">
+          <button
+            className={`sidebar-nav-item sidebar-dropdown-toggle${additionalOpen ? ' dropdown-open' : ''}${ADDITIONAL_ITEMS.some(i => activePage === i.id) ? ' active' : ''}`}
+            onClick={() => !collapsed && setAdditionalOpen(s => !s)}
+            title={collapsed ? 'Additional' : undefined}
+          >
+            <span className="nav-icon"><AdditionalIcon /></span>
+            <span className="nav-label">Additional</span>
+            {!collapsed && (
+              <span className={`sidebar-chevron${additionalOpen ? ' chevron-up' : ''}`}><ChevronDownIcon /></span>
+            )}
+          </button>
+          {additionalOpen && !collapsed && (
+            <div className="sidebar-submenu">
+              {ADDITIONAL_ITEMS.map(item => (
+                <a
+                  key={item.id}
+                  href="#"
+                  className={`sidebar-nav-item sidebar-subitem${activePage === item.id ? ' active' : ''}`}
+                  onClick={e => { e.preventDefault(); onNavigate(item.id); onClose() }}
+                >
+                  <span className="nav-icon">{item.icon}</span>
+                  <span className="nav-label">{item.label}</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </nav>
+        </div>
 
         <div className="sidebar-footer">
           <div className="sidebar-footer-text">بسم الله الرحمن الرحيم</div>
