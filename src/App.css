@@ -5234,3 +5234,254 @@
     font-size: 9px;
   }
 }
+
+/* ═══════════════════════════════════════════
+   Exercise Page
+═══════════════════════════════════════════ */
+.ex-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 32px;
+}
+
+/* Hadith Banner */
+.ex-hadith-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(167, 139, 250, 0.07);
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+.ex-hadith-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.ex-hadith-text { font-size: 13px; color: var(--text-dim, #ccc); line-height: 1.6; margin: 0; }
+.ex-hadith-ref  { font-size: 12px; color: #A78BFA; font-weight: 600; margin-left: 4px; }
+
+/* Hero */
+.ex-hero {
+  position: relative;
+  background: linear-gradient(135deg, rgba(249,115,22,0.09), rgba(248,113,113,0.07));
+  border: 1px solid rgba(249,115,22,0.22);
+  border-radius: 18px;
+  padding: 28px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  overflow: hidden;
+}
+.ex-hero-glow {
+  position: absolute;
+  top: -40px; left: 50%;
+  transform: translateX(-50%);
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ex-hero-flame {
+  font-size: 52px;
+  animation: ex-flame 1.6s ease-in-out infinite;
+  line-height: 1;
+}
+@keyframes ex-flame {
+  0%,100% { transform: scale(1) rotate(-2deg); }
+  50%      { transform: scale(1.18) rotate(2deg); filter: brightness(1.25); }
+}
+.ex-hero-kcal {
+  font-size: 58px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #F97316, #F87171);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+.ex-hero-unit {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: -4px;
+}
+.ex-motivation-msg {
+  font-size: 13px;
+  color: var(--text-dim, #ddd);
+  font-style: italic;
+  max-width: 340px;
+  line-height: 1.5;
+  margin: 2px 0 4px;
+}
+.ex-hero-bar-wrap {
+  width: 100%;
+  max-width: 300px;
+  height: 8px;
+  background: rgba(249,115,22,0.10);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ex-hero-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #F97316, #F87171);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+  box-shadow: 0 0 10px rgba(249,115,22,0.45);
+}
+.ex-hero-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+.ex-streak-badge {
+  margin-top: 4px;
+  padding: 5px 14px;
+  background: rgba(249,115,22,0.12);
+  border: 1px solid rgba(249,115,22,0.30);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #F97316;
+}
+
+/* Grid */
+.ex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 12px;
+}
+
+/* Card */
+.ex-card {
+  position: relative;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ex-card:hover {
+  background: rgba(255,255,255,0.04);
+}
+.ex-card-flash {
+  animation: ex-flash 0.4s ease-out;
+}
+@keyframes ex-flash {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+.ex-card-done {
+  background: rgba(255,255,255,0.04);
+}
+.ex-done-ribbon {
+  position: absolute;
+  top: 8px; right: -2px;
+  background: linear-gradient(90deg, #00E5A0, #34D399);
+  color: #000;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 10px 2px 8px;
+  border-radius: 4px 0 0 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Burst float */
+.ex-burst {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  font-weight: 800;
+  pointer-events: none;
+  z-index: 20;
+  white-space: nowrap;
+  animation: ex-burst-up 0.9s ease-out forwards;
+}
+@keyframes ex-burst-up {
+  0%   { opacity: 1; transform: translate(-50%, 0) scale(0.7); }
+  30%  { opacity: 1; transform: translate(-50%, -28px) scale(1.3); }
+  100% { opacity: 0; transform: translate(-50%, -70px) scale(1); }
+}
+
+/* Card header */
+.ex-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.ex-emoji { font-size: 30px; line-height: 1; }
+.ex-name  { font-size: 13px; font-weight: 600; color: var(--text, #fff); text-align: center; }
+
+/* Ring */
+.ex-ring-wrap {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ex-ring-svg { position: absolute; top: 0; left: 0; }
+.ex-ring-bg   { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }
+.ex-ring-fill {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ex-ring-center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  gap: 1px;
+}
+.ex-count-num  { font-size: 18px; font-weight: 900; }
+.ex-count-unit { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Footer */
+.ex-card-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+}
+.ex-goal-label {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+.ex-add-btn {
+  width: 100%;
+  padding: 9px 0;
+  border-radius: 9px;
+  border: 1px solid;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: transform 0.1s, filter 0.15s, box-shadow 0.15s;
+}
+.ex-add-btn:hover  { filter: brightness(1.15); }
+.ex-add-btn:active { transform: scale(0.93); filter: brightness(1.4); }
+
+@media (max-width: 480px) {
+  .ex-grid { grid-template-columns: repeat(2, 1fr); }
+  .ex-hero-kcal { font-size: 44px; }
+}
