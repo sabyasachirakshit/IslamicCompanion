@@ -7,7 +7,9 @@ const todayKey = () => {
 const countKey = () => `urgesCount_${todayKey()}`
 const logKey   = () => `urgesLog_${todayKey()}`
 
-const EMOJIS = ['🔥', '⚡', '💪', '✨', '🌟', '⚔️', '🛡️', '👊']
+const EMOJIS       = ['🔥', '⚡', '💪', '✨', '🌟', '⚔️', '🛡️', '👊']
+const FIGHT_EMOJIS = ['⚡', '👊', '💥', '🌪️', '⚔️', '🛡️', '💢', '🔱', '🌟', '✊']
+const FIGHT_MSGS   = ['FIGHT! ⚡', 'RESIST! 💢', 'STAY STRONG! 💪', 'FOR ALLAH! 🌟', 'NEVER GIVE IN! ⚔️', 'YOU ARE STRONGER! 🛡️']
 
 const QUOTES = [
   { text: "The strong man is not the one who can wrestle; the strong man is the one who controls himself when he is angry.", ref: "Sahih al-Bukhari 6114", icon: "💪" },
@@ -33,10 +35,13 @@ export default function Urges() {
   const [count,     setCount]     = useState(() => parseInt(localStorage.getItem(countKey()) || '0', 10))
   const [log,       setLog]       = useState(() => { try { return JSON.parse(localStorage.getItem(logKey()) || '[]') } catch { return [] } })
   const [streak]                  = useState(computeStreak)
-  const [particles, setParticles] = useState([])
-  const [flashMsg,  setFlashMsg]  = useState(false)
-  const [btnActive, setBtnActive] = useState(false)
-  const [quoteIdx,  setQuoteIdx]  = useState(0)
+  const [particles,      setParticles]      = useState([])
+  const [flashMsg,       setFlashMsg]       = useState(false)
+  const [btnActive,      setBtnActive]      = useState(false)
+  const [fightParticles, setFightParticles] = useState([])
+  const [fightFlash,     setFightFlash]     = useState('')
+  const [fightActive,    setFightActive]    = useState(false)
+  const [quoteIdx,       setQuoteIdx]       = useState(0)
 
   const crushUrge = useCallback(() => {
     const now = Date.now()
@@ -66,6 +71,22 @@ export default function Urges() {
 
     setQuoteIdx(idx => (idx + 1) % QUOTES.length)
   }, [count, log])
+
+  const fightNafs = useCallback(() => {
+    const now = Date.now()
+    const pts = Array.from({ length: 16 }, (_, i) => {
+      const angle = (i / 16) * 360 + Math.random() * 20
+      const dist  = 100 + Math.random() * 80
+      const rad   = (angle * Math.PI) / 180
+      return { id: `f${now}_${i}`, emoji: FIGHT_EMOJIS[i % FIGHT_EMOJIS.length], tx: Math.cos(rad) * dist, ty: Math.sin(rad) * dist }
+    })
+    setFightParticles(p => [...p, ...pts])
+    setTimeout(() => setFightParticles(p => p.filter(x => !pts.find(pt => pt.id === x.id))), 750)
+    setFightFlash(FIGHT_MSGS[Math.floor(Math.random() * FIGHT_MSGS.length)])
+    setTimeout(() => setFightFlash(''), 700)
+    setFightActive(true)
+    setTimeout(() => setFightActive(false), 300)
+  }, [])
 
   const quote = QUOTES[quoteIdx]
 
@@ -103,10 +124,25 @@ export default function Urges() {
         <h2 className="urges-arena-title">You felt the urge.<br />Now be the warrior.</h2>
         <p className="urges-arena-sub">Every time you resist, you rise. Every battle won<br />is written in your favour.</p>
 
+        {/* Fight particles */}
+        {fightParticles.map(p => (
+          <div key={p.id} className="urges-particle urges-fight-particle" style={{ '--tx': `${p.tx}px`, '--ty': `${p.ty}px` }}>
+            {p.emoji}
+          </div>
+        ))}
+
+        {fightFlash && <div className="urges-flash-msg urges-fight-flash">{fightFlash}</div>}
+
         <button className={`urges-crush-btn${btnActive ? ' ucb-active' : ''}`} onClick={crushUrge}>
           <span className="ucb-fire-left">🔥</span>
           <span className="ucb-label">CRUSH THE URGE</span>
           <span className="ucb-fire-right">🔥</span>
+        </button>
+
+        <button className={`urges-fight-btn${fightActive ? ' ufb-active' : ''}`} onClick={fightNafs}>
+          <span>⚡</span>
+          <span className="ufb-label">FIGHT THE NAFS</span>
+          <span>⚡</span>
         </button>
 
         <p className="urges-dua">أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</p>
