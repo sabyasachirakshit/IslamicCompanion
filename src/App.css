@@ -3468,6 +3468,60 @@
   margin: 0;
 }
 
+.repent-info-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(248, 113, 113, 0.30);
+  background: rgba(248, 113, 113, 0.08);
+  color: #F87171;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.repent-info-btn:hover {
+  background: rgba(248, 113, 113, 0.18);
+  border-color: rgba(248, 113, 113, 0.55);
+}
+
+.repent-hadith-card {
+  background: rgba(251, 191, 36, 0.06);
+  border: 1px solid rgba(251, 191, 36, 0.22);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.repent-hadith-text {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-dim, #ddd);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.repent-hadith-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.repent-hadith-narrator {
+  font-size: 12px;
+  font-weight: 600;
+  color: #FBBF24;
+}
+
+.repent-hadith-source {
+  font-size: 11px;
+  color: var(--text-muted, #888);
+}
+
 .repent-list {
   display: flex;
   flex-direction: column;

@@ -340,6 +340,7 @@ export default function BadDeeds() {
   const [showUnfinished, setShowUnfinished] = useState(true)
   const [selectedDeed,  setSelectedDeed]  = useState(null)
   const [editingDeed,   setEditingDeed]   = useState(null)
+  const [showHadith, setShowHadith] = useState(false)
   const [repentedDeeds, setRepentedDeeds] = useState(() => {
     try { return new Set(JSON.parse(localStorage.getItem(repentKey()) || '[]')) } catch { return new Set() }
   })
@@ -507,11 +508,23 @@ export default function BadDeeds() {
         <div className="repent-section">
           <div className="repent-header">
             <span className="repent-icon">🤲</span>
-            <div>
+            <div style={{ flex: 1 }}>
               <h3 className="repent-title">Repent to Allah</h3>
               <p className="repent-subtitle">For the deeds you've committed today — seek His forgiveness</p>
             </div>
+            <button className="repent-info-btn" onClick={() => setShowHadith(s => !s)} title="Why 6 hours?">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </button>
           </div>
+          {showHadith && (
+            <div className="repent-hadith-card">
+              <p className="repent-hadith-text">“Verily, the angel on the left side will raise his pen over the error or sin of a Muslim servant for six hours. If he sincerely regrets it and seeks forgiveness from Allah, the angel will throw it aside. Otherwise, he will record it as one sin.”</p>
+              <div className="repent-hadith-meta">
+                <span className="repent-hadith-narrator">— Prophet Muhammad ﷺ (reported by Abu Umamah)</span>
+                <span className="repent-hadith-source">al-Mu’jam al-Kabīr 7765 · Hasan (Al-Albani)</span>
+              </div>
+            </div>
+          )}
           <div className="repent-list">
             {committedDeedsList.map(d => {
               const ts = committedTimestamps[d.id]
