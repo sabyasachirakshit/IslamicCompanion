@@ -3485,15 +3485,27 @@
   padding: 10px 14px;
 }
 
+.repent-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
 .repent-deed-name {
   font-size: 13px;
   font-weight: 500;
   color: var(--text, #fff);
-  flex: 1;
-  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.repent-deadline {
+  font-size: 11px;
+  color: #FBBF24;
+  line-height: 1.4;
 }
 
 .repent-btn {

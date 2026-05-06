@@ -10,8 +10,9 @@ const PRIORITY_META  = {
 }
 
 const todayKey = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` }
-const badDeedStatusKey = () => `badDeedStatus_${todayKey()}`
-const repentKey        = () => `repentedDeeds_${todayKey()}`
+const badDeedStatusKey   = () => `badDeedStatus_${todayKey()}`
+const repentKey          = () => `repentedDeeds_${todayKey()}`
+const committedTsKey     = () => `committedTimestamps_${todayKey()}`
 
 const creditWallet = (amount) => {
   if (amount <= 0) return
@@ -342,6 +343,9 @@ export default function BadDeeds() {
   const [repentedDeeds, setRepentedDeeds] = useState(() => {
     try { return new Set(JSON.parse(localStorage.getItem(repentKey()) || '[]')) } catch { return new Set() }
   })
+  const [committedTimestamps, setCommittedTimestamps] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(committedTsKey()) || '{}') } catch { return {} }
+  })
 
   const repentDeed = (id) => {
     const next = new Set([...repentedDeeds, id])
@@ -412,6 +416,11 @@ export default function BadDeeds() {
       const next = [...onetimeDone, deed.id]
       setOnetimeDone(next)
       localStorage.setItem('bdOnetimeDone', JSON.stringify(next))
+    }
+    if (status === 'committed') {
+      const tsNext = { ...committedTimestamps, [deed.id]: Date.now() }
+      setCommittedTimestamps(tsNext)
+      localStorage.setItem(committedTsKey(), JSON.stringify(tsNext))
     }
     const next = { ...dailyStatus, [deed.id]: status }
     setDailyStatus(next)
@@ -504,15 +513,33 @@ export default function BadDeeds() {
             </div>
           </div>
           <div className="repent-list">
-            {committedDeedsList.map(d => (
-              <div key={d.id} className={`repent-item${repentedDeeds.has(d.id) ? ' repent-item-done' : ''}`}>
-                <span className="repent-deed-name">{d.name}</span>
-                {repentedDeeds.has(d.id)
-                  ? <span className="repent-done-badge">✓ Repented</span>
-                  : <button className="repent-btn" onClick={() => repentDeed(d.id)}>Repent</button>
-                }
-              </div>
-            ))}
+            {committedDeedsList.map(d => {
+              const ts = committedTimestamps[d.id]
+              const deadline = ts ? new Date(ts + 6 * 60 * 60 * 1000) : null
+              const deadlineStr = (() => {
+                if (!deadline) return null
+                const now      = new Date()
+                const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1)
+                const timeStr  = deadline.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })
+                if (deadline.toDateString() === now.toDateString())      return `today at ${timeStr}`
+                if (deadline.toDateString() === tomorrow.toDateString()) return `tomorrow at ${timeStr}`
+                return deadline.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) + ` at ${timeStr}`
+              })()
+              return (
+                <div key={d.id} className={`repent-item${repentedDeeds.has(d.id) ? ' repent-item-done' : ''}`}>
+                  <div className="repent-item-info">
+                    <span className="repent-deed-name">{d.name}</span>
+                    {!repentedDeeds.has(d.id) && deadlineStr && (
+                      <span className="repent-deadline">⏳ Repent before {deadlineStr} — or it is written in the book of deeds</span>
+                    )}
+                  </div>
+                  {repentedDeeds.has(d.id)
+                    ? <span className="repent-done-badge">✓ Repented</span>
+                    : <button className="repent-btn" onClick={() => repentDeed(d.id)}>Repent</button>
+                  }
+                </div>
+              )
+            })}
           </div>
         </div>
       )}
