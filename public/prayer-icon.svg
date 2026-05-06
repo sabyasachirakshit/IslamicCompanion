@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <!-- Left minaret -->
+  <rect x="4" y="16" width="7" height="26" rx="1.5" fill="#863bff"/>
+  <path d="M4 16 C4 8 11 8 11 16Z" fill="#863bff"/>
+  <rect x="5.5" y="12" width="4" height="2" rx="1" fill="#b07aff"/>
+
+  <!-- Right minaret -->
+  <rect x="37" y="16" width="7" height="26" rx="1.5" fill="#863bff"/>
+  <path d="M37 16 C37 8 44 8 44 16Z" fill="#863bff"/>
+  <rect x="38.5" y="12" width="4" height="2" rx="1" fill="#b07aff"/>
+
+  <!-- Main building body -->
+  <rect x="10" y="29" width="28" height="13" rx="2" fill="#863bff"/>
+
+  <!-- Central large dome -->
+  <path d="M10 29 C10 14 38 14 38 29Z" fill="#863bff"/>
+
+  <!-- Dome highlight -->
+  <path d="M18 29 C18 20 30 20 30 29Z" fill="#b07aff" opacity="0.45"/>
+
+  <!-- Crescent moon atop central dome -->
+  <path d="M27.5 9.5 A5 5 0 1 1 20.5 9.5 A3.5 3.5 0 1 0 27.5 9.5Z" fill="#ede6ff"/>
+
+  <!-- Door arch -->
+  <path d="M20 42 L20 34 Q24 29.5 28 34 L28 42Z" fill="rgba(237,230,255,0.22)"/>
+
+  <!-- Left window -->
+  <path d="M13 34 Q15.5 31 18 34 L18 38 L13 38Z" fill="rgba(237,230,255,0.18)"/>
+
+  <!-- Right window -->
+  <path d="M30 34 Q32.5 31 35 34 L35 38 L30 38Z" fill="rgba(237,230,255,0.18)"/>
+
+  <!-- Ground base -->
+  <rect x="2" y="42" width="44" height="3" rx="1.5" fill="#863bff"/>
+</svg>
