@@ -32,6 +32,21 @@ const AYAHS = [
   { text: 'Whoever does righteousness — it is for his own soul.', ref: 'Surah Fussilat (41:46)' },
 ]
 
+const RAIN_CODES = new Set([51,53,55,61,63,65,80,81,82,95,96,99])
+
+const getWeatherInfo = (code) => {
+  if (code === 0)                        return { label: 'Clear Sky',        emoji: '☀️' }
+  if (code <= 2)                         return { label: 'Partly Cloudy',    emoji: '🌤️' }
+  if (code === 3)                        return { label: 'Overcast',         emoji: '☁️' }
+  if (code <= 48)                        return { label: 'Foggy',            emoji: '🌫️' }
+  if (code <= 55)                        return { label: 'Drizzle',          emoji: '🌦️' }
+  if (code <= 65)                        return { label: 'Rain',             emoji: '🌧️' }
+  if (code <= 77)                        return { label: 'Snow',             emoji: '❄️' }
+  if (code <= 82)                        return { label: 'Rain Showers',     emoji: '🌦️' }
+  if (code <= 86)                        return { label: 'Snow Showers',     emoji: '🌨️' }
+  return                                        { label: 'Thunderstorm',     emoji: '⛈️' }
+}
+
 const addMins = (timeStr, mins) => {
   const [h, m] = timeStr.split(':').map(Number)
   const total  = h * 60 + m + mins
@@ -197,6 +212,10 @@ export default function Dashboard({ userName, onNavigate }) {
   const [timesError,   setTimesError]   = useState(null)
   const [now, setNow] = useState(new Date())
 
+  const rainDuaKey = `rainDuaAction_${new Date().toDateString()}`
+  const [weather,       setWeather]       = useState(null)
+  const [rainDuaAction, setRainDuaAction] = useState(() => localStorage.getItem(`rainDuaAction_${new Date().toDateString()}`) || null)
+
   useEffect(() => {
     const sync = () => setProfilePic(localStorage.getItem('profilePicture') || null)
     window.addEventListener('storage', sync)
@@ -242,6 +261,31 @@ export default function Dashboard({ userName, onNavigate }) {
     fetchPrayerTimes()
   }, [fetchPrayerTimes])
 
+  useEffect(() => {
+    if (!navigator.geolocation) return
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const { latitude, longitude } = pos.coords
+          const res  = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,weathercode,windspeed_10m&timezone=auto`)
+          const data = await res.json()
+          const code      = data.current?.weathercode ?? 0
+          const precip    = data.current?.precipitation ?? 0
+          const temp      = data.current?.temperature_2m ?? null
+          const windspeed = data.current?.windspeed_10m ?? null
+          setWeather({ isRaining: RAIN_CODES.has(code) || precip > 0, code, precip, temp, windspeed })
+        } catch { /**/ }
+      },
+      () => { /**/ },
+      { timeout: 8000 }
+    )
+  }, [])
+
+  const handleRainDua = (action) => {
+    setRainDuaAction(action)
+    localStorage.setItem(rainDuaKey, action)
+  }
+
   return (
     <div className="dashboard">
       <div className="dashboard-welcome">
@@ -258,6 +302,14 @@ export default function Dashboard({ userName, onNavigate }) {
             <p className="welcome-ayah-ref">— {dailyAyah.ref}</p>
           </div>
         </div>
+        {weather && (
+          <div className="welcome-weather">
+            <span className="ww-card-emoji">{getWeatherInfo(weather.code).emoji}</span>
+            {weather.temp !== null && <span className="ww-card-temp">{Math.round(weather.temp)}°C</span>}
+            <span className="ww-card-label">{getWeatherInfo(weather.code).label}</span>
+            {weather.windspeed !== null && <span className="ww-card-wind">💨 {Math.round(weather.windspeed)} km/h</span>}
+          </div>
+        )}
       </div>
 
       {/* <div className="dashboard-cards">
@@ -290,6 +342,50 @@ export default function Dashboard({ userName, onNavigate }) {
       </div>
 
       
+
+      {/* Rain Dua Card */}
+      {weather?.isRaining && (
+        <div className="rain-dua-card">
+          <div className="rain-dua-drops">
+            {[...Array(6)].map((_,i) => <span key={i} className="rain-drop" style={{ '--delay': `${i * 0.18}s`, '--left': `${10 + i * 15}%` }}>💧</span>)}
+          </div>
+          {!rainDuaAction ? (
+            <>
+              <div className="rain-dua-header">
+                <span className="rain-dua-icon">🌧️</span>
+                <div>
+                  <h3 className="rain-dua-title">It's Raining!</h3>
+                  <p className="rain-dua-sub">Rain is a blessed time — make dua now, it is accepted</p>
+                </div>
+              </div>
+              <p className="rain-dua-hadith">"There are two that will not be rejected: dua at the time of the call to prayer, and dua during rainfall." — Abu Dawud 2540</p>
+              <div className="rain-dua-actions">
+                <button className="rain-btn rain-btn-made" onClick={() => handleRainDua('made')}>🤲 I Made Dua</button>
+                <button className="rain-btn rain-btn-missed" onClick={() => handleRainDua('missed')}>😔 I Missed It</button>
+                <button className="rain-btn rain-btn-norain" onClick={() => handleRainDua('not-rained')}>☀️ It Didn't Rain</button>
+              </div>
+            </>
+          ) : rainDuaAction === 'made' ? (
+            <div className="rain-dua-result">
+              <span className="rain-result-icon">🤲</span>
+              <p className="rain-result-title">MashaAllah!</p>
+              <p className="rain-result-msg">May Allah accept your dua and grant you what is best. Ameen.</p>
+            </div>
+          ) : rainDuaAction === 'missed' ? (
+            <div className="rain-dua-result">
+              <span className="rain-result-icon">🌙</span>
+              <p className="rain-result-title">No worries</p>
+              <p className="rain-result-msg">Allah is always listening. You can make dua anytime — He is Al-Sami'.</p>
+            </div>
+          ) : (
+            <div className="rain-dua-result">
+              <span className="rain-result-icon">☀️</span>
+              <p className="rain-result-title">JazakAllah Khair</p>
+              <p className="rain-result-msg">May your day be blessed. Remember Allah in all conditions.</p>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="dashboard-prayer-times">
         <div className="pt-title-row">

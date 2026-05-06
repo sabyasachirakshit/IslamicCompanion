@@ -527,6 +527,26 @@
   flex: 1;
 }
 
+.welcome-weather {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 14px;
+  padding: 14px 18px;
+  text-align: center;
+  min-width: 90px;
+}
+.ww-card-emoji { font-size: 32px; line-height: 1; }
+.ww-card-temp  { font-size: 24px; font-weight: 900; color: #FBBF24; line-height: 1.1; }
+.ww-card-label { font-size: 11px; font-weight: 600; color: var(--text-dim, #aaa); }
+.ww-card-wind  { font-size: 10px; color: var(--text-muted, #888); margin-top: 2px; }
+
 .welcome-bismillah {
   font-size: 18px;
   color: var(--gold);
@@ -5781,3 +5801,141 @@
 .uli-num  { font-size: 11px; font-weight: 700; color: #A78BFA; min-width: 28px; }
 .uli-msg  { font-size: 13px; color: var(--text-dim, #ccc); flex: 1; }
 .uli-icon { font-size: 16px; }
+
+/* Weather Widget */
+.weather-widget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 12px 18px;
+}
+.ww-emoji { font-size: 28px; flex-shrink: 0; }
+.ww-info  { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.ww-condition { font-size: 14px; font-weight: 600; color: var(--text, #fff); }
+.ww-temp      { font-size: 22px; font-weight: 800; color: #FBBF24; line-height: 1; }
+.ww-wind      { font-size: 12px; color: var(--text-dim); }
+.ww-precip    { font-size: 12px; color: #60A5FA; }
+
+/* ═══════════════════════════════════════════
+   Rain Dua Card
+═══════════════════════════════════════════ */
+.rain-dua-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(96,165,250,0.10), rgba(139,92,246,0.08));
+  border: 1px solid rgba(96,165,250,0.30);
+  border-radius: 16px;
+  padding: 20px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+}
+
+/* Animated rain drops across top */
+.rain-dua-drops {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+.rain-drop {
+  position: absolute;
+  top: -20px;
+  left: var(--left);
+  font-size: 14px;
+  opacity: 0.5;
+  animation: rain-fall 2.2s linear infinite;
+  animation-delay: var(--delay);
+}
+@keyframes rain-fall {
+  0%   { transform: translateY(-20px); opacity: 0; }
+  20%  { opacity: 0.5; }
+  100% { transform: translateY(110px); opacity: 0; }
+}
+
+.rain-dua-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+}
+.rain-dua-icon { font-size: 36px; flex-shrink: 0; }
+.rain-dua-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 2px;
+}
+.rain-dua-sub {
+  font-size: 13px;
+  color: var(--text-dim, #ccc);
+  margin: 0;
+}
+
+.rain-dua-hadith {
+  font-size: 12px;
+  font-style: italic;
+  color: #60A5FA;
+  background: rgba(96,165,250,0.07);
+  border-left: 3px solid rgba(96,165,250,0.50);
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  margin: 0;
+  line-height: 1.6;
+  position: relative;
+}
+
+.rain-dua-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: relative;
+}
+.rain-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.15s;
+  white-space: nowrap;
+}
+.rain-btn:hover  { filter: brightness(1.15); }
+.rain-btn:active { transform: scale(0.96); }
+
+.rain-btn-made {
+  background: rgba(0,229,160,0.10);
+  border-color: rgba(0,229,160,0.35);
+  color: #00E5A0;
+}
+.rain-btn-missed {
+  background: rgba(248,113,113,0.10);
+  border-color: rgba(248,113,113,0.35);
+  color: #F87171;
+}
+.rain-btn-norain {
+  background: rgba(251,191,36,0.10);
+  border-color: rgba(251,191,36,0.35);
+  color: #FBBF24;
+}
+
+/* After action result */
+.rain-dua-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  padding: 10px 0 4px;
+  position: relative;
+}
+.rain-result-icon  { font-size: 38px; }
+.rain-result-title { font-size: 17px; font-weight: 800; color: #fff; margin: 0; }
+.rain-result-msg   { font-size: 13px; color: var(--text-dim, #ccc); line-height: 1.6; margin: 0; max-width: 340px; }
