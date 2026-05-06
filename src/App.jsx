@@ -10,6 +10,7 @@ import Rewards from './pages/Rewards'
 import About from './pages/About'
 import Diary from './pages/Diary'
 import Exercise from './pages/Exercise'
+import Urges from './pages/Urges'
 import './App.css'
 
 const PAGE_TITLES = {
@@ -22,6 +23,7 @@ const PAGE_TITLES = {
   rewards: 'Rewards',
   about: 'About',
   exercise: 'Exercise',
+  urges: 'Urges',
 }
 
 function App() {
@@ -56,6 +58,7 @@ function App() {
             {activePage === 'rewards' && <Rewards />}
             {activePage === 'about' && <About />}
             {activePage === 'exercise' && <Exercise />}
+            {activePage === 'urges' && <Urges />}
           </main>
         </div>
       </div>
