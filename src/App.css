@@ -5245,7 +5245,17 @@
   padding-bottom: 32px;
 }
 
-/* Hadith Banner */
+/* Hadith Banners */
+.ex-hadith-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 560px) {
+  .ex-hadith-row { grid-template-columns: 1fr; }
+}
+
 .ex-hadith-banner {
   display: flex;
   align-items: flex-start;

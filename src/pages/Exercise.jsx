@@ -95,13 +95,22 @@ export default function Exercise() {
   return (
     <div className="ex-page">
 
-      {/* Hadith banner */}
-      <div className="ex-hadith-banner">
-        <span className="ex-hadith-icon">📖</span>
-        <p className="ex-hadith-text">
-          <em>"The most beloved deeds to Allah are the most consistent ones, even if they are small."</em>
-          <span className="ex-hadith-ref"> — Prophet Muhammad ﷺ</span>
-        </p>
+      {/* Hadith banners */}
+      <div className="ex-hadith-row">
+        <div className="ex-hadith-banner">
+          <span className="ex-hadith-icon">❤️</span>
+          <div>
+            <p className="ex-hadith-text"><em>"Your body has a right over you."</em></p>
+            <span className="ex-hadith-ref">Sahih al-Bukhari — Prophet Muhammad ﷺ</span>
+          </div>
+        </div>
+        <div className="ex-hadith-banner">
+          <span className="ex-hadith-icon">⚡</span>
+          <div>
+            <p className="ex-hadith-text"><em>"A strong believer is better and more lovable to Allah than a weak believer, and there is good in everyone."</em></p>
+            <span className="ex-hadith-ref">Sahih Muslim 2664 — Prophet Muhammad ﷺ</span>
+          </div>
+        </div>
       </div>
 
       {/* Hero */}
