@@ -138,6 +138,46 @@ const QUICK_ACTIONS = [
       </svg>
     ),
   },
+  {
+    id: 'dhikr',
+    label: 'Dhikr',
+    desc: 'Track your daily and one-time remembrance of Allah. Set targets and watch your progress.',
+    color: '#A78BFA',
+    bg: 'rgba(167,139,250,0.08)',
+    border: 'rgba(167,139,250,0.22)',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'exercise',
+    label: 'Exercise',
+    desc: 'Stay active with daily workout goals. Choose between Remaining Fit or Building Muscles mode.',
+    color: '#34D399',
+    bg: 'rgba(52,211,153,0.08)',
+    border: 'rgba(52,211,153,0.22)',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+        <line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'urges',
+    label: 'Urges',
+    desc: 'Fight temptation and crush urges. Log your battles and build a streak of resistance.',
+    color: '#F97316',
+    bg: 'rgba(249,115,22,0.08)',
+    border: 'rgba(249,115,22,0.22)',
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+    ),
+  },
 ]
 
 

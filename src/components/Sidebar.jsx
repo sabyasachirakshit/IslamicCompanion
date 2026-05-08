@@ -118,6 +118,7 @@ const NAV_ITEMS = [
   { id: 'dashboard',  label: 'Dashboard',  icon: <DashboardIcon /> },
   { id: 'gooddeeds',  label: 'Prayers',    icon: <GoodDeedsIcon /> },
   { id: 'deeds',      label: 'Good Deeds', icon: <DeedsIcon /> },
+  { id: 'dhikr',      label: 'Dhikr',      icon: <DhikrIcon /> },
   { id: 'baddeeds',   label: 'Bad Deeds',  icon: <BadDeedsIcon /> },
   { id: 'diary',      label: 'Diary',      icon: <DiaryIcon /> },
   { id: 'rewards',    label: 'Rewards',    icon: <RewardsIcon /> },
@@ -127,7 +128,6 @@ const NAV_ITEMS = [
 const ADDITIONAL_ITEMS = [
   { id: 'exercise', label: 'Exercise', icon: <ExerciseIcon /> },
   { id: 'urges',    label: 'Urges',    icon: <UrgesIcon /> },
-  { id: 'dhikr',    label: 'Dhikr',    icon: <DhikrIcon /> },
 ]
 
 export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse, activePage, onNavigate }) {
