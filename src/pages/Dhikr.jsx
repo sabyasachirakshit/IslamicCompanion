@@ -53,8 +53,10 @@ export default function Dhikr() {
   const [flash,    setFlash]    = useState(null)
   const [showForm,    setShowForm]    = useState(false)
   const [form,        setForm]        = useState(EMPTY_FORM)
-  const [translating, setTranslating] = useState(false)
-  const [transError,  setTransError]  = useState(null)
+  const [translating,    setTranslating]    = useState(false)
+  const [transError,     setTransError]     = useState(null)
+  const [meaningLoading, setMeaningLoading] = useState(false)
+  const [meaningError,   setMeaningError]   = useState(null)
 
   const translateToArabic = async () => {
     if (!form.name.trim()) return
@@ -73,6 +75,25 @@ export default function Dhikr() {
       setTransError('Network error — try again')
     }
     setTranslating(false)
+  }
+
+  const generateMeaning = async () => {
+    if (!form.arabic.trim()) return
+    setMeaningLoading(true)
+    setMeaningError(null)
+    try {
+      const res  = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(form.arabic.trim())}&langpair=ar|en`)
+      const data = await res.json()
+      const text = data?.responseData?.translatedText
+      if (text && data.responseStatus === 200) {
+        setForm(f => ({ ...f, meaning: text }))
+      } else {
+        setMeaningError('Translation failed — try typing manually')
+      }
+    } catch {
+      setMeaningError('Network error — try again')
+    }
+    setMeaningLoading(false)
   }
 
   const saveList = (next) => {
@@ -241,8 +262,14 @@ export default function Dhikr() {
             {transError && <p className="dhikr-trans-error">{transError}</p>}
 
             <label className="dhikr-label">Meaning (optional)</label>
-            <input className="dhikr-input" placeholder="Glory be to Allah" value={form.meaning}
-              onChange={e => setForm(f => ({ ...f, meaning: e.target.value }))} />
+            <div className="dhikr-arabic-row">
+              <input className="dhikr-input" placeholder="Glory be to Allah" value={form.meaning}
+                onChange={e => setForm(f => ({ ...f, meaning: e.target.value }))} />
+              <button className="dhikr-trans-btn" onClick={generateMeaning} disabled={meaningLoading || !form.arabic.trim()} title="Translate Arabic to English">
+                {meaningLoading ? '⏳' : '💡'}
+              </button>
+            </div>
+            {meaningError && <p className="dhikr-trans-error">{meaningError}</p>}
 
             <label className="dhikr-label">Target Count *</label>
             <input className="dhikr-input" type="number" min="1" placeholder="33" value={form.target}
