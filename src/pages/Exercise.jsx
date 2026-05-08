@@ -108,7 +108,9 @@ const RingProgress = ({ count, goal, color }) => {
   )
 }
 
-export default function Exercise() {
+const isFriday = () => new Date().getDay() === 5
+
+export default function Exercise({ onNavigate }) {
   const [mode, setMode] = useState(() => localStorage.getItem('exerciseMode') || 'fit')
   const [counts, setCounts] = useState(() => {
     try { return JSON.parse(localStorage.getItem(storageKey()) || '{}') } catch { return {} }
@@ -199,6 +201,27 @@ export default function Exercise() {
         )}
       </div>
 
+      {/* Friday rest modal */}
+      {isFriday() && (
+        <div className="ex-friday-overlay">
+          <div className="ex-friday-rest">
+            <div className="ex-friday-glow" />
+            <div className="ex-friday-icon">🌙</div>
+            <h2 className="ex-friday-title">Jumu'ah Mubarak</h2>
+            <p className="ex-friday-msg">Take rest today.</p>
+            <p className="ex-friday-sub">Your body has a right over you.</p>
+            <p className="ex-friday-hadith">"Your body has a right over you." — Sahih al-Bukhari</p>
+            <div className="ex-friday-arabic">يَوْمُ الْجُمُعَةِ</div>
+            <p className="ex-friday-arabic-label">Day of Jumu'ah</p>
+            {onNavigate && (
+              <button className="ex-friday-dash-btn" onClick={() => onNavigate('dashboard')}>
+                ← Back to Dashboard
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Exercise grid */}
       <div className="ex-grid">
         {EXERCISES.map(ex => {
@@ -254,6 +277,7 @@ export default function Exercise() {
           )
         })}
       </div>
+
     </div>
   )
 }

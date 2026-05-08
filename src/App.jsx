@@ -59,7 +59,7 @@ function App() {
             {activePage === 'diary' && <Diary />}
             {activePage === 'rewards' && <Rewards />}
             {activePage === 'about' && <About />}
-            {activePage === 'exercise' && <Exercise />}
+            {activePage === 'exercise' && <Exercise onNavigate={setActivePage} />}
             {activePage === 'urges' && <Urges />}
             {activePage === 'dhikr' && <Dhikr />}
           </main>

@@ -5418,6 +5418,69 @@
   color: #F97316;
 }
 
+/* Friday rest */
+.ex-friday-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.ex-friday-rest {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  padding: 48px 32px;
+  background: linear-gradient(135deg, rgba(20,14,40,0.98), rgba(10,20,38,0.98));
+  border: 1px solid rgba(167,139,250,0.30);
+  border-radius: 28px;
+  overflow: hidden;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 50px rgba(167,139,250,0.12);
+}
+.ex-friday-glow {
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(167,139,250,0.18) 0%, transparent 65%);
+  pointer-events: none;
+  animation: dhikr-glow 4s ease-in-out infinite;
+}
+.ex-friday-icon    { font-size: 56px; line-height: 1; position: relative; }
+.ex-friday-title   { font-size: 26px; font-weight: 900; color: #A78BFA; margin: 0; position: relative; text-shadow: 0 0 20px rgba(167,139,250,0.5); }
+.ex-friday-msg     { font-size: 20px; font-weight: 700; color: #fff; margin: 0; position: relative; }
+.ex-friday-sub     { font-size: 14px; color: var(--text-dim); margin: -4px 0 0; position: relative; }
+.ex-friday-hadith  { font-size: 12px; font-style: italic; color: #A78BFA; max-width: 320px; line-height: 1.6; margin: 8px 0 0; position: relative; }
+.ex-friday-arabic  { font-size: 28px; color: #A78BFA; text-shadow: 0 0 16px rgba(167,139,250,0.5); margin: 4px 0 0; position: relative; direction: rtl; }
+.ex-friday-arabic-label { font-size: 11px; color: var(--text-dim); margin: 0; position: relative; }
+.ex-friday-dash-btn {
+  margin-top: 16px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #7C3AED, #A855F7);
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(139,92,246,0.40);
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  letter-spacing: 0.4px;
+}
+.ex-friday-dash-btn:hover  { transform: scale(1.05); box-shadow: 0 0 32px rgba(139,92,246,0.55); }
+.ex-friday-dash-btn:active { transform: scale(0.97); }
+
 /* Grid */
 .ex-grid {
   display: grid;
