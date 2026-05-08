@@ -11,6 +11,7 @@ import About from './pages/About'
 import Diary from './pages/Diary'
 import Exercise from './pages/Exercise'
 import Urges from './pages/Urges'
+import Dhikr from './pages/Dhikr'
 import './App.css'
 
 const PAGE_TITLES = {
@@ -24,6 +25,7 @@ const PAGE_TITLES = {
   about: 'About',
   exercise: 'Exercise',
   urges: 'Urges',
+  dhikr: 'Dhikr',
 }
 
 function App() {
@@ -59,6 +61,7 @@ function App() {
             {activePage === 'about' && <About />}
             {activePage === 'exercise' && <Exercise />}
             {activePage === 'urges' && <Urges />}
+            {activePage === 'dhikr' && <Dhikr />}
           </main>
         </div>
       </div>

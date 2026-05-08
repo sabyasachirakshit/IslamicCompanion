@@ -85,6 +85,14 @@ const UrgesIcon = () => (
   </svg>
 )
 
+const DhikrIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M12 6v6l4 2"/>
+    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+  </svg>
+)
+
 const AdditionalIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="10"/>
@@ -119,6 +127,7 @@ const NAV_ITEMS = [
 const ADDITIONAL_ITEMS = [
   { id: 'exercise', label: 'Exercise', icon: <ExerciseIcon /> },
   { id: 'urges',    label: 'Urges',    icon: <UrgesIcon /> },
+  { id: 'dhikr',    label: 'Dhikr',    icon: <DhikrIcon /> },
 ]
 
 export default function Sidebar({ isOpen, onClose, collapsed, onToggleCollapse, activePage, onNavigate }) {
