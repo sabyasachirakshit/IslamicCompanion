@@ -6272,6 +6272,23 @@
 }
 .dhikr-input:focus { border-color: rgba(167,139,250,0.50); }
 .dhikr-input-arabic { font-size: 18px; text-align: right; }
+.dhikr-arabic-row { display: flex; gap: 8px; align-items: center; }
+.dhikr-arabic-row .dhikr-input { flex: 1; }
+.dhikr-trans-btn {
+  flex-shrink: 0;
+  padding: 10px 13px;
+  background: rgba(167,139,250,0.10);
+  border: 1px solid rgba(167,139,250,0.30);
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  line-height: 1;
+}
+.dhikr-trans-btn:hover:not(:disabled) { background: rgba(167,139,250,0.20); }
+.dhikr-trans-btn:active:not(:disabled) { transform: scale(0.92); }
+.dhikr-trans-btn:disabled { opacity: 0.40; cursor: not-allowed; }
+.dhikr-trans-error { font-size: 11px; color: #F87171; margin: -6px 0 0; }
 .dhikr-type-toggle { display: flex; gap: 8px; }
 .dtt-btn {
   flex: 1;

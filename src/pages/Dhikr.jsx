@@ -51,8 +51,29 @@ export default function Dhikr() {
   const [list,     setList]     = useState(loadList)
   const [counts,   setCounts]   = useState(() => loadCounts(loadList()))
   const [flash,    setFlash]    = useState(null)
-  const [showForm, setShowForm] = useState(false)
-  const [form,     setForm]     = useState(EMPTY_FORM)
+  const [showForm,    setShowForm]    = useState(false)
+  const [form,        setForm]        = useState(EMPTY_FORM)
+  const [translating, setTranslating] = useState(false)
+  const [transError,  setTransError]  = useState(null)
+
+  const translateToArabic = async () => {
+    if (!form.name.trim()) return
+    setTranslating(true)
+    setTransError(null)
+    try {
+      const res  = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(form.name.trim())}&langpair=en|ar`)
+      const data = await res.json()
+      const text = data?.responseData?.translatedText
+      if (text && data.responseStatus === 200) {
+        setForm(f => ({ ...f, arabic: text }))
+      } else {
+        setTransError('Translation failed — try typing manually')
+      }
+    } catch {
+      setTransError('Network error — try again')
+    }
+    setTranslating(false)
+  }
 
   const saveList = (next) => {
     setList(next)
@@ -210,8 +231,14 @@ export default function Dhikr() {
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
 
             <label className="dhikr-label">Arabic (optional)</label>
-            <input className="dhikr-input dhikr-input-arabic" placeholder="سُبْحَانَ اللَّهِ" value={form.arabic}
-              onChange={e => setForm(f => ({ ...f, arabic: e.target.value }))} dir="rtl" />
+            <div className="dhikr-arabic-row">
+              <input className="dhikr-input dhikr-input-arabic" placeholder="سُبْحَانَ اللَّهِ" value={form.arabic}
+                onChange={e => setForm(f => ({ ...f, arabic: e.target.value }))} dir="rtl" />
+              <button className="dhikr-trans-btn" onClick={translateToArabic} disabled={translating || !form.name.trim()} title="Auto-translate name to Arabic">
+                {translating ? '⏳' : '🌐'}
+              </button>
+            </div>
+            {transError && <p className="dhikr-trans-error">{transError}</p>}
 
             <label className="dhikr-label">Meaning (optional)</label>
             <input className="dhikr-input" placeholder="Glory be to Allah" value={form.meaning}
