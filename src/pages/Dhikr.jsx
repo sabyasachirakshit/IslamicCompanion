@@ -207,7 +207,7 @@ export default function Dhikr() {
   return (
     <div className="dhikr-page">
 
-      {/* Hero */}
+      {/* Hero - fixed at top */}
       <div className="dhikr-hero">
         <div className="dhikr-hero-glow" />
         <p className="dhikr-hero-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
@@ -216,30 +216,36 @@ export default function Dhikr() {
         <p className="dhikr-hero-ayah">"Verily, in the remembrance of Allah do hearts find rest." — Quran 13:28</p>
       </div>
 
-      {/* Daily Dhikr */}
-      {dailyList.length > 0 && (
-        <div className="dhikr-section">
-          <h3 className="dhikr-section-title">🔄 Daily Dhikr</h3>
-          <p className="dhikr-section-sub">Resets every day at midnight</p>
-          <div className="dhikr-list">
-            {dailyList.map(d => <DhikrCard key={d.id} dhikr={d} />)}
-          </div>
-        </div>
-      )}
+      <div className="dhikr-scroll-area">
 
-      {/* One-time Dhikr */}
-      {onetimeList.length > 0 && (
-        <div className="dhikr-section">
-          <h3 className="dhikr-section-title">⭐ One-time Dhikr</h3>
-          <p className="dhikr-section-sub">Progress is saved permanently</p>
-          <div className="dhikr-list">
-            {onetimeList.map(d => <DhikrCard key={d.id} dhikr={d} />)}
+        {/* Daily Dhikr */}
+        {dailyList.length > 0 && (
+          <div className="dhikr-section">
+            <h3 className="dhikr-section-title">🔄 Daily Dhikr</h3>
+            <p className="dhikr-section-sub">Resets every day at midnight</p>
+            <div className="dhikr-list">
+              {dailyList.map(d => <DhikrCard key={d.id} dhikr={d} />)}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Add Button */}
-      <button className="dhikr-add-fab" onClick={() => setShowForm(true)}>+ Add Dhikr</button>
+        {/* One-time Dhikr */}
+        {onetimeList.length > 0 && (
+          <div className="dhikr-section">
+            <h3 className="dhikr-section-title">⭐ One-time Dhikr</h3>
+            <p className="dhikr-section-sub">Progress is saved permanently</p>
+            <div className="dhikr-list">
+              {onetimeList.map(d => <DhikrCard key={d.id} dhikr={d} />)}
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* Fixed bottom FAB */}
+      <div className="dhikr-fab-bar">
+        <button className="dhikr-add-fab" onClick={() => setShowForm(true)}>+ Add Dhikr</button>
+      </div>
 
       {/* Add Form Modal */}
       {showForm && (
