@@ -6,18 +6,59 @@ const todayKey = () => {
 }
 const storageKey = () => `exerciseData_${todayKey()}`
 
-const EXERCISES = [
-  { id: 'pushup',   name: 'Push-ups',      emoji: '💪', kcal: 0.32,  unit: 'reps', step: 1,  goal: 30,  color: '#F87171', rgba: '248,113,113' },
-  { id: 'squat',    name: 'Squats',        emoji: '🦵', kcal: 0.32,  unit: 'reps', step: 1,  goal: 30,  color: '#FBBF24', rgba: '251,191,36'  },
-  { id: 'plank',    name: 'Plank',         emoji: '🏋️', kcal: 0.067, unit: 'sec',  step: 10, goal: 120, color: '#60A5FA', rgba: '96,165,250'  },
-  { id: 'pullup',   name: 'Pull-ups',      emoji: '🤸', kcal: 0.5,   unit: 'reps', step: 1,  goal: 10,  color: '#A78BFA', rgba: '167,139,250' },
-  { id: 'jumpjack', name: 'Jumping Jacks', emoji: '⚡', kcal: 0.2,   unit: 'reps', step: 5,  goal: 50,  color: '#34D399', rgba: '52,211,153'  },
-  { id: 'burpee',   name: 'Burpees',       emoji: '🔥', kcal: 0.5,   unit: 'reps', step: 1,  goal: 20,  color: '#F97316', rgba: '249,115,22'  },
-  { id: 'situp',    name: 'Sit-ups',       emoji: '🎯', kcal: 0.25,  unit: 'reps', step: 1,  goal: 30,  color: '#EC4899', rgba: '236,72,153'  },
-  { id: 'lunge',    name: 'Lunges',        emoji: '🏃', kcal: 0.25,  unit: 'reps', step: 1,  goal: 20,  color: '#06B6D4', rgba: '6,182,212'   },
+const BASE_EXERCISES = [
+  { id: 'pushup',   name: 'Push-ups',      emoji: '💪', kcal: 0.32,  unit: 'reps', color: '#F87171', rgba: '248,113,113' },
+  { id: 'squat',    name: 'Squats',        emoji: '🦵', kcal: 0.32,  unit: 'reps', color: '#FBBF24', rgba: '251,191,36'  },
+  { id: 'plank',    name: 'Plank',         emoji: '🏋️', kcal: 0.067, unit: 'sec',  color: '#60A5FA', rgba: '96,165,250'  },
+  { id: 'pullup',   name: 'Pull-ups',      emoji: '🤸', kcal: 0.5,   unit: 'reps', color: '#A78BFA', rgba: '167,139,250' },
+  { id: 'jumpjack', name: 'Jumping Jacks', emoji: '⚡', kcal: 0.2,   unit: 'reps', color: '#34D399', rgba: '52,211,153'  },
+  { id: 'burpee',   name: 'Burpees',       emoji: '🔥', kcal: 0.5,   unit: 'reps', color: '#F97316', rgba: '249,115,22'  },
+  { id: 'situp',    name: 'Sit-ups',       emoji: '🎯', kcal: 0.25,  unit: 'reps', color: '#EC4899', rgba: '236,72,153'  },
+  { id: 'lunge',    name: 'Lunges',        emoji: '🏃', kcal: 0.25,  unit: 'reps', color: '#06B6D4', rgba: '6,182,212'   },
 ]
 
-const DAILY_GOAL_KCAL = 200
+// Goals are tuned so sum(goal × kcal) ≈ dailyGoalKcal for each mode
+const MODES = {
+  fit: {
+    id: 'fit',
+    label: 'Remaining Fit',
+    emoji: '🧘',
+    desc: 'Maintenance — stay active daily',
+    dailyGoalKcal: 250,
+    // sum: 38.4+38.4+20.1+20+51+27.5+30+25 ≈ 250 kcal
+    config: {
+      pushup:   { step: 5,  goal: 120 },
+      squat:    { step: 5,  goal: 120 },
+      plank:    { step: 10, goal: 300 },
+      pullup:   { step: 1,  goal: 40  },
+      jumpjack: { step: 5,  goal: 255 },
+      burpee:   { step: 1,  goal: 55  },
+      situp:    { step: 5,  goal: 120 },
+      lunge:    { step: 5,  goal: 100 },
+    },
+  },
+  muscle: {
+    id: 'muscle',
+    label: 'Building Muscles',
+    emoji: '💪',
+    desc: 'Strength — progressive overload for gains',
+    dailyGoalKcal: 500,
+    // sum: 76.8+76.8+40.2+40+101+55+60+50 ≈ 500 kcal
+    config: {
+      pushup:   { step: 10, goal: 240 },
+      squat:    { step: 10, goal: 240 },
+      plank:    { step: 10, goal: 600 },
+      pullup:   { step: 1,  goal: 80  },
+      jumpjack: { step: 5,  goal: 505 },
+      burpee:   { step: 5,  goal: 110 },
+      situp:    { step: 10, goal: 240 },
+      lunge:    { step: 5,  goal: 200 },
+    },
+  },
+}
+
+const getExercises = (mode) =>
+  BASE_EXERCISES.map(ex => ({ ...ex, ...MODES[mode].config[ex.id] }))
 
 const MOTIVATION_TIERS = [
   { min: 0,   msg: "Let's get moving! Every rep counts 🌱" },
@@ -68,12 +109,18 @@ const RingProgress = ({ count, goal, color }) => {
 }
 
 export default function Exercise() {
+  const [mode, setMode] = useState(() => localStorage.getItem('exerciseMode') || 'fit')
   const [counts, setCounts] = useState(() => {
     try { return JSON.parse(localStorage.getItem(storageKey()) || '{}') } catch { return {} }
   })
   const [bursts, setBursts] = useState([])
   const [flashId, setFlashId] = useState(null)
   const [streak] = useState(computeStreak)
+
+  const EXERCISES       = getExercises(mode)
+  const DAILY_GOAL_KCAL = MODES[mode].dailyGoalKcal
+
+  const switchMode = (m) => { setMode(m); localStorage.setItem('exerciseMode', m) }
 
   const totalKcal = EXERCISES.reduce((sum, ex) => sum + (counts[ex.id] || 0) * ex.kcal, 0)
   const motivation = getMotivation(totalKcal)
@@ -94,6 +141,24 @@ export default function Exercise() {
 
   return (
     <div className="ex-page">
+
+      {/* Mode Selector */}
+      <div className="ex-mode-selector">
+        {Object.values(MODES).map(m => (
+          <button
+            key={m.id}
+            className={`ex-mode-btn${mode === m.id ? ' ex-mode-active' : ''}`}
+            onClick={() => switchMode(m.id)}
+          >
+            <span className="ex-mode-emoji">{m.emoji}</span>
+            <div className="ex-mode-text">
+              <span className="ex-mode-label">{m.label}</span>
+              <span className="ex-mode-desc">{m.desc}</span>
+            </div>
+            {mode === m.id && <span className="ex-mode-check">✓</span>}
+          </button>
+        ))}
+      </div>
 
       {/* Hadith banners */}
       <div className="ex-hadith-row">
@@ -125,7 +190,7 @@ export default function Exercise() {
         </div>
         <div className="ex-hero-bar-labels">
           <span>{Math.round(goalPct)}% of daily goal</span>
-          <span>{DAILY_GOAL_KCAL} kcal</span>
+          <span>{DAILY_GOAL_KCAL} kcal goal</span>
         </div>
         {streak > 0 && (
           <div className="ex-streak-badge">

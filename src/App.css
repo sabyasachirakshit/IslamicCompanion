@@ -5265,6 +5265,43 @@
   padding-bottom: 32px;
 }
 
+/* Mode Selector */
+.ex-mode-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.ex-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ex-mode-btn:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(249,115,22,0.30);
+}
+.ex-mode-active {
+  background: rgba(249,115,22,0.08) !important;
+  border-color: rgba(249,115,22,0.45) !important;
+  box-shadow: 0 0 16px rgba(249,115,22,0.12);
+}
+.ex-mode-emoji { font-size: 24px; flex-shrink: 0; }
+.ex-mode-text  { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.ex-mode-label { font-size: 13px; font-weight: 700; color: var(--text, #fff); }
+.ex-mode-desc  { font-size: 10px; color: var(--text-dim, #aaa); line-height: 1.4; }
+.ex-mode-check { font-size: 14px; font-weight: 800; color: #F97316; flex-shrink: 0; }
+
+@media (max-width: 400px) {
+  .ex-mode-selector { grid-template-columns: 1fr; }
+}
+
 /* Hadith Banners */
 .ex-hadith-row {
   display: grid;
