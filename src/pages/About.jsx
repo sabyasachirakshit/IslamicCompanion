@@ -74,7 +74,31 @@ export default function About() {
           </div>
 
           <div className="about-step">
-            <span className="about-step-num" style={{ background: 'rgba(244,114,182,0.10)', color: '#F472B6', borderColor: 'rgba(244,114,182,0.25)' }}>7</span>
+            <span className="about-step-num" style={{ background: 'rgba(167,139,250,0.10)', color: '#A78BFA', borderColor: 'rgba(167,139,250,0.25)' }}>7</span>
+            <div className="about-step-body">
+              <strong>Dhikr</strong>
+              <p>Go to <em>Dhikr</em> in the sidebar. You will see pre-loaded remembrances — SubhanAllah (33), Alhamdulillah (33), Allahu Akbar (34), Astaghfirullah (100), and more. Tap <span className="about-tag purple">+ Dhikr</span> on any card to increment your count. A glowing progress bar fills up as you go, and a <span className="about-tag green">MashaAllah!</span> flash appears when you complete a target. Use <span className="about-tag purple">Add Dhikr</span> to create your own — type the name, click <span className="about-tag purple">🌐</span> to auto-translate to Arabic, then click <span className="about-tag purple">💡</span> to generate its meaning. Set it as <span className="about-tag purple">Daily</span> (resets every midnight) or <span className="about-tag orange">One-time</span> (progress saved permanently).</p>
+            </div>
+          </div>
+
+          <div className="about-step">
+            <span className="about-step-num" style={{ background: 'rgba(52,211,153,0.10)', color: '#34D399', borderColor: 'rgba(52,211,153,0.25)' }}>8</span>
+            <div className="about-step-body">
+              <strong>Exercise</strong>
+              <p>Go to <em>Exercise</em> under <em>Additional</em> in the sidebar. First choose your mode — <span className="about-tag green">🧘 Remaining Fit</span> (250 kcal daily goal, lighter reps) or <span className="about-tag green">💪 Building Muscles</span> (500 kcal daily goal, heavier reps). Each exercise card shows a ring progress indicator. Tap the <span className="about-tag green">+</span> button to log reps — a kcal burst floats up with every tap. The hero bar at the top fills as you burn calories. Completing all goals in a day adds to your streak counter 🔥.</p>
+            </div>
+          </div>
+
+          <div className="about-step">
+            <span className="about-step-num" style={{ background: 'rgba(249,115,22,0.10)', color: '#F97316', borderColor: 'rgba(249,115,22,0.25)' }}>9</span>
+            <div className="about-step-body">
+              <strong>Urges</strong>
+              <p>Go to <em>Urges</em> under <em>Additional</em>. When you feel tempted, hit the big <span className="about-tag red">💥 Crush the Urge</span> button — it logs the urge, fires a particle burst animation, and shows a motivating Islamic quote. You can also tap <span className="about-tag orange">Fight the Nafs</span> as many times as you want for a satisfying spam-able animation without affecting your count. Your urge-crush count, streaks, and a full battle log are tracked so you can see your progress over time.</p>
+            </div>
+          </div>
+
+          <div className="about-step">
+            <span className="about-step-num" style={{ background: 'rgba(244,114,182,0.10)', color: '#F472B6', borderColor: 'rgba(244,114,182,0.25)' }}>10</span>
             <div className="about-step-body">
               <strong>Reset & Share</strong>
               <p>Use <span className="about-tag red">Reset Data</span> in the top bar to clear everything and start fresh. Use <span className="about-tag purple">Share</span> to send this app to family and friends — it is Sadaqah Jariyah!</p>
