@@ -54,15 +54,6 @@
     "createdAt": 1777626327144
   },
   {
-    "id": "bd_1777627013592",
-    "name": "18+ roleplays",
-    "type": "daily",
-    "reward": 50,
-    "penalty": 500,
-    "priority": "high",
-    "createdAt": 1777627013592
-  },
-  {
     "id": "bd_1777627466005",
     "name": "Not lowering gaze",
     "type": "daily",
