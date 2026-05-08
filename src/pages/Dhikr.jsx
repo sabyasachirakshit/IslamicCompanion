@@ -45,7 +45,7 @@ const loadCounts = (list) => {
   return merged
 }
 
-const EMPTY_FORM = { name: '', arabic: '', meaning: '', target: 33, type: 'daily', colorIdx: 0 }
+const EMPTY_FORM = { name: '', arabic: '', meaning: '', target: 33, step: 1, type: 'daily', colorIdx: 0 }
 
 export default function Dhikr() {
   const [list,     setList]     = useState(loadList)
@@ -53,6 +53,7 @@ export default function Dhikr() {
   const [flash,    setFlash]    = useState(null)
   const [showForm,    setShowForm]    = useState(false)
   const [form,        setForm]        = useState(EMPTY_FORM)
+  const [editingId,   setEditingId]   = useState(null)
   const [translating,    setTranslating]    = useState(false)
   const [transError,     setTransError]     = useState(null)
   const [meaningLoading, setMeaningLoading] = useState(false)
@@ -104,7 +105,7 @@ export default function Dhikr() {
   const tap = useCallback((dhikr) => {
     const current = counts[dhikr.id] || 0
     if (current >= dhikr.target) return
-    const next = current + 1
+    const next = Math.min(dhikr.target, current + (dhikr.step || 1))
     setCounts(prev => ({ ...prev, [dhikr.id]: next }))
 
     if (dhikr.type === 'daily') {
@@ -138,14 +139,29 @@ export default function Dhikr() {
     setCounts(prev => { const c = { ...prev }; delete c[id]; return c })
   }
 
-  const addDhikr = () => {
+  const openEdit = (dhikr) => {
+    const colorIdx = COLORS.findIndex(c => c.color === dhikr.color)
+    setForm({ name: dhikr.name, arabic: dhikr.arabic || '', meaning: dhikr.meaning || '', target: dhikr.target, step: dhikr.step || 1, type: dhikr.type, colorIdx: colorIdx >= 0 ? colorIdx : 0 })
+    setEditingId(dhikr.id)
+    setShowForm(true)
+  }
+
+  const saveDhikr = () => {
     if (!form.name.trim() || !form.target) return
     const c = COLORS[form.colorIdx]
-    const entry = { id: uid(), name: form.name.trim(), arabic: form.arabic.trim(), meaning: form.meaning.trim(), target: Number(form.target), type: form.type, ...c }
-    const next = [...list, entry]
-    saveList(next)
-    setCounts(prev => ({ ...prev, [entry.id]: 0 }))
+    if (editingId) {
+      const next = list.map(d => d.id === editingId
+        ? { ...d, name: form.name.trim(), arabic: form.arabic.trim(), meaning: form.meaning.trim(), target: Number(form.target), step: Number(form.step) || 1, type: form.type, ...c }
+        : d)
+      saveList(next)
+    } else {
+      const entry = { id: uid(), name: form.name.trim(), arabic: form.arabic.trim(), meaning: form.meaning.trim(), target: Number(form.target), step: Number(form.step) || 1, type: form.type, ...c }
+      const next = [...list, entry]
+      saveList(next)
+      setCounts(prev => ({ ...prev, [entry.id]: 0 }))
+    }
     setForm(EMPTY_FORM)
+    setEditingId(null)
     setShowForm(false)
   }
 
@@ -198,6 +214,7 @@ export default function Dhikr() {
                 + Dhikr
               </button>
           }
+          <button className="dhikr-edit-btn" onClick={() => openEdit(dhikr)} title="Edit">✏️</button>
           <button className="dhikr-del-btn" onClick={() => remove(dhikr.id)} title="Remove">✕</button>
         </div>
       </div>
@@ -247,11 +264,11 @@ export default function Dhikr() {
         <button className="dhikr-add-fab" onClick={() => setShowForm(true)}>+ Add Dhikr</button>
       </div>
 
-      {/* Add Form Modal */}
+      {/* Add / Edit Form Modal */}
       {showForm && (
-        <div className="dhikr-modal-overlay" onClick={() => setShowForm(false)}>
+        <div className="dhikr-modal-overlay" onClick={() => { setShowForm(false); setEditingId(null); setForm(EMPTY_FORM) }}>
           <div className="dhikr-modal" onClick={e => e.stopPropagation()}>
-            <h3 className="dhikr-modal-title">✨ Add Dhikr</h3>
+            <h3 className="dhikr-modal-title">{editingId ? '✏️ Edit Dhikr' : '✨ Add Dhikr'}</h3>
 
             <label className="dhikr-label">Name *</label>
             <input className="dhikr-input" placeholder="e.g. SubhanAllah" value={form.name}
@@ -281,6 +298,10 @@ export default function Dhikr() {
             <input className="dhikr-input" type="number" min="1" placeholder="33" value={form.target}
               onChange={e => setForm(f => ({ ...f, target: e.target.value }))} />
 
+            <label className="dhikr-label">Increment per tap</label>
+            <input className="dhikr-input" type="number" min="1" placeholder="1" value={form.step}
+              onChange={e => setForm(f => ({ ...f, step: e.target.value }))} />
+
             <label className="dhikr-label">Type</label>
             <div className="dhikr-type-toggle">
               <button className={`dtt-btn${form.type === 'daily' ? ' dtt-active' : ''}`} onClick={() => setForm(f => ({ ...f, type: 'daily' }))}>🔄 Daily</button>
@@ -296,8 +317,8 @@ export default function Dhikr() {
             </div>
 
             <div className="dhikr-modal-actions">
-              <button className="dhikr-cancel-btn" onClick={() => setShowForm(false)}>Cancel</button>
-              <button className="dhikr-save-btn" onClick={addDhikr} disabled={!form.name.trim() || !form.target}>Add Dhikr</button>
+              <button className="dhikr-cancel-btn" onClick={() => { setShowForm(false); setEditingId(null); setForm(EMPTY_FORM) }}>Cancel</button>
+              <button className="dhikr-save-btn" onClick={saveDhikr} disabled={!form.name.trim() || !form.target}>{editingId ? 'Save Changes' : 'Add Dhikr'}</button>
             </div>
           </div>
         </div>

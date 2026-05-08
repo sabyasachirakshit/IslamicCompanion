@@ -6217,14 +6217,26 @@
 }
 .dhikr-reset-btn {
   font-size: 11px;
-  color: var(--text-dim);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.10);
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 8px;
   padding: 8px 12px;
   cursor: pointer;
 }
-.dhikr-reset-btn:hover { color: #fff; }
+.dhikr-reset-btn:hover { background: rgba(255,255,255,0.14); }
+.dhikr-edit-btn {
+  font-size: 13px;
+  color: var(--text-dim);
+  background: rgba(167,139,250,0.06);
+  border: 1px solid rgba(167,139,250,0.15);
+  border-radius: 8px;
+  padding: 10px 11px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+.dhikr-edit-btn:hover { color: #A78BFA; background: rgba(167,139,250,0.14); }
 .dhikr-del-btn {
   font-size: 13px;
   color: var(--text-dim);
