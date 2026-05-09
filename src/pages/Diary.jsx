@@ -127,9 +127,10 @@ export default function Diary() {
   const [modalSearch, setModalSearch] = useState('')
   const [titleInput, setTitleInput] = useState('')
   const [contentInput, setContentInput] = useState('')
-  const [imagesInput, setImagesInput] = useState([])
-  const titleRef = useRef(null)
-  const imageInputRef = useRef(null)
+  const [imagesInput, setImagesInput] = useState({})
+  const titleRef    = useRef(null)
+  const imageInputRef  = useRef(null)
+  const textareaRef    = useRef(null)
 
   // Save notes to localStorage whenever they change
   useEffect(() => {
@@ -149,13 +150,30 @@ export default function Diary() {
 
   const applyTemplate = () => setContentInput(DAILY_SCHEDULE_TEMPLATE)
 
+  const stripTokens = (text) => text.replace(/!\[img:[a-z0-9_]+\]/g, '').replace(/\n{3,}/g, '\n\n').trim()
+
+  const migrateImages = (imgs) => (!imgs || Array.isArray(imgs)) ? {} : imgs
+
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files)
     for (const file of files) {
       const dataUrl = await compressImage(file)
-      setImagesInput(prev => [...prev, dataUrl])
+      const imgId = `img_${Date.now()}_${Math.random().toString(36).slice(2,6)}`
+      setImagesInput(prev => ({ ...prev, [imgId]: dataUrl }))
+      const ta = textareaRef.current
+      if (ta) {
+        const start = ta.selectionStart ?? ta.value.length
+        const token = `\n![img:${imgId}]\n`
+        setContentInput(prev => prev.slice(0, start) + token + prev.slice(start))
+        setTimeout(() => { ta.selectionStart = ta.selectionEnd = start + token.length; ta.focus() }, 0)
+      }
     }
     e.target.value = ''
+  }
+
+  const removeImage = (id) => {
+    setImagesInput(prev => { const n = { ...prev }; delete n[id]; return n })
+    setContentInput(prev => prev.replace(new RegExp(`\\n?!\\[img:${id}\\]\\n?`, 'g'), '\n'))
   }
 
   const generateId = () => Date.now().toString(36) + Math.random().toString(36).substr(2)
@@ -207,7 +225,7 @@ export default function Diary() {
   const resetForm = () => {
     setTitleInput('')
     setContentInput('')
-    setImagesInput([])
+    setImagesInput({})
     setIsCreating(false)
     setEditingNote(null)
   }
@@ -246,13 +264,35 @@ export default function Diary() {
     setEditingNote(note)
     setTitleInput(note.title)
     setContentInput(note.content)
-    setImagesInput(note.images || [])
+    setImagesInput(migrateImages(note.images))
     setIsCreating(false)
   }
 
   const getContentPreview = (content, maxLength = 120) => {
-    if (content.length <= maxLength) return content
-    return content.substring(0, maxLength) + '...'
+    const clean = stripTokens(content)
+    if (clean.length <= maxLength) return clean
+    return clean.substring(0, maxLength) + '...'
+  }
+
+  const renderInlineContent = (content, images, searchQ) => {
+    const TOKEN_RE = /!\[img:([a-z0-9_]+)\]/g
+    const parts = []
+    let last = 0, m
+    while ((m = TOKEN_RE.exec(content)) !== null) {
+      if (m.index > last) parts.push({ type: 'text', value: content.slice(last, m.index) })
+      parts.push({ type: 'image', id: m[1] })
+      last = m.index + m[0].length
+    }
+    if (last < content.length) parts.push({ type: 'text', value: content.slice(last) })
+    return parts.map((part, i) => {
+      if (part.type === 'image') {
+        const src = images?.[part.id]
+        return src ? <img key={i} src={src} alt="note" className="diary-inline-image" /> : null
+      }
+      return part.value.split('\n').filter(l => l.trim() !== '' || i === 0).map((line, j) =>
+        <p key={`${i}-${j}`}>{highlightText(line, searchQ)}</p>
+      )
+    })
   }
 
   if (!pinUnlocked) {
@@ -333,6 +373,7 @@ export default function Diary() {
             </div>
 
             <textarea
+              ref={textareaRef}
               value={contentInput}
               onChange={(e) => setContentInput(e.target.value)}
               placeholder="Write your note content..."
@@ -343,14 +384,14 @@ export default function Diary() {
             <input ref={imageInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={handleImageUpload} />
             <button type="button" className="diary-image-upload-btn" onClick={() => imageInputRef.current?.click()}>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              Add Photos
+              Insert Photo at cursor
             </button>
-            {imagesInput.length > 0 && (
+            {Object.keys(imagesInput).length > 0 && (
               <div className="diary-image-preview-grid">
-                {imagesInput.map((src, i) => (
-                  <div key={i} className="diary-image-preview-item">
-                    <img src={src} alt={`upload-${i}`} className="diary-preview-thumb" />
-                    <button className="diary-image-remove-btn" onClick={() => setImagesInput(prev => prev.filter((_, j) => j !== i))}>✕</button>
+                {Object.entries(imagesInput).map(([id, src]) => (
+                  <div key={id} className="diary-image-preview-item">
+                    <img src={src} alt={id} className="diary-preview-thumb" />
+                    <button className="diary-image-remove-btn" onClick={() => removeImage(id)}>✕</button>
                   </div>
                 ))}
               </div>
@@ -416,16 +457,9 @@ export default function Diary() {
             </div>
             <div className="diary-modal-body">
               {viewingNote.content
-                ? viewingNote.content.split('\n').map((para, i) => <p key={i}>{highlightText(para, modalSearch)}</p>)
+                ? renderInlineContent(viewingNote.content, migrateImages(viewingNote.images), modalSearch)
                 : <p className="diary-note-empty">No content</p>
               }
-              {viewingNote.images?.length > 0 && (
-                <div className="diary-modal-images">
-                  {viewingNote.images.map((src, i) => (
-                    <img key={i} src={src} alt={`note-img-${i}`} className="diary-modal-image" />
-                  ))}
-                </div>
-              )}
             </div>
             <div className="diary-modal-footer">
               <button className="diary-btn diary-cancel-btn" onClick={closeNote}>Close</button>
