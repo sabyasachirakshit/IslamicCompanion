@@ -14,7 +14,18 @@ function PinScreen({ mode, onUnlock }) {
   const handleInput = (els, arr, setArr, i, val) => {
     if (!/^\d$/.test(val) && val !== '') return
     const next = [...arr]; next[i] = val; setArr(next)
-    if (val && i < 3) els.current[i + 1]?.focus()
+    if (val && i < 3) {
+      els.current[i + 1]?.focus()
+    } else if (val && i === 3 && mode === 'enter' && els === pinEls) {
+      const pinStr = next.join('')
+      if (pinStr === localStorage.getItem(PIN_KEY)) {
+        onUnlock()
+      } else {
+        setError('Incorrect PIN. Try again.')
+        setDigits(['', '', '', ''])
+        setTimeout(() => pinEls.current[0]?.focus(), 0)
+      }
+    }
   }
 
   const handleKeyDown = (els, arr, setArr, i, e) => {
