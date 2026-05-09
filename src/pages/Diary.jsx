@@ -95,6 +95,23 @@ function PinScreen({ mode, onUnlock }) {
   )
 }
 
+const compressImage = (file) =>
+  new Promise(resolve => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      const MAX = 900
+      let w = img.width, h = img.height
+      if (w > MAX || h > MAX) { const r = Math.min(MAX/w, MAX/h); w = Math.round(w*r); h = Math.round(h*r) }
+      const c = document.createElement('canvas')
+      c.width = w; c.height = h
+      c.getContext('2d').drawImage(img, 0, 0, w, h)
+      resolve(c.toDataURL('image/jpeg', 0.72))
+      URL.revokeObjectURL(url)
+    }
+    img.src = url
+  })
+
 export default function Diary() {
   const [pinUnlocked, setPinUnlocked] = useState(false)
   const pinMode = localStorage.getItem(PIN_KEY) ? 'enter' : 'set'
@@ -110,7 +127,9 @@ export default function Diary() {
   const [modalSearch, setModalSearch] = useState('')
   const [titleInput, setTitleInput] = useState('')
   const [contentInput, setContentInput] = useState('')
+  const [imagesInput, setImagesInput] = useState([])
   const titleRef = useRef(null)
+  const imageInputRef = useRef(null)
 
   // Save notes to localStorage whenever they change
   useEffect(() => {
@@ -130,6 +149,15 @@ export default function Diary() {
 
   const applyTemplate = () => setContentInput(DAILY_SCHEDULE_TEMPLATE)
 
+  const handleImageUpload = async (e) => {
+    const files = Array.from(e.target.files)
+    for (const file of files) {
+      const dataUrl = await compressImage(file)
+      setImagesInput(prev => [...prev, dataUrl])
+    }
+    e.target.value = ''
+  }
+
   const generateId = () => Date.now().toString(36) + Math.random().toString(36).substr(2)
 
   const handleCreateNote = () => {
@@ -141,6 +169,7 @@ export default function Diary() {
         id: generateId(),
         title: trimmedTitle || 'Untitled Note',
         content: trimmedContent,
+        images: imagesInput,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       }
@@ -162,6 +191,7 @@ export default function Diary() {
               ...note, 
               title: trimmedTitle || 'Untitled Note',
               content: trimmedContent,
+              images: imagesInput,
               updatedAt: new Date().toISOString()
             }
           : note
@@ -177,6 +207,7 @@ export default function Diary() {
   const resetForm = () => {
     setTitleInput('')
     setContentInput('')
+    setImagesInput([])
     setIsCreating(false)
     setEditingNote(null)
   }
@@ -215,6 +246,7 @@ export default function Diary() {
     setEditingNote(note)
     setTitleInput(note.title)
     setContentInput(note.content)
+    setImagesInput(note.images || [])
     setIsCreating(false)
   }
 
@@ -308,6 +340,22 @@ export default function Diary() {
               rows={8}
             />
             
+            <input ref={imageInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={handleImageUpload} />
+            <button type="button" className="diary-image-upload-btn" onClick={() => imageInputRef.current?.click()}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Add Photos
+            </button>
+            {imagesInput.length > 0 && (
+              <div className="diary-image-preview-grid">
+                {imagesInput.map((src, i) => (
+                  <div key={i} className="diary-image-preview-item">
+                    <img src={src} alt={`upload-${i}`} className="diary-preview-thumb" />
+                    <button className="diary-image-remove-btn" onClick={() => setImagesInput(prev => prev.filter((_, j) => j !== i))}>✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <div className="diary-editor-actions">
               <button 
                 className="diary-btn diary-save-btn" 
@@ -371,6 +419,13 @@ export default function Diary() {
                 ? viewingNote.content.split('\n').map((para, i) => <p key={i}>{highlightText(para, modalSearch)}</p>)
                 : <p className="diary-note-empty">No content</p>
               }
+              {viewingNote.images?.length > 0 && (
+                <div className="diary-modal-images">
+                  {viewingNote.images.map((src, i) => (
+                    <img key={i} src={src} alt={`note-img-${i}`} className="diary-modal-image" />
+                  ))}
+                </div>
+              )}
             </div>
             <div className="diary-modal-footer">
               <button className="diary-btn diary-cancel-btn" onClick={closeNote}>Close</button>
