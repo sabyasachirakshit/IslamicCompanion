@@ -7,7 +7,9 @@ function pad(n, len = 2) {
 }
 
 function getElapsed(startMs) {
-  let diff = Math.max(0, Date.now() - startMs)
+  const rawMs = Math.max(0, Date.now() - startMs)
+  const totalFractionalDays = rawMs / 86400000
+  let diff = rawMs
   const ms      = diff % 1000;             diff = Math.floor(diff / 1000)
   const seconds = diff % 60;               diff = Math.floor(diff / 60)
   const minutes = diff % 60;               diff = Math.floor(diff / 60)
@@ -16,7 +18,7 @@ function getElapsed(startMs) {
   const years   = Math.floor(diff / 365);  diff -= years * 365
   const months  = Math.floor(diff / 30);   diff -= months * 30
   const days    = diff
-  return { years, months, days, hours, minutes, seconds, ms, totalDays }
+  return { years, months, days, hours, minutes, seconds, ms, totalDays, totalFractionalDays }
 }
 
 function getMilestone(e) {
@@ -136,7 +138,8 @@ export default function Timer() {
   }
 
   const milestone  = getMilestone(elapsed)
-  const totalDays   = elapsed?.totalDays ?? 0
+  const totalDays            = elapsed?.totalDays ?? 0
+  const totalFractionalDays  = elapsed?.totalFractionalDays ?? 0
   const currentBadge = startTime
     ? ([...BADGES].reverse().find(b => totalDays >= b.days) ?? BADGES[0])
     : null
@@ -307,7 +310,7 @@ export default function Timer() {
                 const unlocked = startTime && totalDays >= badge.days
                 const isCurrent = currentBadge?.days === badge.days
                 const ts = TIER_STYLES[badge.tier]
-                const pct = badge.days === 0 ? 100 : Math.min(100, Math.round((totalDays / badge.days) * 100))
+                const pct = badge.days === 0 ? 100 : Math.min(100, Math.round((totalFractionalDays / badge.days) * 100))
                 const rem = badge.days - totalDays
                 return (
                   <div
