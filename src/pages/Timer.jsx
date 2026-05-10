@@ -28,6 +28,57 @@ function getMilestone(e) {
   return { text: 'Just started. Stay strong!', icon: '🌱' }
 }
 
+const BADGES = [
+  { days: 0,    name: 'Sucker',                emoji: '🔗',  tier: 0 },
+  { days: 1,    name: 'Prisoner',              emoji: '⛓️',  tier: 0 },
+  { days: 3,    name: 'Awakening',             emoji: '🌅',  tier: 1 },
+  { days: 5,    name: 'Realiser',              emoji: '💡',  tier: 1 },
+  { days: 7,    name: 'Survivor',              emoji: '🌱',  tier: 1 },
+  { days: 10,   name: 'Strong Kid',            emoji: '💪',  tier: 2 },
+  { days: 14,   name: 'Self-Controlled',       emoji: '🎯',  tier: 2 },
+  { days: 21,   name: 'Discipline Seed',       emoji: '🌿',  tier: 2 },
+  { days: 30,   name: 'Iron Mind',             emoji: '🔩',  tier: 3 },
+  { days: 45,   name: 'Temptation Slayer',     emoji: '⚔️',  tier: 3 },
+  { days: 50,   name: 'Steel Soul',            emoji: '🛡️',  tier: 3 },
+  { days: 60,   name: 'Focused Wolf',          emoji: '🐺',  tier: 3 },
+  { days: 75,   name: 'Mind Guardian',         emoji: '🧠',  tier: 3 },
+  { days: 90,   name: 'Rewired',               emoji: '⚡',  tier: 4 },
+  { days: 100,  name: 'Centurion',             emoji: '🏛️',  tier: 4 },
+  { days: 120,  name: 'Habit Breaker',         emoji: '💥',  tier: 4 },
+  { days: 150,  name: 'Alpha Spirit',          emoji: '🔥',  tier: 4 },
+  { days: 180,  name: 'Desire Master',         emoji: '🌊',  tier: 4 },
+  { days: 200,  name: 'Shadow Conqueror',      emoji: '🌑',  tier: 5 },
+  { days: 250,  name: 'Diamond Will',          emoji: '💎',  tier: 5 },
+  { days: 300,  name: 'Ascended Mind',         emoji: '🌌',  tier: 5 },
+  { days: 365,  name: 'One-Year Legend',       emoji: '🏆',  tier: 6 },
+  { days: 400,  name: 'Inner Warrior',         emoji: '🗡️',  tier: 6 },
+  { days: 450,  name: 'Unchained',             emoji: '🔓',  tier: 6 },
+  { days: 500,  name: 'Half Millennium Monk',  emoji: '🧘',  tier: 7 },
+  { days: 550,  name: 'Craving Destroyer',     emoji: '💀',  tier: 7 },
+  { days: 600,  name: 'Titan Discipline',      emoji: '🗿',  tier: 7 },
+  { days: 650,  name: 'King of Restraint',     emoji: '👑',  tier: 7 },
+  { days: 700,  name: 'Relapse Hunter',        emoji: '🎯',  tier: 7 },
+  { days: 750,  name: 'Soul Fortress',         emoji: '🏰',  tier: 8 },
+  { days: 800,  name: 'Mental Emperor',        emoji: '🌟',  tier: 8 },
+  { days: 850,  name: 'Void Walker',           emoji: '🌀',  tier: 8 },
+  { days: 900,  name: 'Untouchable',           emoji: '✨',  tier: 8 },
+  { days: 950,  name: 'Beyond Flesh',          emoji: '🔱',  tier: 8 },
+  { days: 1000, name: 'Transcendent Legend',   emoji: '🌠',  tier: 9 },
+]
+
+const TIER_STYLES = [
+  { color: '#9CA3AF', rgba: '156,163,175', label: 'Struggle' },
+  { color: '#34D399', rgba: '52,211,153',  label: 'Spark' },
+  { color: '#34D399', rgba: '52,211,153',  label: 'Beginner' },
+  { color: '#06B6D4', rgba: '6,182,212',   label: 'Rising' },
+  { color: '#A78BFA', rgba: '167,139,250', label: 'Advanced' },
+  { color: '#FFD700', rgba: '255,215,0',   label: 'Expert' },
+  { color: '#FB923C', rgba: '251,146,60',  label: 'Master' },
+  { color: '#F87171', rgba: '248,113,113', label: 'Elite' },
+  { color: '#EC4899', rgba: '236,72,153',  label: 'Apex' },
+  { color: '#FDE68A', rgba: '253,230,138', label: 'Transcendent' },
+]
+
 const TICK = 60
 const R = 148, CX = 160, CY = 160
 const ticks = Array.from({ length: TICK }, (_, i) => {
@@ -46,6 +97,8 @@ export default function Timer() {
   const [showModal, setShowModal] = useState(false)
   const [dateInput, setDateInput] = useState('')
   const [confirmReset, setConfirmReset] = useState(false)
+  const [showBadges, setShowBadges]     = useState(false)
+  const [selectedBadge, setSelectedBadge] = useState(null)
   const rafRef = useRef(null)
 
   useEffect(() => {
@@ -82,7 +135,12 @@ export default function Timer() {
     setConfirmReset(false)
   }
 
-  const milestone = getMilestone(elapsed)
+  const milestone  = getMilestone(elapsed)
+  const totalDays   = elapsed?.totalDays ?? 0
+  const currentBadge = startTime
+    ? ([...BADGES].reverse().find(b => totalDays >= b.days) ?? BADGES[0])
+    : null
+  const nextBadge   = startTime ? (BADGES.find(b => b.days > totalDays) ?? null) : null
 
   const UNITS = elapsed ? [
     { label: 'Years',   val: pad(elapsed.years),   color: '#A78BFA', rgba: '167,139,250' },
@@ -189,6 +247,19 @@ export default function Timer() {
         </div>
       )}
 
+      {/* Badges button */}
+      {startTime && (
+        <button className="timer-badges-btn" onClick={() => setShowBadges(true)}>
+          <span>🏅</span>
+          <span>View Badges</span>
+          {currentBadge && (
+            <span className="tbb-rank" style={{ color: TIER_STYLES[currentBadge.tier].color }}>
+              {currentBadge.emoji} {currentBadge.name}
+            </span>
+          )}
+        </button>
+      )}
+
       {/* Started label */}
       {startTime && (
         <p className="timer-started-at">
@@ -211,6 +282,72 @@ export default function Timer() {
           </>
         )}
       </div>
+
+      {/* ── Badges grid modal ── */}
+      {showBadges && (
+        <div className="timer-overlay" onClick={() => setShowBadges(false)}>
+          <div className="tbm-wrap" onClick={e => e.stopPropagation()}>
+            <div className="tbm-head">
+              <div>
+                <h2 className="tbm-title">Badges</h2>
+                {currentBadge && (
+                  <p className="tbm-sub" style={{ color: TIER_STYLES[currentBadge.tier].color }}>
+                    {currentBadge.emoji} Current rank: <strong>{currentBadge.name}</strong>
+                    {nextBadge && <span className="tbm-next"> · Next at {nextBadge.days}d</span>}
+                  </p>
+                )}
+              </div>
+              <button className="tbm-close" onClick={() => setShowBadges(false)}>✕</button>
+            </div>
+            <div className="tbm-grid">
+              {BADGES.map(badge => {
+                const unlocked = startTime && totalDays >= badge.days
+                const isCurrent = currentBadge?.days === badge.days
+                const ts = TIER_STYLES[badge.tier]
+                return (
+                  <div
+                    key={badge.days}
+                    className={`tbm-badge${unlocked ? ' tbm-unlocked' : ' tbm-locked'}${isCurrent ? ' tbm-current' : ''}`}
+                    style={unlocked ? { '--bc': ts.color, '--bcr': ts.rgba } : {}}
+                    onClick={() => unlocked && setSelectedBadge(badge)}
+                  >
+                    <span className="tbm-emoji">{unlocked ? badge.emoji : '🔒'}</span>
+                    <span className="tbm-name">{unlocked ? badge.name : '???'}</span>
+                    <span className="tbm-days">{badge.days}d</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Badge detail modal ── */}
+      {selectedBadge && (() => {
+        const ts = TIER_STYLES[selectedBadge.tier]
+        const isCurrent = currentBadge?.days === selectedBadge.days
+        const daysAgo = totalDays - selectedBadge.days
+        return (
+          <div className="timer-overlay" onClick={() => setSelectedBadge(null)}>
+            <div className="tbd-wrap" onClick={e => e.stopPropagation()}
+              style={{ '--bc': ts.color, '--bcr': ts.rgba }}>
+              {isCurrent && <div className="tbd-current-ribbon">Current Rank</div>}
+              <span className="tbd-emoji">{selectedBadge.emoji}</span>
+              <h2 className="tbd-name">{selectedBadge.name}</h2>
+              <p className="tbd-tier">{ts.label} Tier</p>
+              <div className="tbd-stat">
+                <span>Unlocked at</span><strong>{selectedBadge.days} day{selectedBadge.days !== 1 ? 's' : ''}</strong>
+              </div>
+              {!isCurrent && (
+                <div className="tbd-stat">
+                  <span>Held for</span><strong>{daysAgo} day{daysAgo !== 1 ? 's' : ''}</strong>
+                </div>
+              )}
+              <button className="timer-set-btn" style={{ marginTop: 8 }} onClick={() => setSelectedBadge(null)}>Close</button>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Modal */}
       {showModal && (

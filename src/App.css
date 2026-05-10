@@ -6755,3 +6755,158 @@
   flex-wrap: wrap;
   margin-top: 4px;
 }
+
+/* ── Badges open button ── */
+.timer-badges-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: rgba(167,139,250,0.08);
+  border: 1px solid rgba(167,139,250,0.28);
+  border-radius: 50px;
+  color: #A78BFA;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.timer-badges-btn:hover  { background: rgba(167,139,250,0.14); transform: scale(1.03); }
+.tbb-rank { font-size: 12px; font-weight: 600; opacity: 0.9; }
+
+/* ── Badges grid modal ── */
+.tbm-wrap {
+  background: linear-gradient(135deg, rgba(14,9,36,0.99), rgba(4,8,26,0.99));
+  border: 1px solid rgba(167,139,250,0.22);
+  border-radius: 28px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.75), 0 0 50px rgba(124,58,237,0.12);
+}
+.tbm-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.tbm-title { font-size: 20px; font-weight: 900; color: #fff; margin: 0 0 4px; }
+.tbm-sub   { font-size: 12px; margin: 0; font-weight: 600; }
+.tbm-next  { color: var(--text-dim); font-weight: 500; }
+.tbm-close {
+  background: rgba(255,255,255,0.06);
+  border: none;
+  border-radius: 50%;
+  width: 30px; height: 30px;
+  color: var(--text-dim);
+  font-size: 13px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.tbm-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+.tbm-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 16px;
+  overflow-y: auto;
+}
+@media (max-width: 400px) { .tbm-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Badge tile — locked */
+.tbm-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 6px 10px;
+  border-radius: 14px;
+  text-align: center;
+  transition: transform 0.15s;
+}
+.tbm-locked {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  cursor: default;
+}
+/* Badge tile — unlocked */
+.tbm-unlocked {
+  background: rgba(var(--bcr), 0.08);
+  border: 1px solid rgba(var(--bcr), 0.25);
+  cursor: pointer;
+}
+.tbm-unlocked:hover { transform: translateY(-3px); background: rgba(var(--bcr), 0.14); }
+
+/* Current badge highlight */
+.tbm-current {
+  border-width: 2px;
+  border-color: var(--bc) !important;
+  box-shadow: 0 0 18px rgba(var(--bcr), 0.30);
+}
+
+.tbm-emoji { font-size: 22px; line-height: 1; }
+.tbm-locked .tbm-emoji { opacity: 0.35; filter: grayscale(1); }
+.tbm-name {
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--bc, #9CA3AF);
+  word-break: break-word;
+}
+.tbm-locked .tbm-name { color: var(--text-dim); }
+.tbm-days {
+  font-size: 9px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+/* ── Badge detail modal ── */
+.tbd-wrap {
+  background: linear-gradient(135deg, rgba(14,9,36,0.99), rgba(4,8,26,0.99));
+  border: 2px solid rgba(var(--bcr), 0.40);
+  border-radius: 28px;
+  padding: 36px 28px 28px;
+  max-width: 320px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.75), 0 0 60px rgba(var(--bcr), 0.15);
+}
+.tbd-current-ribbon {
+  position: absolute;
+  top: -1px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(90deg, var(--bc), rgba(var(--bcr),0.7));
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 16px;
+  border-radius: 0 0 12px 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.tbd-emoji  { font-size: 60px; line-height: 1; filter: drop-shadow(0 0 20px rgba(var(--bcr),0.6)); }
+.tbd-name   { font-size: 22px; font-weight: 900; color: var(--bc); margin: 4px 0 0; text-align: center; }
+.tbd-tier   { font-size: 12px; color: var(--text-dim); margin: 0; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; }
+.tbd-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(var(--bcr), 0.07);
+  border: 1px solid rgba(var(--bcr), 0.15);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.tbd-stat strong { color: #fff; font-weight: 800; }
