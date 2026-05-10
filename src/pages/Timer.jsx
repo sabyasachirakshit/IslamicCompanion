@@ -290,6 +290,9 @@ export default function Timer() {
             <div className="tbm-head">
               <div>
                 <h2 className="tbm-title">Badges</h2>
+                <p className="tbm-total-days">
+                  🗓️ <strong>{totalDays}</strong> day{totalDays !== 1 ? 's' : ''} clean
+                </p>
                 {currentBadge && (
                   <p className="tbm-sub" style={{ color: TIER_STYLES[currentBadge.tier].color }}>
                     {currentBadge.emoji} Current rank: <strong>{currentBadge.name}</strong>
