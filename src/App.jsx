@@ -12,6 +12,7 @@ import Diary from './pages/Diary'
 import Exercise from './pages/Exercise'
 import Urges from './pages/Urges'
 import Dhikr from './pages/Dhikr'
+import Timer from './pages/Timer'
 import './App.css'
 
 const PAGE_TITLES = {
@@ -26,6 +27,7 @@ const PAGE_TITLES = {
   exercise: 'Exercise',
   urges: 'Urges',
   dhikr: 'Dhikr',
+  timer: 'Clean Timer',
 }
 
 function App() {
@@ -62,6 +64,7 @@ function App() {
             {activePage === 'exercise' && <Exercise onNavigate={setActivePage} />}
             {activePage === 'urges' && <Urges />}
             {activePage === 'dhikr' && <Dhikr />}
+            {activePage === 'timer' && <Timer />}
           </main>
         </div>
       </div>
