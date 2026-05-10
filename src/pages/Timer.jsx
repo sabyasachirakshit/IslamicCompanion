@@ -358,7 +358,7 @@ export default function Timer() {
                 return (
                   <div
                     key={badge.days}
-                    className={`tbm-row${unlocked ? ' tbm-unlocked' : ' tbm-locked'}${isCurrent ? ' tbm-current' : ''}`}
+                    className={`tbm-row${unlocked ? ' tbm-unlocked' : ' tbm-locked'}${isCurrent ? ' tbm-current' : ''}${unlocked && badge.days === 10000 ? ' tbm-absolute' : ''}`}
                     style={{ '--bc': ts.color, '--bcr': ts.rgba }}
                     onClick={() => unlocked && setSelectedBadge(badge)}
                   >
