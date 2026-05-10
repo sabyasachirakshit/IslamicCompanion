@@ -91,6 +91,16 @@ const BADGES = [
   { days: 4600, name: 'Eternal Emperor',        emoji: '🌕',  tier: 14 },
   { days: 4800, name: 'Desireless One',         emoji: '🌌',  tier: 14 },
   { days: 5000, name: 'The Transcended',        emoji: '🏆',  tier: 14 },
+  { days: 5500, name: 'Beyond Temptation',      emoji: '🌙',  tier: 15 },
+  { days: 6000, name: 'Eternal Monk',           emoji: '🕯️',  tier: 15 },
+  { days: 6500, name: 'Soul Emperor',           emoji: '🦅',  tier: 15 },
+  { days: 7000, name: 'Infinite Will',          emoji: '🗺️',  tier: 16 },
+  { days: 7500, name: 'The Unshaken',           emoji: '🧊',  tier: 16 },
+  { days: 8000, name: 'Celestial Ascendant',    emoji: '🔮',  tier: 16 },
+  { days: 8500, name: 'Mind Over Flesh',        emoji: '🧿',  tier: 17 },
+  { days: 9000, name: 'Cosmic Discipline',      emoji: '☯️',  tier: 17 },
+  { days: 9500, name: 'Timeless Warrior',       emoji: '🗝️',  tier: 17 },
+  { days: 10000, name: 'The Absolute',          emoji: '🕊️',  tier: 17 },
 ]
 
 const TIER_STYLES = [
@@ -109,6 +119,9 @@ const TIER_STYLES = [
   { color: '#8B5CF6', rgba: '139,92,246',   label: 'Divine' },
   { color: '#F59E0B', rgba: '245,158,11',   label: 'Mythic' },
   { color: '#F0ABFC', rgba: '240,171,252',  label: 'Transcended' },
+  { color: '#FF8C00', rgba: '255,140,0',    label: 'Infinite' },
+  { color: '#E879F9', rgba: '232,121,249',  label: 'Eternal' },
+  { color: '#F8FAFC', rgba: '248,250,252',  label: 'Absolute' },
 ]
 
 const TICK = 60
