@@ -66,6 +66,31 @@ const BADGES = [
   { days: 900,  name: 'Untouchable',           emoji: '✨',  tier: 8 },
   { days: 950,  name: 'Beyond Flesh',          emoji: '🔱',  tier: 8 },
   { days: 1000, name: 'Transcendent Legend',   emoji: '🌠',  tier: 9 },
+  { days: 1100, name: 'Eternal Focus',          emoji: '🔭',  tier: 10 },
+  { days: 1200, name: 'Celibate Commander',     emoji: '🎖️',  tier: 10 },
+  { days: 1300, name: 'Storm Mind',             emoji: '⛈️',  tier: 10 },
+  { days: 1400, name: 'Supreme Discipline',     emoji: '⚜️',  tier: 10 },
+  { days: 1500, name: 'Master of Impulses',     emoji: '🧲',  tier: 10 },
+  { days: 1600, name: 'Silent Titan',           emoji: '🗻',  tier: 11 },
+  { days: 1700, name: 'Flesh Breaker',          emoji: '⚗️',  tier: 11 },
+  { days: 1800, name: 'Cosmic Will',            emoji: '🪐',  tier: 11 },
+  { days: 1900, name: 'Limitless Monk',         emoji: '🪬',  tier: 11 },
+  { days: 2000, name: 'Godmind Initiate',       emoji: '🌐',  tier: 11 },
+  { days: 2200, name: 'Chaos Tamer',            emoji: '🌪️',  tier: 12 },
+  { days: 2400, name: 'Desire Executioner',     emoji: '🧬',  tier: 12 },
+  { days: 2600, name: 'Brain Reforged',         emoji: '⚙️',  tier: 12 },
+  { days: 2800, name: 'Invincible Resolve',     emoji: '📿',  tier: 12 },
+  { days: 3000, name: 'Divine Restraint',       emoji: '🦾',  tier: 12 },
+  { days: 3200, name: 'Temptation Immune',      emoji: '🕌',  tier: 13 },
+  { days: 3400, name: 'Supreme Ascetic',        emoji: '🌍',  tier: 13 },
+  { days: 3600, name: 'Reality Controller',     emoji: '💫',  tier: 13 },
+  { days: 3800, name: 'Legendary Aura',         emoji: '🐉',  tier: 13 },
+  { days: 4000, name: 'Mythic Discipline',      emoji: '🌈',  tier: 13 },
+  { days: 4200, name: 'Celestial Guardian',     emoji: '👁️',  tier: 14 },
+  { days: 4400, name: 'Immortal Focus',         emoji: '🏯',  tier: 14 },
+  { days: 4600, name: 'Eternal Emperor',        emoji: '🌕',  tier: 14 },
+  { days: 4800, name: 'Desireless One',         emoji: '🌌',  tier: 14 },
+  { days: 5000, name: 'The Transcended',        emoji: '🏆',  tier: 14 },
 ]
 
 const TIER_STYLES = [
@@ -79,6 +104,11 @@ const TIER_STYLES = [
   { color: '#F87171', rgba: '248,113,113', label: 'Elite' },
   { color: '#EC4899', rgba: '236,72,153',  label: 'Apex' },
   { color: '#FDE68A', rgba: '253,230,138', label: 'Transcendent' },
+  { color: '#10B981', rgba: '16,185,129',   label: 'Eternal' },
+  { color: '#0EA5E9', rgba: '14,165,233',   label: 'Cosmic' },
+  { color: '#8B5CF6', rgba: '139,92,246',   label: 'Divine' },
+  { color: '#F59E0B', rgba: '245,158,11',   label: 'Mythic' },
+  { color: '#F0ABFC', rgba: '240,171,252',  label: 'Transcended' },
 ]
 
 const TICK = 60
