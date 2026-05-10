@@ -6811,61 +6811,90 @@
 }
 .tbm-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
 
-.tbm-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 16px;
-  overflow-y: auto;
-}
-@media (max-width: 400px) { .tbm-grid { grid-template-columns: repeat(3, 1fr); } }
-
-/* Badge tile — locked */
-.tbm-badge {
+/* Badge list */
+.tbm-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 12px 6px 10px;
-  border-radius: 14px;
-  text-align: center;
-  transition: transform 0.15s;
+  gap: 6px;
+  padding: 12px 14px 16px;
+  overflow-y: auto;
 }
-.tbm-locked {
+
+/* Badge row */
+.tbm-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  transition: background 0.15s, transform 0.12s;
+}
+.tbm-row.tbm-locked {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.07);
   cursor: default;
 }
-/* Badge tile — unlocked */
-.tbm-unlocked {
-  background: rgba(var(--bcr), 0.08);
-  border: 1px solid rgba(var(--bcr), 0.25);
+.tbm-row.tbm-unlocked {
+  background: rgba(var(--bcr), 0.07);
+  border: 1px solid rgba(var(--bcr), 0.22);
   cursor: pointer;
 }
-.tbm-unlocked:hover { transform: translateY(-3px); background: rgba(var(--bcr), 0.14); }
-
-/* Current badge highlight */
-.tbm-current {
-  border-width: 2px;
+.tbm-row.tbm-unlocked:hover { background: rgba(var(--bcr), 0.13); transform: translateX(3px); }
+.tbm-row.tbm-current {
   border-color: var(--bc) !important;
-  box-shadow: 0 0 18px rgba(var(--bcr), 0.30);
+  border-width: 2px;
+  box-shadow: 0 0 16px rgba(var(--bcr), 0.22);
 }
 
-.tbm-emoji { font-size: 22px; line-height: 1; }
-.tbm-locked .tbm-emoji { opacity: 0.35; filter: grayscale(1); }
-.tbm-name {
-  font-size: 9px;
+.tbm-row-emoji {
+  font-size: 26px;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 34px;
+  text-align: center;
+}
+.tbm-row.tbm-locked .tbm-row-emoji { opacity: 0.28; filter: grayscale(1); }
+
+/* Row body */
+.tbm-row-body { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.tbm-row-top  { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.tbm-row-bot  { display: flex; align-items: center; justify-content: space-between; }
+
+.tbm-row-name {
+  font-size: 13px;
   font-weight: 700;
-  line-height: 1.2;
-  color: var(--bc, #9CA3AF);
-  word-break: break-word;
+  color: var(--bc);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.tbm-locked .tbm-name { color: var(--text-dim); }
-.tbm-days {
-  font-size: 9px;
+.tbm-row.tbm-locked .tbm-row-name { color: var(--text-dim); }
+
+.tbm-row-days {
+  font-size: 11px;
   color: var(--text-dim);
-  font-weight: 500;
+  font-weight: 600;
+  flex-shrink: 0;
 }
+
+/* Progress bar */
+.tbm-bar-wrap {
+  height: 5px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.07);
+  overflow: hidden;
+}
+.tbm-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--bc);
+  transition: width 0.5s ease;
+}
+.tbm-row.tbm-locked .tbm-bar-fill { background: rgba(255,255,255,0.22); }
+
+.tbm-row-pct { font-size: 10px; font-weight: 600; color: var(--text-dim); }
+.tbm-row.tbm-unlocked .tbm-row-pct { color: var(--bc); }
+.tbm-row-rem { font-size: 10px; color: var(--text-dim); }
 
 /* ── Badge detail modal ── */
 .tbd-wrap {

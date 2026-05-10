@@ -299,21 +299,38 @@ export default function Timer() {
               </div>
               <button className="tbm-close" onClick={() => setShowBadges(false)}>✕</button>
             </div>
-            <div className="tbm-grid">
+            <div className="tbm-list">
               {BADGES.map(badge => {
                 const unlocked = startTime && totalDays >= badge.days
                 const isCurrent = currentBadge?.days === badge.days
                 const ts = TIER_STYLES[badge.tier]
+                const pct = badge.days === 0 ? 100 : Math.min(100, Math.round((totalDays / badge.days) * 100))
+                const rem = badge.days - totalDays
                 return (
                   <div
                     key={badge.days}
-                    className={`tbm-badge${unlocked ? ' tbm-unlocked' : ' tbm-locked'}${isCurrent ? ' tbm-current' : ''}`}
-                    style={unlocked ? { '--bc': ts.color, '--bcr': ts.rgba } : {}}
+                    className={`tbm-row${unlocked ? ' tbm-unlocked' : ' tbm-locked'}${isCurrent ? ' tbm-current' : ''}`}
+                    style={{ '--bc': ts.color, '--bcr': ts.rgba }}
                     onClick={() => unlocked && setSelectedBadge(badge)}
                   >
-                    <span className="tbm-emoji">{unlocked ? badge.emoji : '🔒'}</span>
-                    <span className="tbm-name">{unlocked ? badge.name : '???'}</span>
-                    <span className="tbm-days">{badge.days}d</span>
+                    <span className="tbm-row-emoji">{unlocked ? badge.emoji : '🔒'}</span>
+                    <div className="tbm-row-body">
+                      <div className="tbm-row-top">
+                        <span className="tbm-row-name">{unlocked ? badge.name : '???'}</span>
+                        <span className="tbm-row-days">{badge.days === 0 ? 'Day 0' : `${badge.days}d`}</span>
+                      </div>
+                      <div className="tbm-bar-wrap">
+                        <div className="tbm-bar-fill" style={{ width: `${pct}%` }} />
+                      </div>
+                      <div className="tbm-row-bot">
+                        <span className="tbm-row-pct">
+                          {unlocked ? `✓ Unlocked` : `${pct}% complete`}
+                        </span>
+                        {!unlocked && startTime && rem > 0 && (
+                          <span className="tbm-row-rem">{rem}d to go</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 )
               })}
