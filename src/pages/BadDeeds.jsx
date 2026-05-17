@@ -230,12 +230,12 @@ function EditBadDeedForm({ deed, onSave, onCancel }) {
           <div className="deed-form-row">
             <div className="deed-form-group">
               <label className="deed-form-label">Reward if Avoided (₹)</label>
-              <input className="deed-form-input deed-form-number" type="number" min="0" max="10000"
+              <input className="deed-form-input deed-form-number" type="number" min="0"
                 value={reward} onChange={e => setReward(e.target.value)} />
             </div>
             <div className="deed-form-group">
               <label className="deed-form-label">Penalty if Committed (₹)</label>
-              <input className="deed-form-input deed-form-number" type="number" min="0" max="10000"
+              <input className="deed-form-input deed-form-number" type="number" min="0"
                 value={penalty} onChange={e => setPenalty(e.target.value)} />
             </div>
           </div>
@@ -303,12 +303,12 @@ function AddBadDeedForm({ onSave, onCancel }) {
       <div className="deed-form-row">
         <div className="deed-form-group">
           <label className="deed-form-label">Reward if Avoided (₹)</label>
-          <input className="deed-form-input deed-form-number" type="number" min="0" max="10000"
+          <input className="deed-form-input deed-form-number" type="number" min="0"
             value={reward} onChange={e => setReward(e.target.value)} placeholder="0" />
         </div>
         <div className="deed-form-group">
           <label className="deed-form-label">Penalty if Committed (₹)</label>
-          <input className="deed-form-input deed-form-number" type="number" min="0" max="10000"
+          <input className="deed-form-input deed-form-number" type="number" min="0"
             value={penalty} onChange={e => setPenalty(e.target.value)} placeholder="0" />
         </div>
       </div>
