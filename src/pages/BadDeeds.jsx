@@ -413,7 +413,7 @@ export default function BadDeeds() {
     if (dailyStatus[deed.id]) return
     status === 'avoided' ? creditWallet(deed.reward) : debitWallet(deed.penalty)
 
-    if (deed.type === 'onetime' && status === 'avoided') {
+    if (deed.type === 'onetime') {
       const next = [...onetimeDone, deed.id]
       setOnetimeDone(next)
       localStorage.setItem('bdOnetimeDone', JSON.stringify(next))
